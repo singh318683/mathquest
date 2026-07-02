@@ -181,16 +181,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 /* ===========================
    RESULT SCREENS
 =========================== */
-#s-victory{background:#081A0E;align-items:center;justify-content:center;text-align:center;padding:30px}
+#s-victory{background:#08041A;align-items:center;justify-content:center;text-align:center;padding:24px}
 #s-defeat{background:#180808;align-items:center;justify-content:center;text-align:center;padding:30px}
 #s-premium{background:#0E0820;align-items:center;justify-content:center;text-align:center;padding:26px}
-.result-icon{font-size:64px;animation:heroFloat 2s ease-in-out infinite;margin-bottom:14px}
-.result-title{font-family:'Fredoka One',cursive;font-size:28px;margin-bottom:7px}
-.result-sub{color:#556677;font-size:13px;max-width:260px;margin:0 auto 18px;line-height:1.5}
-.xp-badge{display:inline-block;font-family:'Fredoka One',cursive;font-size:15px;color:#C9A227;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.28);border-radius:50px;padding:7px 20px;margin-bottom:22px}
+.result-title{font-family:'Fredoka One',cursive;font-size:26px;margin-bottom:4px}
+.result-sub{color:#556677;font-size:13px;max-width:260px;margin:0 auto 14px;line-height:1.5}
+.xp-badge{display:inline-block;font-family:'Fredoka One',cursive;font-size:15px;color:#C9A227;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.28);border-radius:50px;padding:7px 20px;margin-bottom:18px}
 .prem-list{list-style:none;text-align:left;margin:12px 0 20px;display:flex;flex-direction:column;gap:7px}
 .prem-list li{font-size:13px;color:#aabb;display:flex;align-items:center;gap:8px}
 .prem-list li::before{content:'✦';color:#A78BFA;font-size:10px}
+.badge-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:10px}
+.badge-svg-el{animation:badgePop .65s cubic-bezier(.17,.67,.3,1.4) forwards}
+@keyframes badgePop{from{transform:scale(0) rotate(-20deg);opacity:0}70%{transform:scale(1.18) rotate(4deg)}to{transform:scale(1) rotate(0);opacity:1}}
+.badge-earned-title{font-family:'Fredoka One',cursive;font-size:19px;margin-top:8px;margin-bottom:4px}
+.praise-msg{font-size:15px;font-weight:700;color:#E8E0F8;max-width:250px;line-height:1.45;margin-bottom:14px;font-style:italic}
 
 /* ===========================
    LEARN SCREEN
@@ -384,10 +388,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
      VICTORY SCREEN
 =========================== -->
 <div class="screen" id="s-victory">
-  <div class="result-icon">🏆</div>
-  <div class="result-title" style="color:#6EE7B7">Chapter Complete!</div>
+  <div class="result-title" style="color:#C9A227">✦ Chapter Complete! ✦</div>
+  <div class="badge-wrap">
+    <div class="badge-svg-el" id="v-badge"></div>
+    <div class="badge-earned-title" id="v-badge-title"></div>
+  </div>
+  <div class="praise-msg" id="v-praise"></div>
   <p class="result-sub" id="v-sub">You saved the day!</p>
-  <div class="xp-badge" id="v-xp">⭐ +30 XP</div>
+  <div class="xp-badge" id="v-xp">✦ +30 XP</div>
   <div class="btn-row">
     <button class="gbtn btn-green" id="v-next">Next Chapter →</button>
     <button class="btn-sm" onclick="G.show('chapters')">Academy Map</button>
@@ -725,6 +733,30 @@ const CHAPTER_SPELLS = [
   ['DECIMALUS!','TENTHICUS!','POINTIUM!','DOTICUS!'],
 ];
 
+const BADGES = [
+  { title:"Addition Apprentice ✦", color:"#E8952A",
+    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#7A3010" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#9A4A20" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#7A3010"/><circle cx="44" cy="42" r="32" fill="#C87533"/><circle cx="44" cy="42" r="28" fill="#E8952A"/><polygon points="44,20 49,34 65,34 52,43 57,57 44,49 31,57 36,43 23,34 39,34" fill="#FFD700"/><circle cx="36" cy="28" r="5" fill="#fff" opacity=".18"/></svg>` },
+  { title:"Subtraction Scholar ✦", color:"#C0C0C0",
+    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#606060" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#808080" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#555"/><path d="M44 10 L72 27 L72 54 Q72 74 44 82 Q16 74 16 54 L16 27 Z" fill="#A8A8A8"/><path d="M44 17 L65 31 L65 54 Q65 69 44 76 Q23 69 23 54 L23 31 Z" fill="#E0E0E0"/><rect x="28" y="38" width="32" height="9" fill="#909090" rx="4.5"/><circle cx="34" cy="26" r="5" fill="#fff" opacity=".2"/></svg>` },
+  { title:"Multiplication Mage ✦", color:"#FFD700",
+    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#806010" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#A08020" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#806010"/><circle cx="44" cy="42" r="32" fill="#C9A227"/><circle cx="44" cy="42" r="28" fill="#FFD700"/><path d="M24 56 L24 32 L34 46 L44 22 L54 46 L64 32 L64 56 Z" fill="#C9A227"/><circle cx="44" cy="22" r="6" fill="#FF6B00"/><circle cx="24" cy="32" r="4" fill="#FF6B00"/><circle cx="64" cy="32" r="4" fill="#FF6B00"/><rect x="21" y="54" width="46" height="7" fill="#C9A227" rx="3"/><circle cx="35" cy="30" r="5" fill="#fff" opacity=".18"/></svg>` },
+  { title:"Division Wizard ✦", color:"#A78BFA",
+    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#3B0082" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#5B00A2" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#2A0060"/><polygon points="44,8 66,42 44,76 22,42" fill="#7C3AED"/><polygon points="44,16 60,42 44,68 28,42" fill="#9333EA"/><polygon points="44,24 54,42 44,60 34,42" fill="#C4B5FD"/><circle cx="44" cy="32" r="5" fill="#FFD700"/><rect x="33" y="39" width="22" height="5" fill="#FFD700" rx="2.5"/><circle cx="44" cy="52" r="5" fill="#FFD700"/><circle cx="35" cy="20" r="4" fill="#fff" opacity=".18"/></svg>` },
+  { title:"Fraction Sorcerer ✦", color:"#00CCFF",
+    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#003060" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#005080" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#002050"/><polygon points="44,8 68,30 62,60 26,60 20,30" fill="#005080"/><polygon points="44,15 62,34 57,56 31,56 26,34" fill="#007090"/><polygon points="44,23 55,36 51,52 37,52 33,36" fill="#00CCFF"/><polygon points="44,30 51,40 44,52 37,40" fill="#80EEFF"/><text x="44" y="46" text-anchor="middle" fill="#002050" font-size="14" font-weight="bold" font-family="serif">½</text><circle cx="35" cy="20" r="4" fill="#fff" opacity=".2"/></svg>` },
+  { title:"Decimal Champion ✦", color:"#FF69B4",
+    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#7A1040" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#9A2060" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#5A0830"/><rect x="32" y="58" width="24" height="7" fill="#C9A227" rx="3"/><rect x="38" y="63" width="12" height="10" fill="#C9A227"/><rect x="28" y="70" width="28" height="5" fill="#C9A227" rx="2"/><path d="M26 18 L62 18 L57 46 Q55 56 44 56 Q33 56 31 46 Z" fill="#FFD700"/><path d="M20 18 L26 18 L26 36 Q20 36 18 30 Q16 24 20 20 Z" fill="#C9A227"/><path d="M62 18 L68 18 Q72 20 70 30 Q68 36 62 36 L62 18 Z" fill="#C9A227"/><circle cx="38" cy="36" r="4" fill="#FF69B4" opacity=".85"/><circle cx="50" cy="30" r="3" fill="#FF69B4" opacity=".85"/><circle cx="44" cy="44" r="3" fill="#FF69B4" opacity=".85"/><circle cx="34" cy="26" r="5" fill="#fff" opacity=".22"/></svg>` }
+];
+
+const CHAPTER_PRAISE = [
+  ["Your brain works like pure magic! ✨","You're a natural mathematician!","Addition has met its match — YOU!","Simply brilliant, young wizard!"],
+  ["You think so clearly — it's amazing!","A true scholar of the numerical arts!","Your mind is razor sharp!","Nothing can subtract from your brilliance!"],
+  ["You're a multiplication GENIUS!","The ancient masters would be impressed!","Your magical power grows with every spell!","Pure mathematical sorcery at work!"],
+  ["A true wizard of numbers!","Your logical mind is extraordinary!","Division bows before your brilliance!","The Academy is absolutely astounded by you!"],
+  ["You have an extraordinarily gifted mind!","Fractions have finally met their match!","Your intelligence is simply spectacular!","A true fraction sorcerer is born!"],
+  ["You have mastered the ancient math arts!","A champion unlike any the Academy has seen!","Your brilliance knows absolutely no bounds!","The greatest math wizard of this generation!"],
+];
+
 function getEnemySVG(chId) {
   switch(chId) {
     case 0: return `<svg width="46" height="72" viewBox="0 0 46 72" fill="none"><polygon points="8,20 14,30 10,35" fill="#1F4012"/><polygon points="38,20 32,30 36,35" fill="#1F4012"/><ellipse cx="23" cy="32" rx="15" ry="17" fill="#2D5A1B"/><path d="M10 24 Q23 19 36 24" stroke="#1A380F" stroke-width="3" fill="none"/><ellipse cx="17" cy="30" rx="4" ry="3" fill="#FF4500"/><ellipse cx="29" cy="30" rx="4" ry="3" fill="#FF4500"/><circle cx="17" cy="30" r="2" fill="#0A0500"/><circle cx="29" cy="30" r="2" fill="#0A0500"/><ellipse cx="23" cy="38" rx="3.5" ry="2.5" fill="#1F4012"/><path d="M14 44 Q23 50 32 44" stroke="#1A380F" stroke-width="1.5" fill="none"/><rect x="19" y="44" width="3.5" height="5" fill="#FFFACD" rx=".5"/><rect x="24" y="44" width="3.5" height="5" fill="#FFFACD" rx=".5"/><path d="M6 50 L2 72 L44 72 L40 50 Q23 58 6 50Z" fill="#1A1030"/><path d="M6 50 L0 61 L7 65 L13 54Z" fill="#1A1030"/><path d="M40 50 L46 59 L40 63 L34 53Z" fill="#1A1030"/><circle cx="3" cy="62" r="5" fill="#6B0000" opacity=".8"><animate attributeName="r" values="4;6;4" dur="0.9s" repeatCount="indefinite"/></circle></svg>`;
@@ -968,17 +1000,16 @@ const G = {
     CHAPTERS.forEach((c,i) => {
       const el = document.createElement('div');
       const isDone = this.done.includes(i);
+      const badge = BADGES[i];
       el.className = 'ch-row'+(c.premium?' locked':'')+(isDone?' done':'');
-      // Short op label for badge
       const opShort = c.op.replace('Addition','Add').replace('Subtraction','Sub').replace('Multiply','Mul').replace('Division','Div').replace('Fractions','Frac').replace('Decimals','Dec');
       el.innerHTML = `
         <div class="ch-row-icon">${c.emoji}</div>
         <div class="ch-row-info">
           <div class="ch-row-name">${c.title}</div>
-          <div class="ch-row-badge">${c.badge}</div>
+          <div class="ch-row-badge">${isDone ? `<span style="color:${badge.color};font-size:10px;font-weight:700">${badge.title}</span>` : c.badge}</div>
         </div>
         <span class="ch-row-op" style="color:${c.opColor};background:${c.opColor}1A">${opShort}</span>
-        ${isDone?'<span class="ch-done-tick">✓</span>':''}
         <span class="ch-row-arr">${c.premium?'🔒':'›'}</span>
       `;
       el.onclick = () => c.premium ? this.show('premium') : this.openChapter(i);
@@ -1128,18 +1159,32 @@ const G = {
   // ─── Victory ──────────────────────────────────────────────
   victory() {
     const c = CHAPTERS[this.cur];
+    const b = BADGES[this.cur] || BADGES[0];
+    const praises = CHAPTER_PRAISE[this.cur] || CHAPTER_PRAISE[0];
     this.xp += c.xp;
     if (!this.done.includes(this.cur)) this.done.push(this.cur);
     this.save();
-    document.getElementById('v-sub').textContent = `You defeated the ${c.eName}! 🎉`;
-    document.getElementById('v-xp').textContent = `⭐ +${c.xp} XP Earned!`;
+
+    // Badge — re-trigger animation by replacing element
+    const badgeEl = document.getElementById('v-badge');
+    badgeEl.innerHTML = b.svg;
+    badgeEl.style.animation = 'none';
+    void badgeEl.offsetWidth;
+    badgeEl.style.animation = 'badgePop .65s cubic-bezier(.17,.67,.3,1.4) forwards';
+
+    document.getElementById('v-badge-title').textContent = b.title;
+    document.getElementById('v-badge-title').style.color = b.color;
+    document.getElementById('v-praise').textContent = praises[Math.floor(Math.random()*praises.length)];
+    document.getElementById('v-sub').textContent = `You defeated the ${c.eName}!`;
+    document.getElementById('v-xp').textContent = `✦ +${c.xp} XP Earned!`;
+
     const ni = this.cur+1, nBtn = document.getElementById('v-next');
     if (ni<CHAPTERS.length) {
       const nc = CHAPTERS[ni];
       if (nc.premium) { nBtn.textContent='🔒 Unlock Next'; nBtn.onclick=()=>this.show('premium'); }
       else { nBtn.textContent=`Next Chapter →`; nBtn.onclick=()=>this.openChapter(ni); }
     } else {
-      nBtn.textContent='🏆 You beat the game!'; nBtn.onclick=()=>this.show('chapters');
+      nBtn.textContent='👑 You beat the game!'; nBtn.onclick=()=>this.show('chapters');
     }
     this.show('victory');
   },
