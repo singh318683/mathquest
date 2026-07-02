@@ -57,15 +57,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
 .back-btn:hover{background:rgba(255,255,255,.15);color:#fff}
 .ch-h-title{font-family:'Fredoka One',cursive;color:#fff;font-size:20px}
 .ch-xp-badge{margin-left:auto;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.25);border-radius:50px;padding:4px 12px;font-family:'Fredoka One',cursive;color:#FFD166;font-size:13px}
-.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px 16px;overflow-y:auto;flex:1}
-.ch-card{background:#1A1A40;border:2px solid #252550;border-radius:16px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-.ch-card:hover:not(.locked){transform:translateY(-3px);border-color:#7C3AED}
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:7px;padding:0 12px 12px;flex:1;overflow:hidden}
+.ch-card{background:#1A1A40;border:2px solid #252550;border-radius:14px;padding:10px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ch-card:hover:not(.locked){transform:translateY(-2px);border-color:#7C3AED}
 .ch-card.done{border-color:#10B981}
-.ch-card.done::after{content:'✓';position:absolute;top:8px;right:10px;color:#10B981;font-weight:800;font-size:12px}
+.ch-card.done::after{content:'✓';position:absolute;top:6px;right:8px;color:#10B981;font-weight:800;font-size:11px}
 .ch-card.locked{opacity:.6;cursor:default}
-.ch-emoji{font-size:32px;margin-bottom:7px;display:block}
-.ch-badge{font-size:9px;color:#555588;text-transform:uppercase;letter-spacing:.08em}
-.ch-name{font-family:'Fredoka One',cursive;color:#eee;font-size:13px;margin:3px 0;line-height:1.2}
+.ch-emoji{font-size:26px;margin-bottom:3px;display:block;line-height:1}
+.ch-badge{font-size:8px;color:#555588;text-transform:uppercase;letter-spacing:.06em}
+.ch-name{font-family:'Fredoka One',cursive;color:#eee;font-size:12px;margin:2px 0 1px;line-height:1.15}
 .ch-op{font-size:11px;font-weight:700}
 .lock-ov{position:absolute;inset:0;background:rgba(10,10,30,.82);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
 .lock-icon{font-size:22px}
@@ -126,15 +126,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
    BATTLE BOTTOM PANEL
 =========================== */
 .battle-bottom{flex:1;background:#111128;overflow-y:auto;display:flex;flex-direction:column;gap:9px;padding:12px}
-.story-box{background:#1A1A3C;border-radius:12px;padding:10px 13px;font-size:13px;line-height:1.5;color:#ccc;border-left:3px solid #7C3AED;min-height:46px}
+.story-box{background:#1A1A3C;border-radius:12px;padding:10px 13px;font-size:15px;line-height:1.5;color:#ccc;border-left:3px solid #7C3AED;min-height:46px}
 .prob-panel{background:#181838;border-radius:13px;padding:12px;text-align:center;border:2px solid #28285C}
-.prob-label{font-size:9px;color:#44446A;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
-.prob-q{font-family:'Fredoka One',cursive;font-size:28px;color:#fff;animation:qPop .3s ease}
+.prob-label{font-size:11px;color:#44446A;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.prob-q{font-family:'Fredoka One',cursive;font-size:34px;color:#fff;animation:qPop .3s ease}
 @keyframes qPop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-.prob-hint{font-size:11px;color:#FFD166;margin-top:4px;opacity:.8}
+.prob-hint{font-size:13px;color:#FFD166;margin-top:4px;opacity:.8}
 
 .ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ans-btn{font-family:'Fredoka One',cursive;font-size:21px;padding:12px;border-radius:12px;background:#1A1A3C;border:2px solid #28285C;color:#eee;cursor:pointer;transition:all .15s}
+.ans-btn{font-family:'Fredoka One',cursive;font-size:24px;padding:13px;border-radius:12px;background:#1A1A3C;border:2px solid #28285C;color:#eee;cursor:pointer;transition:all .15s}
 .ans-btn:hover:not(:disabled){border-color:#7C3AED;background:rgba(124,58,237,.12);transform:translateY(-1px)}
 .ans-btn:disabled{cursor:default}
 .ans-btn.correct{border-color:#10B981;background:rgba(16,185,129,.12);color:#6EE7B7;animation:correctPulse .3s}
@@ -329,18 +329,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
 
 <script>
 // ============================================================
-//  CHAPTER DATA — 6 Chapters (3 free, 3 premium)
+//  CHAPTER DATA — 6 Chapters, all unlocked, ages 6–10
 // ============================================================
 const CHAPTERS = [
   {
     id:0, title:"The Goblin's Forest", badge:"Chapter 1 · Addition",
     op:"Addition ➕", opColor:"#6EE7B7", scene:"forest",
     emoji:"🌲", eEmoji:"👺", eName:"Forest Goblin", eHp:3, premium:false,
-    intro:"Deep in the Enchanted Forest, a sneaky goblin stole the Village's Golden Star! ✨ Only a brave Math Hero can stop him. Use your Addition Magic to blast that goblin away!",
+    intro:"Deep in the Enchanted Forest, a sneaky goblin stole the Village's Golden Star! ✨ Help the Math Hero get it back — use Addition Magic to blast that goblin away!",
     probs:[
-      {q:"8 + 7 = ?",   a:15, h:"💡 Start at 8, count up 7"},
-      {q:"23 + 14 = ?", a:37, h:"💡 Add the tens first: 20+10=30"},
-      {q:"46 + 28 = ?", a:74, h:"💡 Carry the 1 when ones go over 10"}
+      {q:"4 + 5 = ?",  a:9,  h:"💡 Count 4 fingers, then count up 5 more!"},
+      {q:"8 + 6 = ?",  a:14, h:"💡 Start at 8 and count up 6"},
+      {q:"13 + 7 = ?", a:20, h:"💡 13 + 7: the ones make 10, carry it!"}
     ],
     stories:[
       "The goblin growls and blocks your path! Solve this to strike!",
@@ -353,15 +353,15 @@ const CHAPTERS = [
     id:1, title:"The Troll's Bridge", badge:"Chapter 2 · Subtraction",
     op:"Subtraction ➖", opColor:"#7EDDD9", scene:"bridge",
     emoji:"🌉", eEmoji:"👹", eName:"Bridge Troll", eHp:3, premium:false,
-    intro:"A grumpy troll has blocked the Magic Bridge over Crystal River! 🌊 Answer his subtraction riddles to cross. Show him who's the real Math Master!",
+    intro:"A grumpy troll has blocked the Magic Bridge over Crystal River! 🌊 Answer his subtraction riddles to cross. You can do it, Math Hero!",
     probs:[
-      {q:"15 - 6 = ?",  a:9,  h:"💡 Count backwards from 15"},
-      {q:"42 - 17 = ?", a:25, h:"💡 Try 42-20=22, then add back 3"},
-      {q:"83 - 45 = ?", a:38, h:"💡 Subtract tens then ones separately"}
+      {q:"9 - 3 = ?",  a:6, h:"💡 Start at 9, count back 3 steps"},
+      {q:"14 - 5 = ?", a:9, h:"💡 Count back from 14: 13, 12, 11, 10, 9"},
+      {q:"17 - 9 = ?", a:8, h:"💡 Try 17 - 10 = 7, then add 1 back"}
     ],
     stories:[
-      "'No one crosses MY bridge!' Solve this or be squished!",
-      "The troll wobbles! Your math power is working!",
+      "'No one crosses MY bridge!' Answer this or be squished!",
+      "The troll wobbles! Your subtraction is working!",
       "Last riddle! Solve it and the bridge is yours! 🌈"
     ],
     xp:40
@@ -370,36 +370,36 @@ const CHAPTERS = [
     id:2, title:"The Dragon's Cave", badge:"Chapter 3 · Multiplication",
     op:"Multiply ✖️", opColor:"#FCA5A5", scene:"cave",
     emoji:"🌋", eEmoji:"🐲", eName:"Fire Dragon", eHp:4, premium:false,
-    intro:"A fearsome dragon guards the Crystal Gem deep in Mount Ember! 💎 Dragons are VERY tough — you'll need Multiplication Power to defeat this beast. Ready, Math Hero?",
+    intro:"A fire-breathing dragon guards the Crystal Gem in Mount Ember! 💎 Use Multiplication Magic — think of it as adding groups of the same number!",
     probs:[
-      {q:"3 × 4 = ?",  a:12, h:"💡 Three groups of four things"},
-      {q:"6 × 7 = ?",  a:42, h:"💡 Remember this one: 6×7=42!"},
-      {q:"8 × 9 = ?",  a:72, h:"💡 8×10=80, then subtract 8"},
-      {q:"5 × 12 = ?", a:60, h:"💡 5×10=50, plus 5×2=10, total 60"}
+      {q:"2 × 5 = ?", a:10, h:"💡 Two groups of 5: 5 + 5 = ?"},
+      {q:"3 × 4 = ?", a:12, h:"💡 Three groups of 4: 4 + 4 + 4 = ?"},
+      {q:"4 × 5 = ?", a:20, h:"💡 Four groups of 5: count by 5s!"},
+      {q:"3 × 7 = ?", a:21, h:"💡 Three groups of 7: 7 + 7 + 7 = ?"}
     ],
     stories:[
-      "The dragon ROARS and breathes fire! Quick, multiply to survive!",
+      "The dragon ROARS and breathes fire! Multiply to survive!",
       "You singed its wing! Two more to go!",
       "The dragon weakens! Almost there, hero!",
-      "Last hit! Give it everything you've got! 🔥"
+      "Last hit! Give it everything! 🔥"
     ],
     xp:60
   },
   {
     id:3, title:"The Witch's Tower", badge:"Chapter 4 · Division",
     op:"Division ÷", opColor:"#C4B5FD", scene:"tower",
-    emoji:"🏰", eEmoji:"🧙‍♀️", eName:"Dark Witch", eHp:4, premium:true,
-    intro:"A dark witch has imprisoned the woodland creatures in her tower! 🏰 Use Division Magic to break her spells one by one and set them all free!",
+    emoji:"🏰", eEmoji:"🧙‍♀️", eName:"Dark Witch", eHp:4, premium:false,
+    intro:"A dark witch trapped the woodland animals in her tower! 🏰 Use Division Magic to break her spells — division means splitting things into equal groups!",
     probs:[
-      {q:"12 ÷ 4 = ?", a:3, h:"💡 How many groups of 4 fit in 12?"},
-      {q:"35 ÷ 7 = ?", a:5, h:"💡 Ask: what number × 7 = 35?"},
-      {q:"48 ÷ 6 = ?", a:8, h:"💡 Split 48 into 6 equal groups"},
-      {q:"63 ÷ 9 = ?", a:7, h:"💡 Ask: what number × 9 = 63?"}
+      {q:"8 ÷ 2 = ?",  a:4, h:"💡 Share 8 cookies between 2 friends equally"},
+      {q:"15 ÷ 5 = ?", a:3, h:"💡 Put 15 items into 5 equal groups"},
+      {q:"18 ÷ 3 = ?", a:6, h:"💡 Split 18 into 3 equal groups"},
+      {q:"20 ÷ 4 = ?", a:5, h:"💡 Share 20 equally among 4 friends"}
     ],
     stories:[
-      "The witch cackles and hurls a hex at you! Divide to deflect it!",
-      "The hex bounces off! You're breaking through her shield!",
-      "Her tower shakes! Division is clearly her weakness!",
+      "The witch hurls a hex at you! Divide to deflect it!",
+      "The hex bounces off! You're breaking her shield!",
+      "Her tower shakes! Division is her weakness!",
       "One final spell — break her power for good! ✨"
     ],
     xp:80
@@ -407,18 +407,18 @@ const CHAPTERS = [
   {
     id:4, title:"The Serpent's Sea", badge:"Chapter 5 · Fractions",
     op:"Fractions 🔢", opColor:"#60A5FA", scene:"ocean",
-    emoji:"🌊", eEmoji:"🐍", eName:"Sea Serpent", eHp:4, premium:true,
-    intro:"A colossal sea serpent blocks the only path to the Lost Island! 🌊 Only Fraction Magic can tame this ancient beast. Think carefully about parts and wholes!",
+    emoji:"🌊", eEmoji:"🐍", eName:"Sea Serpent", eHp:4, premium:false,
+    intro:"A giant sea serpent blocks the path to the Lost Island! 🌊 Use Fraction Magic to defeat it — a fraction is just a part of a whole number!",
     probs:[
-      {q:"½ of 8 = ?",  a:4, h:"💡 Divide 8 into 2 equal parts"},
-      {q:"¼ of 20 = ?", a:5, h:"💡 Divide 20 into 4 equal parts"},
-      {q:"¾ of 12 = ?", a:9, h:"💡 Find ¼ of 12 first (=3), then ×3"},
-      {q:"⅔ of 9 = ?",  a:6, h:"💡 Find ⅓ of 9 first (=3), then ×2"}
+      {q:"½ of 6 = ?",  a:3, h:"💡 Split 6 into 2 equal parts — each part is?"},
+      {q:"¼ of 8 = ?",  a:2, h:"💡 Split 8 into 4 equal parts — each part is?"},
+      {q:"½ of 10 = ?", a:5, h:"💡 Half of 10 — what's 10 split in 2?"},
+      {q:"¾ of 8 = ?",  a:6, h:"💡 Find ¼ of 8 first (=2), then multiply by 3"}
     ],
     stories:[
       "The serpent rises from the deep! Use fractions to strike!",
       "Scales flying! Your fraction power is working!",
-      "The serpent howls in pain! Almost through!",
+      "The serpent howls! Almost through!",
       "One last fraction spell! Claim the Lost Island! 🏝️"
     ],
     xp:100
@@ -426,21 +426,19 @@ const CHAPTERS = [
   {
     id:5, title:"The Dark Knight's Castle", badge:"Chapter 6 · Decimals",
     op:"Decimals 🔟", opColor:"#F9A8D4", scene:"castle",
-    emoji:"⚔️", eEmoji:"🤺", eName:"Dark Knight", eHp:5, premium:true,
-    intro:"The Dark Knight has seized the Kingdom's crown! 👑 His enchanted armor is forged from pure numbers — only Decimal Magic can pierce it. This is the ultimate battle!",
+    emoji:"⚔️", eEmoji:"🤺", eName:"Dark Knight", eHp:4, premium:false,
+    intro:"The Dark Knight has stolen the Kingdom's crown! 👑 His armor can only be broken by Decimal Magic — decimals are just numbers with a dot that shows parts of 1!",
     probs:[
-      {q:"0.5 + 0.4 = ?", a:0.9, aType:"dec", h:"💡 5 tenths + 4 tenths = 9 tenths"},
-      {q:"1.6 + 0.7 = ?", a:2.3, aType:"dec", h:"💡 Add normally, then place the dot"},
-      {q:"4.9 - 2.3 = ?", a:2.6, aType:"dec", h:"💡 Subtract each digit, keep the dot"},
-      {q:"5.1 - 1.8 = ?", a:3.3, aType:"dec", h:"💡 Borrow from the ones place"},
-      {q:"0.4 × 8 = ?",   a:3.2, aType:"dec", h:"💡 4 tenths × 8 = 32 tenths = 3.2"}
+      {q:"0.1 + 0.4 = ?", a:0.5, aType:"dec", h:"💡 1 tenth + 4 tenths = 5 tenths"},
+      {q:"0.3 + 0.5 = ?", a:0.8, aType:"dec", h:"💡 3 tenths + 5 tenths = 8 tenths"},
+      {q:"1.5 - 0.5 = ?", a:1.0, aType:"dec", h:"💡 Remove 5 tenths from 1.5"},
+      {q:"2.0 - 0.7 = ?", a:1.3, aType:"dec", h:"💡 Think: 2.0 - 0.7, start from the tenths"}
     ],
     stories:[
-      "The Dark Knight charges with full force! Deflect with decimal precision!",
-      "A dent in the armor! Your decimals are working!",
-      "The knight stumbles backwards! Keep striking!",
-      "The armor is cracking! Almost there, champion!",
-      "One final strike! Reclaim the crown! 👑"
+      "The Dark Knight charges! Deflect with decimal power!",
+      "A dent in the armor! Decimals are working!",
+      "The knight stumbles! Keep striking!",
+      "Final strike! Reclaim the crown! 👑"
     ],
     xp:120
   }
