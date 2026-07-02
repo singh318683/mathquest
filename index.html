@@ -340,8 +340,105 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
 
 <script>
 // ============================================================
-//  CHAPTER DATA — 6 Chapters, all unlocked, ages 6–10
+//  RANDOM PROBLEM GENERATOR
 // ============================================================
+function generateProbs(chId, count) {
+  const r = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+  let pool = [];
+
+  switch(chId) {
+    case 0: // Addition — age 6-7, answers up to 25
+      for(let i=0; i<30; i++){
+        const a=r(1,14), b=r(1,12);
+        if(a+b<=25) pool.push({q:`${a} + ${b} = ?`, a:a+b, h:`💡 Start at ${a} and count up ${b}`});
+      }
+      break;
+
+    case 1: // Subtraction — age 6-7, always positive
+      for(let i=0; i<30; i++){
+        const b=r(1,9), a=r(b+2, b+11);
+        if(a<=20) pool.push({q:`${a} - ${b} = ?`, a:a-b, h:`💡 Count back ${b} steps from ${a}`});
+      }
+      break;
+
+    case 2: // Multiplication — times tables 2-7
+      [[2,3],[2,4],[2,5],[2,6],[2,7],[2,8],[3,3],[3,4],[3,5],[3,6],[3,7],[4,3],[4,4],[4,5],[4,6],[4,7],[5,3],[5,4],[5,5],[5,6],[6,3],[6,4],[6,5],[7,3],[7,4]].forEach(([a,b])=>{
+        pool.push({q:`${a} × ${b} = ?`, a:a*b, h:`💡 ${a} groups of ${b}: add ${b} a total of ${a} times`});
+        if(a!==b) pool.push({q:`${b} × ${a} = ?`, a:a*b, h:`💡 ${b} groups of ${a}`});
+      });
+      break;
+
+    case 3: // Division — clean whole number answers
+      [[6,2],[8,2],[10,2],[12,2],[14,2],[9,3],[12,3],[15,3],[18,3],[21,3],[8,4],[12,4],[16,4],[20,4],[10,5],[15,5],[20,5],[25,5],[12,6],[18,6],[14,7],[21,7],[16,8],[24,8]].forEach(([a,b])=>{
+        pool.push({q:`${a} ÷ ${b} = ?`, a:a/b, h:`💡 Share ${a} items equally into ${b} groups`});
+      });
+      break;
+
+    case 4: // Fractions
+      pool = [
+        {q:"½ of 4 = ?",  a:2, h:"💡 Split 4 into 2 equal parts"},
+        {q:"½ of 6 = ?",  a:3, h:"💡 Split 6 into 2 equal parts"},
+        {q:"½ of 8 = ?",  a:4, h:"💡 Half of 8"},
+        {q:"½ of 10 = ?", a:5, h:"💡 Half of 10"},
+        {q:"½ of 12 = ?", a:6, h:"💡 Split 12 into 2 equal parts"},
+        {q:"½ of 14 = ?", a:7, h:"💡 Half of 14"},
+        {q:"¼ of 4 = ?",  a:1, h:"💡 Split 4 into 4 equal parts"},
+        {q:"¼ of 8 = ?",  a:2, h:"💡 Split 8 into 4 equal parts"},
+        {q:"¼ of 12 = ?", a:3, h:"💡 Split 12 into 4 equal parts"},
+        {q:"¼ of 16 = ?", a:4, h:"💡 Split 16 into 4 equal parts"},
+        {q:"¼ of 20 = ?", a:5, h:"💡 Split 20 into 4 equal parts"},
+        {q:"¾ of 4 = ?",  a:3, h:"💡 Find ¼ of 4 (=1), then ×3"},
+        {q:"¾ of 8 = ?",  a:6, h:"💡 Find ¼ of 8 (=2), then ×3"},
+        {q:"¾ of 12 = ?", a:9, h:"💡 Find ¼ of 12 (=3), then ×3"},
+        {q:"⅔ of 6 = ?",  a:4, h:"💡 Find ⅓ of 6 (=2), then ×2"},
+        {q:"⅔ of 9 = ?",  a:6, h:"💡 Find ⅓ of 9 (=3), then ×2"},
+        {q:"⅔ of 12 = ?", a:8, h:"💡 Find ⅓ of 12 (=4), then ×2"},
+        {q:"⅓ of 9 = ?",  a:3, h:"💡 Split 9 into 3 equal parts"},
+        {q:"⅓ of 12 = ?", a:4, h:"💡 Split 12 into 3 equal parts"},
+        {q:"⅓ of 15 = ?", a:5, h:"💡 Split 15 into 3 equal parts"},
+      ];
+      break;
+
+    case 5: // Decimals — tenths only
+      pool = [
+        {q:"0.1 + 0.2 = ?", a:0.3, aType:"dec", h:"💡 1 tenth + 2 tenths = 3 tenths"},
+        {q:"0.2 + 0.3 = ?", a:0.5, aType:"dec", h:"💡 2 tenths + 3 tenths = 5 tenths"},
+        {q:"0.1 + 0.4 = ?", a:0.5, aType:"dec", h:"💡 1 tenth + 4 tenths = 5 tenths"},
+        {q:"0.3 + 0.4 = ?", a:0.7, aType:"dec", h:"💡 3 tenths + 4 tenths = 7 tenths"},
+        {q:"0.3 + 0.5 = ?", a:0.8, aType:"dec", h:"💡 3 tenths + 5 tenths = 8 tenths"},
+        {q:"0.4 + 0.4 = ?", a:0.8, aType:"dec", h:"💡 4 tenths + 4 tenths = 8 tenths"},
+        {q:"0.4 + 0.5 = ?", a:0.9, aType:"dec", h:"💡 4 tenths + 5 tenths = 9 tenths"},
+        {q:"0.6 + 0.3 = ?", a:0.9, aType:"dec", h:"💡 6 tenths + 3 tenths = 9 tenths"},
+        {q:"1.3 + 0.6 = ?", a:1.9, aType:"dec", h:"💡 Add tenths: 3+6=9"},
+        {q:"1.4 + 0.5 = ?", a:1.9, aType:"dec", h:"💡 Add tenths: 4+5=9"},
+        {q:"1.2 + 0.5 = ?", a:1.7, aType:"dec", h:"💡 Add tenths: 2+5=7"},
+        {q:"1.5 - 0.5 = ?", a:1.0, aType:"dec", h:"💡 Remove 5 tenths from 1.5"},
+        {q:"1.8 - 0.6 = ?", a:1.2, aType:"dec", h:"💡 Subtract tenths: 8-6=2"},
+        {q:"1.9 - 0.4 = ?", a:1.5, aType:"dec", h:"💡 Subtract tenths: 9-4=5"},
+        {q:"2.0 - 0.7 = ?", a:1.3, aType:"dec", h:"💡 Think: 2.0 - 0.7"},
+        {q:"2.5 - 1.0 = ?", a:1.5, aType:"dec", h:"💡 Remove 1 whole from 2.5"},
+        {q:"2.8 - 0.5 = ?", a:2.3, aType:"dec", h:"💡 Subtract tenths: 8-5=3"},
+        {q:"1.7 - 0.4 = ?", a:1.3, aType:"dec", h:"💡 Subtract tenths: 7-4=3"},
+        {q:"0.9 - 0.3 = ?", a:0.6, aType:"dec", h:"💡 9 tenths - 3 tenths = 6 tenths"},
+        {q:"0.8 - 0.5 = ?", a:0.3, aType:"dec", h:"💡 8 tenths - 5 tenths = 3 tenths"},
+      ];
+      break;
+  }
+
+  // Shuffle pool
+  pool = pool.sort(() => Math.random() - 0.5);
+
+  // Pick questions with unique answers
+  const chosen = [], used = new Set();
+  for(const p of pool){
+    if(chosen.length >= count) break;
+    const key = p.aType==='dec' ? p.a.toFixed(1) : String(p.a);
+    if(!used.has(key)){ used.add(key); chosen.push(p); }
+  }
+  return chosen;
+}
+
+
 const CHAPTERS = [
   {
     id:0, title:"The Goblin's Forest", badge:"Chapter 1 · Addition",
@@ -463,6 +560,7 @@ const G = {
   heroHp:3, heroMaxHp:3,
   eHp:0, eMaxHp:0,
   pi:0, locked:false,
+  currentProbs:[],
 
   // ─── Persistence ─────────────────────────────────────────
   save() {
@@ -539,6 +637,7 @@ const G = {
     document.getElementById('enemy-lbl').textContent = c.eName;
     this.heroHp = this.heroMaxHp;
     this.eHp = c.eHp; this.eMaxHp = c.eHp; this.pi = 0;
+    this.currentProbs = generateProbs(c.id, c.eHp);
     this.updateBars(); this.updateHearts();
     document.getElementById('b-xp').textContent = '⭐ '+this.xp;
     this.genStars();
@@ -562,7 +661,7 @@ const G = {
 
   // ─── Load Problem ─────────────────────────────────────────
   loadProb() {
-    const c = CHAPTERS[this.cur], p = c.probs[this.pi];
+    const c = CHAPTERS[this.cur], p = this.currentProbs[this.pi];
     document.getElementById('b-story').textContent = c.stories[this.pi]||'Solve this to continue!';
     document.getElementById('b-q').textContent = p.q;
     document.getElementById('b-hint').textContent = p.h;
@@ -630,7 +729,7 @@ const G = {
           setTimeout(()=>this.victory(), 750);
         } else {
           this.pi++;
-          this.pi<CHAPTERS[this.cur].probs.length ? this.loadProb() : this.victory();
+          this.pi<this.currentProbs.length ? this.loadProb() : this.victory();
         }
       }, 720);
     }, 460);
