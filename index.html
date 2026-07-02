@@ -52,20 +52,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
    CHAPTER SELECT
 =========================== */
 #s-chapters{background:#0E0E2C;overflow:hidden}
-.ch-header{padding:20px 18px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ch-header{padding:10px 14px 6px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .back-btn{background:rgba(255,255,255,.08);border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;color:#888;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .back-btn:hover{background:rgba(255,255,255,.15);color:#fff}
-.ch-h-title{font-family:'Fredoka One',cursive;color:#fff;font-size:20px}
-.ch-xp-badge{margin-left:auto;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.25);border-radius:50px;padding:4px 12px;font-family:'Fredoka One',cursive;color:#FFD166;font-size:13px}
-.ch-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:7px;padding:0 12px 12px;flex:1;overflow:hidden}
-.ch-card{background:#1A1A40;border:2px solid #252550;border-radius:14px;padding:10px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ch-h-title{font-family:'Fredoka One',cursive;color:#fff;font-size:17px}
+.ch-xp-badge{margin-left:auto;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.25);border-radius:50px;padding:3px 10px;font-family:'Fredoka One',cursive;color:#FFD166;font-size:12px}
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:6px;padding:0 10px 10px;flex:1;overflow:hidden}
+.ch-card{background:#1A1A40;border:2px solid #252550;border-radius:14px;padding:7px 8px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .ch-card:hover:not(.locked){transform:translateY(-2px);border-color:#7C3AED}
 .ch-card.done{border-color:#10B981}
 .ch-card.done::after{content:'✓';position:absolute;top:6px;right:8px;color:#10B981;font-weight:800;font-size:11px}
 .ch-card.locked{opacity:.6;cursor:default}
-.ch-emoji{font-size:26px;margin-bottom:3px;display:block;line-height:1}
-.ch-badge{font-size:8px;color:#555588;text-transform:uppercase;letter-spacing:.06em}
-.ch-name{font-family:'Fredoka One',cursive;color:#eee;font-size:12px;margin:2px 0 1px;line-height:1.15}
+.ch-emoji{font-size:20px;margin-bottom:2px;display:block;line-height:1}
+.ch-badge{font-size:7px;color:#555588;text-transform:uppercase;letter-spacing:.05em}
+.ch-name{font-family:'Fredoka One',cursive;color:#eee;font-size:11px;margin:1px 0;line-height:1.1}
 .ch-op{font-size:11px;font-weight:700}
 .lock-ov{position:absolute;inset:0;background:rgba(10,10,30,.82);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
 .lock-icon{font-size:22px}
@@ -74,7 +74,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
 /* ===========================
    BATTLE SCREEN
 =========================== */
-.battle-scene{height:190px;position:relative;overflow:hidden;flex-shrink:0}
+.battle-nav{height:38px;background:#0A0A22;display:flex;align-items:center;padding:0 12px;gap:8px;flex-shrink:0;border-bottom:1px solid #1A1A38}
+.bnav-back{background:rgba(255,255,255,.08);border:none;color:#aaa;font-size:12px;padding:5px 12px;border-radius:20px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;display:flex;align-items:center;gap:4px}
+.bnav-back:hover{background:rgba(255,255,255,.15);color:#fff}
+.bnav-title{font-family:'Fredoka One',cursive;color:#555588;font-size:12px;flex:1;text-align:center}
+.bnav-home{background:rgba(255,255,255,.08);border:none;color:#aaa;font-size:14px;padding:5px 10px;border-radius:20px;cursor:pointer}
+.bnav-home:hover{background:rgba(255,255,255,.15)}
+.battle-scene{height:175px;position:relative;overflow:hidden;flex-shrink:0}
 
 /* Scene Backgrounds */
 .forest-bg{background:linear-gradient(180deg,#030D06 0%,#061406 60%,#040E04 100%)}
@@ -241,6 +247,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
      BATTLE SCREEN
 =========================== -->
 <div class="screen" id="s-battle">
+  <div class="battle-nav">
+    <button class="bnav-back" onclick="G.goHome()">← Map</button>
+    <span class="bnav-title" id="bnav-title">Chapter 1</span>
+    <button class="bnav-home" onclick="G.goHome()" title="Home">🏠</button>
+  </div>
   <div class="battle-scene forest-bg" id="b-scene">
     <div class="scene-moon"></div>
     <div class="scene-stars-el" id="b-stars"></div>
@@ -494,6 +505,12 @@ const G = {
     });
   },
 
+  // ─── Go Home ──────────────────────────────────────────────
+  goHome() {
+    document.getElementById('intro-ov').classList.remove('active');
+    this.show('chapters');
+  },
+
   // ─── Open Chapter ─────────────────────────────────────────
   openChapter(i) {
     const c = CHAPTERS[i]; this.cur = i;
@@ -501,6 +518,7 @@ const G = {
     document.getElementById('io-emoji').textContent = c.emoji;
     document.getElementById('io-title').textContent = c.title;
     document.getElementById('io-text').textContent = c.intro;
+    document.getElementById('bnav-title').textContent = c.title;
     this.show('battle');
     this.setupScene(c);
     document.getElementById('intro-ov').classList.add('active');
