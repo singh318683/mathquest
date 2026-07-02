@@ -191,8 +191,60 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
 .prem-list li::before{content:'✦';color:#A78BFA;font-size:10px}
 
 /* ===========================
-   INTRO OVERLAY
+   LEARN SCREEN
 =========================== */
+#s-learn{background:#0E0E2C;overflow:hidden}
+.learn-header{padding:12px 14px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.learn-badge{font-family:'Fredoka One',cursive;font-size:13px;flex:1;text-align:center}
+.learn-body{flex:1;overflow-y:auto;padding:0 14px 14px;display:flex;flex-direction:column;gap:10px}
+.learn-visual-box{border-radius:16px;padding:16px;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;flex-shrink:0}
+.vis-caption{font-size:13px;font-weight:700;color:#fff;margin-top:4px}
+.vis-dots{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;align-items:center}
+.vis-dot{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;animation:dotPop .3s ease}
+@keyframes dotPop{from{transform:scale(0)}to{transform:scale(1)}}
+.vis-crossed{text-decoration:line-through;opacity:.4}
+.vis-op-sign{font-family:'Fredoka One',cursive;font-size:28px;color:#fff;margin:0 6px}
+.vis-mul-row{display:flex;gap:4px;align-items:center;margin:2px 0}
+.vis-mul-label{font-size:10px;color:#aaa;width:52px;text-align:right;flex-shrink:0}
+.vis-plates{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.vis-plate{background:rgba(255,255,255,.08);border-radius:12px;padding:6px 8px;text-align:center;min-width:48px}
+.vis-plate-label{font-size:9px;color:#aaa;margin-bottom:3px}
+.vis-frac-track{display:flex;gap:3px;width:100%;max-width:240px}
+.vis-frac-seg{flex:1;height:28px;border-radius:6px;transition:all .3s;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.vis-frac-filled{filter:brightness(1.2)}
+.vis-frac-empty{opacity:.25}
+.vis-numline{width:100%;max-width:260px}
+.nl-track{height:6px;background:rgba(255,255,255,.12);border-radius:3px;position:relative;margin:8px 0}
+.nl-pip{position:absolute;width:12px;height:12px;border-radius:50%;top:-3px;transform:translateX(-50%);transition:left .5s}
+.nl-labels{display:flex;justify-content:space-between;font-size:9px;color:#666;font-weight:700}
+.learn-steps{display:flex;flex-direction:column;gap:7px}
+.learn-step{background:#1A1A3C;border-radius:12px;padding:10px 13px;font-size:13px;line-height:1.5;color:#ccc;border-left:3px solid #7C3AED;display:flex;gap:8px;align-items:flex-start}
+.learn-step-num{font-family:'Fredoka One',cursive;font-size:16px;color:#A78BFA;flex-shrink:0;line-height:1.3}
+.learn-worked{background:#1A2A1A;border:2px solid #10B981;border-radius:14px;padding:12px;text-align:center}
+.learn-worked-label{font-size:10px;color:#10B981;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.learn-worked-eq{font-family:'Fredoka One',cursive;font-size:26px;color:#fff}
+.learn-worked-ans{font-family:'Fredoka One',cursive;font-size:32px;color:#6EE7B7;margin-top:2px}
+
+/* ===========================
+   PRACTICE SCREEN
+=========================== */
+#s-practice{background:#0E0E2C;overflow:hidden}
+.prac-header{padding:12px 14px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.prac-title{font-family:'Fredoka One',cursive;color:#fff;font-size:17px;flex:1;text-align:center}
+.prac-progress{display:flex;gap:6px;align-items:center}
+.prac-dot{width:10px;height:10px;border-radius:50%;background:#252550;transition:all .3s}
+.prac-dot.active{background:#7C3AED;transform:scale(1.3)}
+.prac-dot.done{background:#10B981}
+.prac-body{flex:1;overflow-y:auto;padding:0 14px 14px;display:flex;flex-direction:column;gap:10px}
+.prac-helper{border-radius:14px;padding:12px;text-align:center;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex-shrink:0}
+.prac-helper-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:2px}
+.prac-panel{background:#181838;border-radius:13px;padding:14px;text-align:center;border:2px solid #28285C}
+.prac-label{font-size:10px;color:#44446A;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.prac-q{font-family:'Fredoka One',cursive;font-size:32px;color:#fff}
+.prac-feedback{min-height:36px;text-align:center;font-family:'Fredoka One',cursive;font-size:16px;animation:qPop .3s ease}
+.prac-feedback.ok{color:#6EE7B7}
+.prac-feedback.no{color:#FCA5A5}
+
 #intro-ov{position:absolute;inset:0;background:rgba(8,8,26,.97);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:50}
 #intro-ov.active{display:flex;animation:screenIn .3s ease}
 .io-badge{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#A78BFA;font-weight:700;margin-bottom:10px}
@@ -241,6 +293,51 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0E0E2C;font-family:
     <span class="ch-xp-badge" id="ch-xp-display">⭐ 0 XP</span>
   </div>
   <div class="ch-list" id="ch-grid"></div>
+</div>
+
+<!-- ===========================
+     LEARN SCREEN
+=========================== -->
+<div class="screen" id="s-learn">
+  <div class="learn-header">
+    <button class="back-btn" onclick="G.show('chapters')">←</button>
+    <div class="learn-badge" id="l-badge">Chapter 1 · Addition</div>
+    <div style="width:34px"></div>
+  </div>
+  <div class="learn-body">
+    <div class="learn-visual-box" id="l-visual"></div>
+    <div class="learn-steps" id="l-steps"></div>
+    <div class="learn-worked" id="l-worked"></div>
+    <button class="gbtn btn-purple" style="font-size:16px;padding:14px" onclick="G.showPractice()">
+      ✏️ Try Practice Problems →
+    </button>
+  </div>
+</div>
+
+<!-- ===========================
+     PRACTICE SCREEN
+=========================== -->
+<div class="screen" id="s-practice">
+  <div class="prac-header">
+    <button class="back-btn" onclick="G.showLesson(G.cur)">←</button>
+    <span class="prac-title">✏️ Practice Time!</span>
+    <div class="prac-progress">
+      <div class="prac-dot" id="pd-0"></div>
+      <div class="prac-dot" id="pd-1"></div>
+    </div>
+  </div>
+  <div class="prac-body">
+    <div class="prac-helper" id="prac-helper"></div>
+    <div class="prac-panel">
+      <div class="prac-label">No penalty — just try your best! 😊</div>
+      <div class="prac-q" id="prac-q">? = ?</div>
+    </div>
+    <div class="ans-grid" id="prac-ans"></div>
+    <div class="prac-feedback" id="prac-feedback"></div>
+    <button class="gbtn btn-purple" id="prac-next-btn" style="display:none;font-size:15px;padding:13px;margin-top:4px" onclick="G.pracNext()">
+      Next →
+    </button>
+  </div>
 </div>
 
 <!-- ===========================
@@ -553,14 +650,77 @@ const CHAPTERS = [
 ];
 
 // ============================================================
-//  GAME STATE & LOGIC
+//  LESSON DATA — one per chapter
 // ============================================================
+const LESSONS = [
+  { // Ch 0: Addition
+    color:"#6EE7B7", bg:"#0A2018",
+    tagline:"Putting numbers together!",
+    steps:["When we ADD two numbers, we combine them into one bigger number.","Think of collecting treasure — the more you add, the bigger your pile! 💰"],
+    visual:"addition", va:5, vb:3,
+    workedEq:"5 + 3 = ?", workedAns:"8"
+  },
+  { // Ch 1: Subtraction
+    color:"#7EDDD9", bg:"#081820",
+    tagline:"Taking numbers away!",
+    steps:["When we SUBTRACT, we take away from a number to get a smaller one.","Think of spending coins from your wallet — you have less after! 🪙"],
+    visual:"subtraction", va:9, vb:4,
+    workedEq:"9 - 4 = ?", workedAns:"5"
+  },
+  { // Ch 2: Multiplication
+    color:"#FCA5A5", bg:"#200A0A",
+    tagline:"A faster way to add!",
+    steps:["MULTIPLYING is a shortcut for adding the same number many times.","3 × 4 means 3 groups of 4 — much faster than 4 + 4 + 4! 🚀"],
+    visual:"multiplication", va:3, vb:4,
+    workedEq:"3 × 4 = ?", workedAns:"12"
+  },
+  { // Ch 3: Division
+    color:"#C4B5FD", bg:"#140828",
+    tagline:"Sharing equally!",
+    steps:["DIVIDING means splitting a number into equal groups.","If you have 12 stars and 3 friends, each friend gets the same amount! ⭐"],
+    visual:"division", va:12, vb:3,
+    workedEq:"12 ÷ 3 = ?", workedAns:"4"
+  },
+  { // Ch 4: Fractions
+    color:"#60A5FA", bg:"#081428",
+    tagline:"Parts of a whole!",
+    steps:["A FRACTION shows part of something whole.","½ means 1 out of 2 equal pieces — like cutting a pizza right down the middle! 🍕"],
+    visual:"fraction", va:1, vb:2, vc:8,
+    workedEq:"½ of 8 = ?", workedAns:"4"
+  },
+  { // Ch 5: Decimals
+    color:"#F9A8D4", bg:"#200818",
+    tagline:"Numbers between whole numbers!",
+    steps:["DECIMALS let us write numbers that sit between whole numbers.","0.1 means one tenth — imagine slicing 1 into 10 equal slices! 🍰"],
+    visual:"decimal", va:0.3, vb:0.5,
+    workedEq:"0.3 + 0.5 = ?", workedAns:"0.8"
+  }
+];
+
+// ============================================================
+//  PRACTICE PROBLEM GENERATOR — simpler than battle problems
+// ============================================================
+function generatePracticeProbs(chId) {
+  const r = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+  switch(chId) {
+    case 0: { const a=r(1,6),b=r(1,5); const c=r(2,7),d=r(1,4); return [{q:`${a} + ${b} = ?`,a:a+b},{q:`${c} + ${d} = ?`,a:c+d}]; }
+    case 1: { const b=r(1,5),a=r(b+2,b+7); const d=r(1,4),c=r(d+3,d+8); return [{q:`${a} - ${b} = ?`,a:a-b},{q:`${c} - ${d} = ?`,a:c-d}]; }
+    case 2: { const pairs=[[2,3],[2,4],[3,3],[2,5],[3,4]].sort(()=>Math.random()-.5); return [{q:`${pairs[0][0]} × ${pairs[0][1]} = ?`,a:pairs[0][0]*pairs[0][1]},{q:`${pairs[1][0]} × ${pairs[1][1]} = ?`,a:pairs[1][0]*pairs[1][1]}]; }
+    case 3: { const p=[[6,2],[8,2],[9,3],[10,2],[12,3]].sort(()=>Math.random()-.5); return [{q:`${p[0][0]} ÷ ${p[0][1]} = ?`,a:p[0][0]/p[0][1]},{q:`${p[1][0]} ÷ ${p[1][1]} = ?`,a:p[1][0]/p[1][1]}]; }
+    case 4: return [{q:"½ of 4 = ?",a:2},{q:"½ of 6 = ?",a:3}];
+    case 5: return [{q:"0.1 + 0.2 = ?",a:0.3,aType:"dec"},{q:"0.3 + 0.4 = ?",a:0.7,aType:"dec"}];
+    default: return [{q:"2 + 2 = ?",a:4},{q:"3 + 1 = ?",a:4}];
+  }
+}
+
+
 const G = {
   xp:0, done:[], cur:0,
   heroHp:3, heroMaxHp:3,
   eHp:0, eMaxHp:0,
   pi:0, locked:false,
   currentProbs:[],
+  practiceProbs:[], pracIdx:0, pracLocked:false,
 
   // ─── Persistence ─────────────────────────────────────────
   save() {
@@ -580,6 +740,201 @@ const G = {
     if (name==='chapters') {
       this.renderChapters();
       document.getElementById('ch-xp-display').textContent = '⭐ '+this.xp+' XP';
+    }
+  },
+
+  // ─── Show Lesson ─────────────────────────────────────────
+  showLesson(i) {
+    const c = CHAPTERS[i], L = LESSONS[i];
+    this.cur = i;
+    document.getElementById('l-badge').textContent = c.badge;
+    document.getElementById('l-badge').style.color = L.color;
+
+    // Visual
+    const vBox = document.getElementById('l-visual');
+    vBox.style.background = L.bg;
+    vBox.innerHTML = this.makeVisual(L) + `<div class="vis-caption" style="color:${L.color}">${L.tagline}</div>`;
+
+    // Steps
+    document.getElementById('l-steps').innerHTML = L.steps.map((s,i)=>
+      `<div class="learn-step"><span class="learn-step-num">${i+1}.</span><span>${s}</span></div>`
+    ).join('');
+
+    // Worked example
+    document.getElementById('l-worked').innerHTML = `
+      <div class="learn-worked-label">📖 Example</div>
+      <div class="learn-worked-eq">${L.workedEq}</div>
+      <div class="learn-worked-ans" style="color:${L.color}">= ${L.workedAns} ✓</div>
+    `;
+
+    this.show('learn');
+  },
+
+  makeVisual(L) {
+    const dot = (color, crossed=false) =>
+      `<div class="vis-dot ${crossed?'vis-crossed':''}" style="background:${crossed?'#333':color};animation-delay:${Math.random()*.3}s">${crossed?'✕':'●'}</div>`;
+    const dots = (n, color, crossed=false) => Array(n).fill(0).map(()=>dot(color,crossed)).join('');
+
+    switch(L.visual) {
+      case 'addition':
+        return `<div class="vis-dots">${dots(L.va,'#6EE7B7')}<span class="vis-op-sign">+</span>${dots(L.vb,'#A78BFA')}<span class="vis-op-sign">=</span>${dots(L.va+L.vb,'#FFD166')}</div>`;
+
+      case 'subtraction':
+        return `<div class="vis-dots">${dots(L.va-L.vb,'#7EDDD9')}${dots(L.vb,'#7EDDD9',true)}</div><div style="font-size:11px;color:#aaa;margin-top:4px">Start with ${L.va} → take away ${L.vb} → ${L.va-L.vb} left</div>`;
+
+      case 'multiplication':
+        return Array(L.va).fill(0).map((_,i)=>
+          `<div class="vis-mul-row"><span class="vis-mul-label">Group ${i+1}:</span><div class="vis-dots" style="gap:3px">${dots(L.vb,'#FCA5A5')}</div></div>`
+        ).join('') + `<div style="font-size:11px;color:#aaa;margin-top:4px">${L.va} groups of ${L.vb} = ${L.va*L.vb} total</div>`;
+
+      case 'division': {
+        const each = L.va/L.vb;
+        return `<div class="vis-plates">${Array(L.vb).fill(0).map((_,i)=>
+          `<div class="vis-plate"><div class="vis-plate-label">Plate ${i+1}</div><div class="vis-dots" style="gap:2px;flex-wrap:wrap;max-width:60px">${dots(each,'#C4B5FD')}</div></div>`
+        ).join('')}</div><div style="font-size:11px;color:#aaa;margin-top:6px">${L.va} shared among ${L.vb} = ${each} each</div>`;
+      }
+
+      case 'fraction': {
+        const segs = Array(L.vb).fill(0).map((_,i)=>
+          `<div class="vis-frac-seg ${i<L.va?'vis-frac-filled':'vis-frac-empty'}" style="background:${i<L.va?L.color:'#333'}">${i<L.va?'★':''}</div>`
+        ).join('');
+        return `<div class="vis-frac-track">${segs}</div><div style="font-size:11px;color:#aaa;margin-top:6px">${L.va} out of ${L.vb} equal parts = ${(L.va/L.vb*100).toFixed(0)}% of the whole</div>`;
+      }
+
+      case 'decimal': {
+        const pct = (L.va * 100).toFixed(0);
+        return `<div class="vis-numline">
+          <div style="font-size:11px;color:#aaa;margin-bottom:4px">Number line (each step = 0.1)</div>
+          <div class="nl-track">
+            <div class="nl-pip" style="left:${pct}%;background:#F9A8D4"></div>
+          </div>
+          <div class="nl-labels"><span>0</span><span>0.5</span><span>1.0</span></div>
+        </div><div style="font-size:11px;color:#aaa;margin-top:4px">${L.va} + ${L.vb} — start at ${L.va}, move right ${L.vb*10} steps</div>`;
+      }
+
+      default: return '';
+    }
+  },
+
+  // ─── Show Practice ────────────────────────────────────────
+  showPractice() {
+    this.practiceProbs = generatePracticeProbs(this.cur);
+    this.pracIdx = 0;
+    this.pracLocked = false;
+    document.getElementById('prac-next-btn').style.display = 'none';
+    document.getElementById('prac-feedback').textContent = '';
+    document.getElementById('prac-feedback').className = 'prac-feedback';
+    this.loadPracProb();
+    this.show('practice');
+  },
+
+  loadPracProb() {
+    const p = this.practiceProbs[this.pracIdx];
+    const L = LESSONS[this.cur];
+    // Progress dots
+    [0,1].forEach(i=>{
+      const d = document.getElementById('pd-'+i);
+      d.className = 'prac-dot' + (i===this.pracIdx?' active':this.pracIdx>i?' done':'');
+    });
+    // Helper visual
+    const h = document.getElementById('prac-helper');
+    h.style.background = L.bg;
+    h.innerHTML = `<div class="prac-helper-label" style="color:${L.color}">Visual Helper</div>` + this.makePracHelper(p, L);
+    // Question
+    document.getElementById('prac-q').textContent = p.q;
+    document.getElementById('prac-feedback').textContent = '';
+    document.getElementById('prac-feedback').className = 'prac-feedback';
+    document.getElementById('prac-next-btn').style.display = 'none';
+    this.pracLocked = false;
+    // Choices
+    const choices = this.genChoices(p.a, p.aType);
+    const ag = document.getElementById('prac-ans'); ag.innerHTML = '';
+    choices.forEach(v => {
+      const btn = document.createElement('button');
+      btn.className = 'ans-btn';
+      btn.textContent = p.aType==='dec' ? v.toFixed(1) : v;
+      btn.onclick = () => this.pracCheck(v, p.a, btn, p.aType);
+      ag.appendChild(btn);
+    });
+  },
+
+  makePracHelper(p, L) {
+    // Simplified helper appropriate to chapter
+    switch(this.cur) {
+      case 0: case 1: {
+        // Number line 0-20
+        const marks = Array.from({length:11},(_,i)=>`<span style="flex:1;text-align:center">${i*2}</span>`).join('');
+        return `<div style="width:100%">
+          <div style="display:flex;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:6px 0"></div>
+          <div style="display:flex;font-size:9px;color:#666">${marks}</div>
+          <div style="font-size:11px;color:#aaa;margin-top:4px">Use the number line to count!</div>
+        </div>`;
+      }
+      case 2: {
+        const [a,b] = p.q.match(/\d+/g).map(Number);
+        return `<div style="font-size:11px;color:#aaa;margin-bottom:4px">${a} groups of ${b}:</div>`+
+          Array(a).fill(0).map((_,i)=>`<div style="display:flex;gap:3px;margin:2px 0"><span style="font-size:9px;color:#777;width:40px;text-align:right">Group ${i+1}:</span>${Array(b).fill('<span style="width:14px;height:14px;border-radius:50%;background:#FCA5A5;display:inline-block"></span>').join('')}</div>`).join('');
+      }
+      case 3: {
+        const [a,b] = p.q.match(/\d+/g).map(Number);
+        return `<div style="font-size:11px;color:#aaa;margin-bottom:4px">Share ${a} into ${b} groups:</div>
+          <div style="display:flex;gap:6px">${Array(b).fill(0).map((_,i)=>`<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:4px 6px;text-align:center"><div style="font-size:9px;color:#888">Plate ${i+1}</div><div>${Array(a/b).fill('<span style="width:12px;height:12px;border-radius:50%;background:#C4B5FD;display:inline-block;margin:1px"></span>').join('')}</div></div>`).join('')}</div>`;
+      }
+      case 4:
+        return `<div style="display:flex;gap:3px;width:100%;max-width:200px">
+          <div style="flex:1;height:24px;border-radius:5px;background:#60A5FA;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700">★</div>
+          <div style="flex:1;height:24px;border-radius:5px;background:#333;opacity:.4"></div>
+        </div><div style="font-size:11px;color:#aaa;margin-top:5px">½ = 1 shaded out of 2 equal parts</div>`;
+      case 5:
+        return `<div class="vis-numline" style="max-width:220px">
+          <div style="display:flex;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:6px 0;position:relative">
+            <div style="position:absolute;left:10%;width:8px;height:8px;border-radius:50%;background:#F9A8D4;top:-2px"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:9px;color:#666"><span>0</span><span>0.1</span><span>0.2</span><span>0.3</span><span>0.4</span><span>0.5</span><span>0.6</span><span>0.7</span><span>0.8</span><span>0.9</span><span>1.0</span></div>
+        </div><div style="font-size:11px;color:#aaa;margin-top:4px">Count forward in steps of 0.1</div>`;
+      default: return '';
+    }
+  },
+
+  pracCheck(sel, correct, btn, aType) {
+    if(this.pracLocked) return;
+    this.pracLocked = true;
+    document.querySelectorAll('#prac-ans .ans-btn').forEach(b=>b.disabled=true);
+    const ok = aType==='dec' ? Math.abs(sel-correct)<0.001 : sel===correct;
+    const fb = document.getElementById('prac-feedback');
+    if(ok) {
+      btn.classList.add('correct');
+      fb.textContent = ['⭐ Brilliant!','🎉 You got it!','✨ Perfect!','🌟 Amazing!'][Math.floor(Math.random()*4)];
+      fb.className = 'prac-feedback ok';
+      document.getElementById('prac-next-btn').style.display = 'block';
+      document.getElementById('prac-next-btn').textContent = this.pracIdx===0 ? 'Next Problem →' : '⚔️ Start Battle!';
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = ['Not quite — try again! 💪','Almost there! Give it another go! 🤔','Keep trying, you can do it! 😊'][Math.floor(Math.random()*3)];
+      fb.className = 'prac-feedback no';
+      setTimeout(()=>{
+        btn.classList.remove('wrong');
+        document.querySelectorAll('#prac-ans .ans-btn').forEach(b=>b.disabled=false);
+        this.pracLocked = false;
+      }, 900);
+    }
+  },
+
+  pracNext() {
+    if(this.pracIdx === 0) {
+      this.pracIdx = 1;
+      this.loadPracProb();
+    } else {
+      // Done — go to battle intro
+      const c = CHAPTERS[this.cur];
+      document.getElementById('io-badge').textContent = c.badge;
+      document.getElementById('io-emoji').textContent = c.emoji;
+      document.getElementById('io-title').textContent = c.title;
+      document.getElementById('io-text').textContent = c.intro;
+      document.getElementById('bnav-title').textContent = c.title;
+      this.show('battle');
+      this.setupScene(c);
+      document.getElementById('intro-ov').classList.add('active');
     }
   },
 
@@ -608,23 +963,15 @@ const G = {
     });
   },
 
+  // ─── Open Chapter (routes through Learn first) ────────────
+  openChapter(i) {
+    this.showLesson(i);
+  },
+
   // ─── Go Home ──────────────────────────────────────────────
   goHome() {
     document.getElementById('intro-ov').classList.remove('active');
     this.show('chapters');
-  },
-
-  // ─── Open Chapter ─────────────────────────────────────────
-  openChapter(i) {
-    const c = CHAPTERS[i]; this.cur = i;
-    document.getElementById('io-badge').textContent = c.badge;
-    document.getElementById('io-emoji').textContent = c.emoji;
-    document.getElementById('io-title').textContent = c.title;
-    document.getElementById('io-text').textContent = c.intro;
-    document.getElementById('bnav-title').textContent = c.title;
-    this.show('battle');
-    this.setupScene(c);
-    document.getElementById('intro-ov').classList.add('active');
   },
 
   // ─── Setup Scene ──────────────────────────────────────────
