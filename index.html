@@ -13,7 +13,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 #game{position:relative;width:100%;height:100vh;max-width:480px;margin:0 auto;overflow:hidden}
 
 /* === SCREENS === */
-.screen{position:absolute;inset:0;display:none;flex-direction:column}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
 .screen.active{display:flex;animation:screenIn .3s ease}
 @keyframes screenIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
 
@@ -46,7 +46,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .btn-gold:hover{box-shadow:0 4px 20px rgba(217,119,6,.4)}
 .btn-sm{background:rgba(255,255,255,.08);color:#aaa;font-size:13px;padding:10px 22px;border-radius:50px;cursor:pointer;border:1px solid rgba(255,255,255,.12);font-family:'Nunito',sans-serif;font-weight:700}
 .btn-sm:hover{background:rgba(255,255,255,.14);color:#ddd}
-.btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;flex-shrink:0}
 
 /* ===========================
    CHAPTER SELECT
@@ -65,9 +65,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .ch-row.locked:hover{transform:none;background:#0F0A28;border-color:#1A0D3E}
 .ch-row-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:rgba(255,255,255,.05)}
 .ch-row-info{flex:1;min-width:0}
-.ch-row-name{font-family:'Fredoka One',cursive;color:#eee;font-size:20px;line-height:1.1}
+.ch-row-name{font-family:'Fredoka One',cursive;color:#eee;font-size:15px;line-height:1.1}
 .ch-row-badge{font-size:10px;color:#4A3580;margin-top:2px}
-.ch-row-op{font-size:16px;font-weight:700;padding:3px 9px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.ch-row-op{font-size:12px;font-weight:700;padding:2px 7px;border-radius:20px;flex-shrink:0;white-space:nowrap}
 .ch-row-arr{color:#2A1850;font-size:18px;flex-shrink:0;margin-left:2px}
 .ch-done-tick{position:absolute;top:8px;right:34px;color:#10B981;font-weight:800;font-size:12px}
 
@@ -134,7 +134,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
    BATTLE BOTTOM PANEL
 =========================== */
 .battle-bottom{flex:1;background:#07041A;overflow:hidden;display:flex;flex-direction:column;gap:7px;padding:10px}
-.story-box{background:#0F0A28;border-radius:12px;padding:10px 13px;font-size:20px;line-height:1.4;color:#ccc;border-left:3px solid #C9A227;min-height:52px}
+.story-box{background:#0F0A28;border-radius:12px;padding:10px 13px;font-size:18px;line-height:1.4;color:#ccc;border-left:3px solid #C9A227;min-height:46px}
 .prob-panel{background:#0A0620;border-radius:13px;padding:12px;text-align:center;border:2px solid #1A0D3E}
 .prob-label{font-size:11px;color:#3A2860;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
 .prob-q{font-family:'Fredoka One',cursive;font-size:34px;color:#fff;animation:qPop .3s ease}
@@ -185,20 +185,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 /* ===========================
    RESULT SCREENS
 =========================== */
-#s-victory{background:#08041A;align-items:center;justify-content:center;text-align:center;padding:16px;overflow:hidden}
-#s-defeat{background:#180808;align-items:center;justify-content:center;text-align:center;padding:30px}
-#s-premium{background:#0E0820;align-items:center;justify-content:center;text-align:center;padding:26px}
-.result-title{font-family:'Fredoka One',cursive;font-size:26px;margin-bottom:4px}
-.result-sub{color:#556677;font-size:22px;max-width:280px;margin:0 auto 14px;line-height:1.5}
-.xp-badge{display:inline-block;font-family:'Fredoka One',cursive;font-size:14px;color:#C9A227;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.28);border-radius:50px;padding:5px 16px;margin-bottom:12px}
-.prem-list{list-style:none;text-align:left;margin:12px 0 20px;display:flex;flex-direction:column;gap:7px}
-.prem-list li{font-size:13px;color:#aabb;display:flex;align-items:center;gap:8px}
+#s-victory{background:#08041A;align-items:center;justify-content:center;text-align:center;padding:10px 16px;overflow:hidden;gap:4px;display:flex;flex-direction:column}
+#s-defeat{background:#180808;align-items:center;justify-content:center;text-align:center;padding:16px;overflow:hidden}
+#s-premium{background:#0E0820;align-items:center;justify-content:center;text-align:center;padding:14px;overflow:hidden}
+.result-title{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:2px}
+.result-sub{color:#556677;font-size:13px;max-width:280px;margin:0 auto 8px;line-height:1.4}
+.xp-badge{display:inline-block;font-family:'Fredoka One',cursive;font-size:13px;color:#C9A227;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.28);border-radius:50px;padding:4px 14px;margin-bottom:8px}
+.prem-list{list-style:none;text-align:left;margin:8px 0 14px;display:flex;flex-direction:column;gap:5px}
+.prem-list li{font-size:12px;color:#aabb;display:flex;align-items:center;gap:8px}
 .prem-list li::before{content:'✦';color:#A78BFA;font-size:10px}
-.badge-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:6px}
-.badge-svg-el{animation:badgePop .65s cubic-bezier(.17,.67,.3,1.4) forwards}
+.badge-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:2px}
+.badge-svg-el{animation:badgePop .65s cubic-bezier(.17,.67,.3,1.4) forwards;transform-origin:center}
 @keyframes badgePop{from{transform:scale(0) rotate(-20deg);opacity:0}70%{transform:scale(1.18) rotate(4deg)}to{transform:scale(1) rotate(0);opacity:1}}
-.badge-earned-title{font-family:'Fredoka One',cursive;font-size:19px;margin-top:8px;margin-bottom:4px}
-.praise-msg{font-size:22px;font-weight:700;color:#E8E0F8;max-width:280px;line-height:1.35;margin-bottom:10px;font-style:italic}
+.badge-earned-title{font-family:'Fredoka One',cursive;font-size:16px;margin-top:4px;margin-bottom:2px}
+.praise-msg{font-size:14px;font-weight:700;color:#E8E0F8;max-width:280px;line-height:1.3;margin-bottom:6px;font-style:italic}
 
 /* ===========================
    LEARN SCREEN
@@ -207,7 +207,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .learn-header{padding:12px 14px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .learn-badge{font-family:'Fredoka One',cursive;font-size:13px;flex:1;text-align:center}
 .learn-body{flex:1;overflow:hidden;padding:0 12px 8px;display:flex;flex-direction:column;gap:8px}
-.learn-visual-box{border-radius:14px;padding:8px;height:170px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;flex-shrink:0;background:#0A0320}
+.learn-visual-box{border-radius:14px;padding:6px;height:160px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;flex-shrink:0;background:#0A0320}
 
 /* Professor Monkey */
 @keyframes mkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
@@ -271,11 +271,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .prac-feedback.ok{color:#6EE7B7}
 .prac-feedback.no{color:#FCA5A5}
 
-#intro-ov{position:absolute;inset:0;background:rgba(8,8,26,.97);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:50}
+#intro-ov{position:absolute;inset:0;background:rgba(8,8,26,.97);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:50;overflow:hidden}
 #intro-ov.active{display:flex;animation:screenIn .3s ease}
 .io-badge{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#A78BFA;font-weight:700;margin-bottom:10px}
-.io-emoji{font-size:50px;margin-bottom:12px}
-.io-title{font-family:'Fredoka One',cursive;font-size:22px;color:#fff;margin-bottom:10px}
+.io-emoji{font-size:40px;margin-bottom:8px}
+.io-title{font-family:'Fredoka One',cursive;font-size:20px;color:#fff;margin-bottom:8px}
 .io-text{font-size:18px;line-height:1.5;color:#bbc;max-width:310px;margin:0 auto 16px}
 
 /* ===========================
@@ -327,7 +327,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 @keyframes mkDance{0%,100%{transform:rotate(0) translateY(0)}20%{transform:rotate(-12deg) translateY(-4px)}40%{transform:rotate(12deg) translateY(-8px)}60%{transform:rotate(-8deg) translateY(-4px)}80%{transform:rotate(8deg) translateY(-2px)}}
 .mk-dance{animation:mkDance .7s ease-in-out infinite}
 /* ── Star rating on victory ───────────────────────────────── */
-.victory-stars{font-size:28px;letter-spacing:4px;margin:6px 0 4px}
+.victory-stars{font-size:22px;letter-spacing:3px;margin:3px 0}
 /* ── Word problem question (multi-line) ───────────────────── */
 .prob-q-word{font-family:'Nunito',sans-serif;font-size:14px;color:#E8E0F8;line-height:1.5;font-weight:700;text-align:center;padding:0 4px}
 
@@ -530,7 +530,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 <div class="screen" id="s-victory">
   <div class="result-title" style="color:#C9A227">✦ Chapter Complete! ✦</div>
   <div class="victory-stars" id="v-stars">⭐⭐⭐</div>
-  <div class="victory-monkey"><div class="mk-dance"><svg width="60" height="74" viewBox="0 0 80 95" fill="none"><ellipse cx="40" cy="73" rx="24" ry="20" fill="#7A5010"/><circle cx="16" cy="38" r="12" fill="#C8A96E"/><circle cx="16" cy="38" r="7" fill="#E8C49E"/><circle cx="64" cy="38" r="12" fill="#C8A96E"/><circle cx="64" cy="38" r="7" fill="#E8C49E"/><circle cx="40" cy="36" r="24" fill="#C8A96E"/><ellipse cx="40" cy="47" rx="14" ry="10" fill="#E8C49E"/><circle cx="31" cy="32" r="7" fill="#1A0A00"/><circle cx="49" cy="32" r="7" fill="#1A0A00"/><circle cx="33" cy="30" r="2.5" fill="white"/><circle cx="51" cy="30" r="2.5" fill="white"/><circle cx="37" cy="45" r="2" fill="#8B6014"/><circle cx="43" cy="45" r="2" fill="#8B6014"/><path d="M33 51 Q40 57 47 51" stroke="#8B6014" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="22" y="10" width="36" height="7" fill="#1A1030" rx="2"/><rect x="27" y="4" width="26" height="10" fill="#1A1030" rx="2"/><line x1="54" y1="10" x2="62" y2="22" stroke="#C9A227" stroke-width="2"/><circle cx="62" cy="25" r="3.5" fill="#C9A227"/><path d="M16 70 L4 85 L11 87 L17 76Z" fill="#7A5010"/><path d="M64 70 L76 83 L69 86 L63 75Z" fill="#7A5010"/></svg></div></div>
+  <div class="victory-monkey" style="margin:2px 0"><div class="mk-dance"><svg width="46" height="56" viewBox="0 0 80 95" fill="none"><ellipse cx="40" cy="73" rx="24" ry="20" fill="#7A5010"/><circle cx="16" cy="38" r="12" fill="#C8A96E"/><circle cx="16" cy="38" r="7" fill="#E8C49E"/><circle cx="64" cy="38" r="12" fill="#C8A96E"/><circle cx="64" cy="38" r="7" fill="#E8C49E"/><circle cx="40" cy="36" r="24" fill="#C8A96E"/><ellipse cx="40" cy="47" rx="14" ry="10" fill="#E8C49E"/><circle cx="31" cy="32" r="7" fill="#1A0A00"/><circle cx="49" cy="32" r="7" fill="#1A0A00"/><circle cx="33" cy="30" r="2.5" fill="white"/><circle cx="51" cy="30" r="2.5" fill="white"/><circle cx="37" cy="45" r="2" fill="#8B6014"/><circle cx="43" cy="45" r="2" fill="#8B6014"/><path d="M33 51 Q40 57 47 51" stroke="#8B6014" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="22" y="10" width="36" height="7" fill="#1A1030" rx="2"/><rect x="27" y="4" width="26" height="10" fill="#1A1030" rx="2"/><line x1="54" y1="10" x2="62" y2="22" stroke="#C9A227" stroke-width="2"/><circle cx="62" cy="25" r="3.5" fill="#C9A227"/><path d="M16 70 L4 85 L11 87 L17 76Z" fill="#7A5010"/><path d="M64 70 L76 83 L69 86 L63 75Z" fill="#7A5010"/></svg></div></div>
   <div class="badge-wrap">
     <div class="badge-svg-el" id="v-badge"></div>
     <div class="badge-earned-title" id="v-badge-title"></div>
