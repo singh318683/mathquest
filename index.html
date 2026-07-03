@@ -987,6 +987,8 @@ const G = {
     const c = CHAPTERS[i], L = LESSONS[i];
     this.cur = i;
     const lbadge = (LNG==='hi'&&c.hi_badge)?c.hi_badge:c.badge;
+    const lTagline = (LNG==='hi'&&L.hi_tagline)?L.hi_tagline:L.tagline;
+    const lSteps = (LNG==='hi'&&L.hi_steps)?L.hi_steps:L.steps;
     document.getElementById('l-badge').textContent = lbadge;
     document.getElementById('l-badge').style.color = L.color;
 
@@ -996,8 +998,6 @@ const G = {
     vBox.innerHTML = this.makeVisual(L) + `<div class="vis-caption" style="color:${L.color}">${lTagline}</div>`;
 
     // Steps
-    const lTagline = (LNG==='hi'&&L.hi_tagline)?L.hi_tagline:L.tagline;
-    const lSteps = (LNG==='hi'&&L.hi_steps)?L.hi_steps:L.steps;
     document.getElementById('l-steps').innerHTML = lSteps.map((s,i)=>
       `<div class="learn-step"><span class="learn-step-num">${i+1}.</span><span>${s}</span></div>`
     ).join('');
