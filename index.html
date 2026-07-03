@@ -330,6 +330,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .victory-stars{font-size:28px;letter-spacing:4px;margin:6px 0 4px}
 /* ── Word problem question (multi-line) ───────────────────── */
 .prob-q-word{font-family:'Nunito',sans-serif;font-size:14px;color:#E8E0F8;line-height:1.5;font-weight:700;text-align:center;padding:0 4px}
+
+/* ── Difficulty selector ──────────────────────────────────── */
+.diff-row{display:flex;gap:8px;justify-content:center;margin:8px 0 4px;position:relative;z-index:1}
+.diff-btn{font-family:'Fredoka One',cursive;font-size:13px;padding:8px 16px;border-radius:50px;cursor:pointer;border:1.5px solid transparent;transition:all .2s;background:rgba(255,255,255,.06);color:#666}
+.diff-btn.selected{background:var(--dc);border-color:var(--dc);color:#fff;box-shadow:0 0 14px var(--dc)}
+.diff-badge{font-family:'Fredoka One',cursive;font-size:11px;padding:3px 8px;border-radius:12px;position:absolute;top:8px;right:10px;z-index:15}
 </style>
 </head>
 <body>
@@ -349,6 +355,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
   <div class="title-main"><span class="t-math">Math</span><span class="t-quest">Quest</span></div>
   <div class="title-sub">✦ Adventure ✦</div>
   <div class="title-tag" data-t="tagline">Solve math · Defeat monsters · Save the world</div>
+  <div class="diff-row" id="diff-row">
+    <button class="diff-btn selected" style="--dc:#10B981" id="d-easy"  onclick="G.setDiff('easy')"  >⭐ Easy</button>
+    <button class="diff-btn"          style="--dc:#C9A227" id="d-medium" onclick="G.setDiff('medium')">⭐⭐ Medium</button>
+    <button class="diff-btn"          style="--dc:#EF4444" id="d-hard"   onclick="G.setDiff('hard')"  >⭐⭐⭐ Hard</button>
+  </div>
   <button class="gbtn btn-purple" data-t="play" onclick="G.show('chapters')">▶ Play!</button>
   <button class="gbtn" style="background:rgba(255,107,0,.15);border:1.5px solid #FF6B00;color:#FF6B00;font-size:14px;padding:10px 28px;margin-top:6px" onclick="G.startSpeedRound()">⚡ Speed Round</button>
   <div class="title-hint" data-t="hint_bar">⭐ Earn XP · ⚔️ Battle Monsters · 🏆 Collect Chapters</div>
@@ -427,6 +438,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
   <div class="battle-nav">
     <button class="bnav-back" onclick="G.goHome()">← Academy</button>
     <span class="bnav-title" id="bnav-title">Chapter 1</span>
+    <div class="diff-badge" id="diff-badge" style="background:rgba(16,185,129,.15);color:#10B981;border:1px solid #10B981">⭐ Easy</div>
     <button class="bnav-home" onclick="G.goHome()" title="Home">✦</button>
   </div>
   <div class="battle-scene forest-bg" id="b-scene">
@@ -559,6 +571,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 </div><!-- #game -->
 
 <script>
+
+// ============================================================
+//  DIFFICULTY CONFIG
+// ============================================================
+const DIFFICULTY_CONFIG = {
+  easy:   { label:'⭐ Easy',    color:'#10B981', hearts:5, eHpMod:-1, xpMult:.75, showHint:true  },
+  medium: { label:'⭐⭐ Medium', color:'#C9A227', hearts:3, eHpMod:0,  xpMult:1,   showHint:true  },
+  hard:   { label:'⭐⭐⭐ Hard', color:'#EF4444', hearts:2, eHpMod:2,  xpMult:1.5, showHint:false },
+};
+
 // ============================================================
 //  LANGUAGE SYSTEM
 // ============================================================
@@ -1497,6 +1519,21 @@ const G = {
     this.showLesson(i);
   },
 
+  // ─── Difficulty ───────────────────────────────────────────
+  setDiff(d) {
+    this.difficulty = d;
+    try { localStorage.setItem('mq_diff', d); } catch(e){}
+    const cfg = DIFFICULTY_CONFIG[d];
+    // Update title screen buttons
+    ['easy','medium','hard'].forEach(k=>{
+      const el=document.getElementById('d-'+k);
+      if(el) el.classList.toggle('selected',k===d);
+    });
+    // Update battle badge if visible
+    const badge=document.getElementById('diff-badge');
+    if(badge){ badge.textContent=cfg.label; badge.style.cssText=`background:${cfg.color}22;color:${cfg.color};border:1px solid ${cfg.color};font-family:'Fredoka One',cursive;font-size:11px;padding:3px 8px;border-radius:12px;position:absolute;top:8px;right:10px;z-index:15`; }
+  },
+
   // ─── Streak ───────────────────────────────────────────────
   updateStreak() {
     const el = document.getElementById('streak-badge');
@@ -1662,8 +1699,11 @@ const G = {
     en.innerHTML = getEnemySVG(c.id);
     en.className = 'enemy-char';
     document.getElementById('enemy-lbl').textContent = (LNG==='hi'&&c.hi_ename)?c.hi_ename:c.eName;
+    const cfg = DIFFICULTY_CONFIG[this.difficulty]||DIFFICULTY_CONFIG.medium;
+    this.heroMaxHp = cfg.hearts;
     this.heroHp = this.heroMaxHp;
-    this.eHp = c.eHp; this.eMaxHp = c.eHp; this.pi = 0;
+    const rawEHp = Math.max(2, c.eHp + cfg.eHpMod);
+    this.eHp = rawEHp; this.eMaxHp = rawEHp; this.pi = 0;
     this.currentProbs = generateProbs(c.id, c.eHp);
     this.updateBars(); this.updateHearts();
     document.getElementById('b-xp').textContent = '✦ '+this.xp;
@@ -1692,7 +1732,8 @@ const G = {
     const storyArr = (LNG==='hi'&&c.hi_stories)?c.hi_stories:c.stories;
     document.getElementById('b-story').textContent = storyArr[this.pi]||T('storyReady');
     document.getElementById('b-q').textContent = p.q;
-    document.getElementById('b-hint').textContent = p.h;
+    const showH = (DIFFICULTY_CONFIG[this.difficulty]||DIFFICULTY_CONFIG.medium).showHint;
+    document.getElementById('b-hint').textContent = showH ? p.h : '';
     const choices = this.genChoices(p.a, p.aType);
     const ag = document.getElementById('b-ans'); ag.innerHTML = '';
     choices.forEach(v => {
@@ -1801,7 +1842,9 @@ const G = {
     const b = BADGES[this.cur] || BADGES[0];
     const praiseArr = LNG==='hi' ? (CHAPTER_PRAISE_HI[this.cur]||CHAPTER_PRAISE_HI[0]) : (CHAPTER_PRAISE[this.cur]||CHAPTER_PRAISE[0]);
     const praises = praiseArr;
-    this.xp += c.xp;
+    const dcfg = DIFFICULTY_CONFIG[this.difficulty]||DIFFICULTY_CONFIG.medium;
+    const earnedXp = Math.round(c.xp * dcfg.xpMult);
+    this.xp += earnedXp;
     if (!this.done.includes(this.cur)) this.done.push(this.cur);
     this.save();
 
@@ -1817,7 +1860,7 @@ const G = {
     document.getElementById('v-praise').textContent = praises[Math.floor(Math.random()*praises.length)];
     const ename = (LNG==='hi'&&c.hi_ename)?c.hi_ename:c.eName;
     document.getElementById('v-sub').textContent = LNG==='hi' ? `तुमने ${ename} को हराया!` : `You defeated the ${ename}!`;
-    document.getElementById('v-xp').textContent = `✦ +${c.xp} XP Earned!`;
+    document.getElementById('v-xp').textContent = `✦ +${earnedXp} XP Earned!`;
 
     const ni = this.cur+1, nBtn = document.getElementById('v-next');
     if (ni<CHAPTERS.length) {
@@ -1846,7 +1889,7 @@ const G = {
   },
   updateHearts() {
     document.getElementById('b-hearts').textContent =
-      '♦ '.repeat(this.heroHp)+'◇ '.repeat(this.heroMaxHp-this.heroHp);
+      '♦ '.repeat(Math.max(0,this.heroHp))+'◇ '.repeat(Math.max(0,this.heroMaxHp-this.heroHp));
   },
 
   // ─── Spell Orb ────────────────────────────────────────────
@@ -1913,6 +1956,8 @@ const G = {
     alert('Replace this with your Stripe Checkout URL to enable payments.');
   };
 
+  // Apply saved difficulty
+  try { const sd=localStorage.getItem('mq_diff'); if(sd) G.setDiff(sd); else G.setDiff('easy'); } catch(e){ G.setDiff('easy'); }
   // Apply saved language
   setLang(LNG);
   // Load saved XP and completed chapters
