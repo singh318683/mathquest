@@ -291,6 +291,45 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 @media(min-width:480px){
   #game{border-left:1px solid #0D0824;border-right:1px solid #0D0824}
 }
+
+/* ── Streak Display ───────────────────────────────────────── */
+.streak-badge{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-family:'Fredoka One',cursive;font-size:13px;padding:3px 10px;border-radius:20px;pointer-events:none;z-index:15;display:none;white-space:nowrap}
+@keyframes streakPop{0%{transform:translateX(-50%) scale(.8)}60%{transform:translateX(-50%) scale(1.15)}100%{transform:translateX(-50%) scale(1)}}
+/* ── Stars on chapter list ────────────────────────────────── */
+.ch-stars{font-size:10px;margin-top:2px;letter-spacing:1px}
+/* ── Wrong explanation ────────────────────────────────────── */
+.explain-box{background:#1A0A0A;border:1.5px solid #EF4444;border-radius:12px;padding:10px 13px;font-size:13px;color:#FCA5A5;border-left:3px solid #EF4444;display:none;animation:qPop .3s ease}
+.explain-why{font-family:'Fredoka One',cursive;font-size:12px;color:#EF4444;margin-bottom:3px}
+/* ── Daily Challenge banner ───────────────────────────────── */
+.daily-banner{background:linear-gradient(135deg,#1A0D3E,#2D0A5E);border:1.5px solid #C9A227;border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;margin:0 12px;flex-shrink:0}
+.daily-icon{font-size:24px;flex-shrink:0}
+.daily-info{flex:1}
+.daily-title{font-family:'Fredoka One',cursive;font-size:14px;color:#C9A227}
+.daily-sub{font-size:11px;color:#8878A8;margin-top:2px}
+.daily-xp{font-family:'Fredoka One',cursive;font-size:13px;color:#6EE7B7;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:20px;padding:3px 8px;flex-shrink:0}
+.daily-done{opacity:.5;cursor:default}
+/* ── Speed Round Screen ───────────────────────────────────── */
+#s-speed{background:#08041A}
+.speed-header{padding:10px 14px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0;background:#050312;border-bottom:1px solid #1A0D3E}
+.speed-timer-box{flex:1;text-align:center}
+.speed-timer{font-family:'Fredoka One',cursive;font-size:28px;color:#C9A227}
+.speed-timer.urgent{color:#EF4444;animation:timerPulse .5s ease-in-out infinite}
+@keyframes timerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.speed-score-box{font-family:'Fredoka One',cursive;font-size:16px;color:#6EE7B7;text-align:right;min-width:60px}
+.speed-body{flex:1;overflow:hidden;padding:10px 14px;display:flex;flex-direction:column;gap:8px}
+.speed-streak-bar{text-align:center;font-family:'Fredoka One',cursive;font-size:14px;color:#FF6B00;min-height:22px}
+.speed-result{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;display:none}
+.speed-result-score{font-family:'Fredoka One',cursive;font-size:52px;color:#C9A227}
+.speed-result-lbl{font-family:'Fredoka One',cursive;font-size:18px;color:#eee}
+.speed-hi{font-size:13px;color:#6EE7B7}
+/* ── Victory monkey dance ─────────────────────────────────── */
+.victory-monkey{margin:8px 0 4px}
+@keyframes mkDance{0%,100%{transform:rotate(0) translateY(0)}20%{transform:rotate(-12deg) translateY(-4px)}40%{transform:rotate(12deg) translateY(-8px)}60%{transform:rotate(-8deg) translateY(-4px)}80%{transform:rotate(8deg) translateY(-2px)}}
+.mk-dance{animation:mkDance .7s ease-in-out infinite}
+/* ── Star rating on victory ───────────────────────────────── */
+.victory-stars{font-size:28px;letter-spacing:4px;margin:6px 0 4px}
+/* ── Word problem question (multi-line) ───────────────────── */
+.prob-q-word{font-family:'Nunito',sans-serif;font-size:14px;color:#E8E0F8;line-height:1.5;font-weight:700;text-align:center;padding:0 4px}
 </style>
 </head>
 <body>
@@ -311,6 +350,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
   <div class="title-sub">✦ Adventure ✦</div>
   <div class="title-tag" data-t="tagline">Solve math · Defeat monsters · Save the world</div>
   <button class="gbtn btn-purple" data-t="play" onclick="G.show('chapters')">▶ Play!</button>
+  <button class="gbtn" style="background:rgba(255,107,0,.15);border:1.5px solid #FF6B00;color:#FF6B00;font-size:14px;padding:10px 28px;margin-top:6px" onclick="G.startSpeedRound()">⚡ Speed Round</button>
   <div class="title-hint" data-t="hint_bar">⭐ Earn XP · ⚔️ Battle Monsters · 🏆 Collect Chapters</div>
 </div>
 
@@ -327,6 +367,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
       <span class="lt-sep">|</span>
       <button class="lt-hi lt-btn" onclick="setLang('hi')">हि</button>
     </div>
+  </div>
+  <div class="daily-banner" id="daily-banner" onclick="G.startDaily()">
+    <div class="daily-icon">⚡</div>
+    <div class="daily-info"><div class="daily-title" id="daily-title">Daily Challenge</div><div class="daily-sub" id="daily-sub">2× XP • Refreshes daily</div></div>
+    <div class="daily-xp" id="daily-xp-badge">2× XP</div>
   </div>
   <div class="ch-list" id="ch-grid"></div>
 </div>
@@ -388,6 +433,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
     <div class="scene-moon"></div>
     <div class="scene-stars-el" id="b-stars"></div>
     <div class="scene-ground"></div>
+    <div class="streak-badge" id="streak-badge"></div>
     <div class="scene-hearts" id="b-hearts">♦ ♦ ♦</div>
     <div class="scene-xp" id="b-xp">✦ 0</div>
     <div class="spell-name-el" id="spell-name"></div>
@@ -404,6 +450,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
   </div>
   <div class="battle-bottom">
     <div class="story-box" id="b-story">Get ready!</div>
+    <div class="explain-box" id="explain-box"><div class="explain-why">💡 Here's why:</div><div id="explain-text"></div></div>
     <div class="prob-panel">
       <div class="prob-label" style="color:#C9A227;letter-spacing:.12em">✦ Cast Your Spell!</div>
       <div class="prob-q" id="b-q">? + ? = ?</div>
@@ -414,10 +461,46 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 </div>
 
 <!-- ===========================
+     SPEED ROUND SCREEN
+=========================== -->
+<div class="screen" id="s-speed">
+  <div class="speed-header">
+    <button class="back-btn" onclick="G.stopSpeed()">←</button>
+    <div class="speed-timer-box">
+      <div class="speed-timer" id="speed-timer">60</div>
+    </div>
+    <div class="speed-score-box">
+      <span id="speed-score">0</span> ✓
+    </div>
+  </div>
+  <div class="speed-body">
+    <div class="speed-streak-bar" id="speed-streak-bar"></div>
+    <div class="prob-panel">
+      <div class="prob-label" style="color:#FF6B00">⚡ Speed Round!</div>
+      <div class="prob-q" id="speed-q">Ready?</div>
+      <div class="prob-hint" id="speed-hint"></div>
+    </div>
+    <div class="ans-grid" id="speed-ans"></div>
+    <div class="speed-result" id="speed-result" style="display:none">
+      <div style="font-size:48px">🏆</div>
+      <div class="speed-result-score" id="speed-final-score">0</div>
+      <div class="speed-result-lbl">questions correct!</div>
+      <div class="speed-hi" id="speed-hi-score"></div>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="gbtn btn-purple" onclick="G.startSpeedRound()">Play Again ⚡</button>
+        <button class="btn-sm" onclick="G.show('title')">Home</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================
      VICTORY SCREEN
 =========================== -->
 <div class="screen" id="s-victory">
   <div class="result-title" style="color:#C9A227">✦ Chapter Complete! ✦</div>
+  <div class="victory-stars" id="v-stars">⭐⭐⭐</div>
+  <div class="victory-monkey"><div class="mk-dance"><svg width="60" height="74" viewBox="0 0 80 95" fill="none"><ellipse cx="40" cy="73" rx="24" ry="20" fill="#7A5010"/><circle cx="16" cy="38" r="12" fill="#C8A96E"/><circle cx="16" cy="38" r="7" fill="#E8C49E"/><circle cx="64" cy="38" r="12" fill="#C8A96E"/><circle cx="64" cy="38" r="7" fill="#E8C49E"/><circle cx="40" cy="36" r="24" fill="#C8A96E"/><ellipse cx="40" cy="47" rx="14" ry="10" fill="#E8C49E"/><circle cx="31" cy="32" r="7" fill="#1A0A00"/><circle cx="49" cy="32" r="7" fill="#1A0A00"/><circle cx="33" cy="30" r="2.5" fill="white"/><circle cx="51" cy="30" r="2.5" fill="white"/><circle cx="37" cy="45" r="2" fill="#8B6014"/><circle cx="43" cy="45" r="2" fill="#8B6014"/><path d="M33 51 Q40 57 47 51" stroke="#8B6014" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="22" y="10" width="36" height="7" fill="#1A1030" rx="2"/><rect x="27" y="4" width="26" height="10" fill="#1A1030" rx="2"/><line x1="54" y1="10" x2="62" y2="22" stroke="#C9A227" stroke-width="2"/><circle cx="62" cy="25" r="3.5" fill="#C9A227"/><path d="M16 70 L4 85 L11 87 L17 76Z" fill="#7A5010"/><path d="M64 70 L76 83 L69 86 L63 75Z" fill="#7A5010"/></svg></div></div>
   <div class="badge-wrap">
     <div class="badge-svg-el" id="v-badge"></div>
     <div class="badge-earned-title" id="v-badge-title"></div>
@@ -633,6 +716,26 @@ function generateProbs(chId, count) {
         {q:"0.8 - 0.5 = ?", a:0.3, aType:"dec", h:"💡 8 tenths - 5 tenths = 3 tenths"},
       ];
       break;
+    case 7: { // Word problems
+      pool = [
+        {q:"The goblin had 14 apples and ate 5.\nHow many are left?", a:9, h:"💡 This is subtraction: 14 − 5 = ?"},
+        {q:"A wizard collected 8 stars, then found 7 more.\nHow many stars in total?", a:15, h:"💡 Addition: 8 + 7 = ?"},
+        {q:"A dragon has 4 bags with 3 coins each.\nHow many coins total?", a:12, h:"💡 Multiplication: 4 × 3 = ?"},
+        {q:"The troll shared 15 gems equally among 3 friends.\nHow many gems each?", a:5, h:"💡 Division: 15 ÷ 3 = ?"},
+        {q:"A witch had 20 potions and used 8.\nHow many potions remain?", a:12, h:"💡 Subtraction: 20 − 8 = ?"},
+        {q:"The goblin's forest has 6 trees. Each tree has 4 apples.\nHow many apples total?", a:24, h:"💡 Multiplication: 6 × 4 = ?"},
+        {q:"24 students split into 4 equal groups.\nHow many in each group?", a:6, h:"💡 Division: 24 ÷ 4 = ?"},
+        {q:"A knight climbed 13 steps, then 9 more.\nHow many steps climbed?", a:22, h:"💡 Addition: 13 + 9 = ?"},
+        {q:"There were 30 candles. 12 were blown out.\nHow many are still lit?", a:18, h:"💡 Subtraction: 30 − 12 = ?"},
+        {q:"A spell lasts 5 minutes. 3 spells cast in a row.\nHow many minutes total?", a:15, h:"💡 Multiplication: 5 × 3 = ?"},
+        {q:"The wizard baked 18 cookies and shared them equally between 3 friends.\nHow many each?", a:6, h:"💡 Division: 18 ÷ 3 = ?"},
+        {q:"A dragon collected 17 gold coins on Monday and 8 on Tuesday.\nHow many coins in total?", a:25, h:"💡 Addition: 17 + 8 = ?"},
+        {q:"The academy had 32 students. 14 went home.\nHow many remain?", a:18, h:"💡 Subtraction: 32 − 14 = ?"},
+        {q:"A wizard shoots 7 spells per minute for 4 minutes.\nHow many spells total?", a:28, h:"💡 Multiplication: 7 × 4 = ?"},
+        {q:"35 magical berries are divided equally into 7 bags.\nHow many berries per bag?", a:5, h:"💡 Division: 35 ÷ 7 = ?"},
+      ];
+      break;
+    }
     case 6: // Mixed review — all 6 topics
       for(let i=0;i<6;i++){const a=r(4,14),b=r(3,11);if(a+b<=25)pool.push({q:`${a} + ${b} = ?`,a:a+b,h:LNG==='hi'?`💡 जोड़: ${a} से ${b} ऊपर`:`💡 Addition: start at ${a}, count up ${b}`});}
       for(let i=0;i<5;i++){const b=r(2,8),a=r(b+3,b+11);if(a<=20)pool.push({q:`${a} - ${b} = ?`,a:a-b,h:LNG==='hi'?`💡 घटाना: ${a} से ${b} वापस`:`💡 Subtraction: count back ${b} from ${a}`});}
@@ -916,6 +1019,7 @@ const CHAPTER_SPELLS = [
   ['FRACTIUS!','HALFICUS!','PARTICUM!','QUARTERUM!'],
   ['DECIMALUS!','TENTHICUS!','POINTIUM!','DOTICUS!'],
   ['OMNICUS!','MAGNUM MATHICUS!','SOLVUS OMNIBUS!','SUPREMICUS!','GRANDMASTER SPELL!'],
+  ['READICUS!','STORICUS!','WORDICUS!','SOLVUS VERBUM!','NARRATICUS!'],
 ];
 
 const BADGES = [
@@ -952,6 +1056,7 @@ const CHAPTER_PRAISE = [
   ["A true wizard of numbers!","Your logical mind is extraordinary!","Division bows before your brilliance!","The Academy is absolutely astounded by you!"],
   ["You have an extraordinarily gifted mind!","Fractions have finally met their match!","Your intelligence is simply spectacular!","A true fraction sorcerer is born!"],
   ["You have mastered the ancient math arts!","A champion unlike any the Academy has seen!","Your brilliance knows absolutely no bounds!","The greatest math wizard of this generation!"],
+  ["Your story-solving skills are incredible!", "You read AND calculate — double talent!", "The Sphinx has never met anyone like you!", "A true Story Solver — words and numbers bow to you!"],
   ["You are the greatest mathematician the Academy has EVER seen! 👑","The Ancient Sorcerer himself bows before your brilliance!","A true Grand Master of all mathematical arts — that's YOU!","ALL of the wizarding world stands in awe of your genius! ✦"],
 ];
 
@@ -964,8 +1069,61 @@ function getEnemySVG(chId) {
     case 4: return `<svg width="50" height="72" viewBox="0 0 50 72" fill="none"><path d="M20 5 Q36 8 41 22 Q45 38 38 52 Q32 66 25 71 Q18 66 13 52 Q6 38 10 22 Q14 8 20 5Z" fill="#006080"/><path d="M16 22 Q25 17 34 22 Q25 26 16 22" fill="#004060" opacity=".6"/><path d="M11 37 Q25 32 39 37 Q25 42 11 37" fill="#004060" opacity=".6"/><path d="M13 52 Q25 47 37 52 Q25 57 13 52" fill="#004060" opacity=".6"/><ellipse cx="25" cy="15" rx="16" ry="14" fill="#007090"/><path d="M15 7 L12 1 L18 6" fill="#00CCFF" opacity=".7"/><path d="M25 5 L25 0 L28 5" fill="#00CCFF" opacity=".7"/><path d="M35 7 L38 1 L32 6" fill="#00CCFF" opacity=".7"/><ellipse cx="18" cy="14" rx="4.5" ry="4.5" fill="#00CCFF"/><ellipse cx="32" cy="14" rx="4.5" ry="4.5" fill="#00CCFF"/><circle cx="18" cy="14" r="2.8" fill="#001A20"/><circle cx="32" cy="14" r="2.8" fill="#001A20"/><path d="M14 21 Q25 29 36 21" stroke="#004060" stroke-width="2" fill="none"/><polygon points="20,22 18,28 22,26" fill="#E8F8FF"/><polygon points="30,22 28,28 32,26" fill="#E8F8FF"/><path d="M14 69 Q9 73 4 69" stroke="#006080" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M36 69 Q41 73 46 69" stroke="#006080" stroke-width="6" fill="none" stroke-linecap="round"/></svg>`;
     case 5: return `<svg width="48" height="72" viewBox="0 0 48 72" fill="none"><rect x="11" y="2" width="26" height="26" fill="#1A1A2E" rx="8"/><rect x="8" y="10" width="32" height="18" fill="#1A1A2E" rx="4"/><rect x="12" y="14" width="24" height="8" fill="#0A0A1E" rx="3"/><ellipse cx="20" cy="18" rx="4.5" ry="2.8" fill="#FF0000" opacity=".95"><animate attributeName="opacity" values=".7;1;.7" dur="0.6s" repeatCount="indefinite"/></ellipse><ellipse cx="28" cy="18" rx="4.5" ry="2.8" fill="#FF0000" opacity=".95"><animate attributeName="opacity" values=".7;1;.7" dur="0.6s" repeatCount="indefinite"/></ellipse><path d="M24 2 Q19 0 17 5 Q21 3 24 8 Q27 3 31 5 Q29 0 24 2Z" fill="#3A0A4E"/><rect x="6" y="28" width="36" height="28" fill="#1A1A2E" rx="4"/><path d="M6 36 L24 30 L42 36" stroke="#2E2E5E" stroke-width="1.5" fill="none"/><path d="M6 46 L24 41 L42 46" stroke="#2E2E5E" stroke-width="1.5" fill="none"/><ellipse cx="4" cy="33" rx="5" ry="8" fill="#252550"/><ellipse cx="44" cy="33" rx="5" ry="8" fill="#252550"/><rect x="0" y="37" width="8" height="20" fill="#1A1A2E" rx="3"/><rect x="40" y="37" width="8" height="20" fill="#1A1A2E" rx="3"/><rect x="0" y="53" width="8" height="8" fill="#252550" rx="2"/><rect x="40" y="53" width="8" height="8" fill="#252550" rx="2"/><rect x="42" y="50" width="3" height="26" fill="#9999CC" rx="1"/><rect x="37" y="60" width="12" height="2.5" fill="#9999CC" rx="1"/><rect x="8" y="56" width="14" height="16" fill="#1A1A2E" rx="3"/><rect x="26" y="56" width="14" height="16" fill="#1A1A2E" rx="3"/><rect x="7" y="66" width="16" height="6" fill="#252550" rx="2"/><rect x="25" y="66" width="16" height="6" fill="#252550" rx="2"/><path d="M14 30 L24 28 L34 30" stroke="#4A4A8E" stroke-width="1" fill="none" opacity=".7"/></svg>`;
     case 6: return `<svg width="52" height="80" viewBox="0 0 52 80" fill="none"><polygon points="26,2 20,10 26,7 32,10 40,2 35,9 26,5 17,9" fill="#C9A227"/><ellipse cx="26" cy="22" rx="14" ry="16" fill="#E0E0D8"/><ellipse cx="19" cy="20" rx="4.5" ry="4.5" fill="#FF0000"><animate attributeName="opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite"/></ellipse><ellipse cx="33" cy="20" rx="4.5" ry="4.5" fill="#FF0000"><animate attributeName="opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite"/></ellipse><ellipse cx="19" cy="20" rx="2.5" ry="3.5" fill="#880000"/><ellipse cx="33" cy="20" rx="2.5" ry="3.5" fill="#880000"/><ellipse cx="13" cy="27" rx="3.5" ry="4.5" fill="#D0D0C8"/><ellipse cx="39" cy="27" rx="3.5" ry="4.5" fill="#D0D0C8"/><path d="M15 33 Q26 39 37 33" stroke="#B0B0A8" stroke-width="1.5" fill="none"/><rect x="20" y="32" width="5" height="6" fill="#C9A227" rx=".5"/><rect x="27" y="32" width="5" height="6" fill="#C9A227" rx=".5"/><path d="M8 38 L2 80 L50 80 L44 38 Q26 48 8 38Z" fill="#0A0020"/><path d="M8 38 L0 52 L8 58 L14 44Z" fill="#0A0020"/><path d="M44 38 L52 50 L44 56 L38 43Z" fill="#0A0020"/><circle cx="1" cy="54" r="7" fill="#7C3AED" opacity=".9"><animate attributeName="r" values="5;8;5" dur="0.7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;1;0.8" dur="0.7s" repeatCount="indefinite"/></circle><circle cx="51" cy="52" r="7" fill="#C9A227" opacity=".9"><animate attributeName="r" values="5;8;5" dur="0.9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;1;0.8" dur="0.9s" repeatCount="indefinite"/></circle><text x="16" y="62" fill="#2A0050" font-size="7.5" opacity=".8">+ − ×</text><text x="16" y="73" fill="#2A0050" font-size="7.5" opacity=".8">÷  ½  .</text><circle cx="26" cy="54" r="2.5" fill="#7C3AED" opacity=".6"/><circle cx="22" cy="66" r="1.5" fill="#C9A227" opacity=".5"/><circle cx="32" cy="70" r="1.5" fill="#7C3AED" opacity=".5"/></svg>`;
+    case 7: return `<svg width="52" height="72" viewBox="0 0 52 72" fill="none">
+      <ellipse cx="26" cy="52" rx="20" ry="22" fill="#8B6914"/>
+      <ellipse cx="26" cy="28" rx="18" ry="20" fill="#C8A96E"/>
+      <ellipse cx="8" cy="22" rx="8" ry="12" fill="#C8A96E"/>
+      <ellipse cx="44" cy="22" rx="8" ry="12" fill="#C8A96E"/>
+      <circle cx="19" cy="24" r="5" fill="#1A0A00"/><circle cx="33" cy="24" r="5" fill="#1A0A00"/>
+      <circle cx="20" cy="23" r="1.5" fill="white"/><circle cx="34" cy="23" r="1.5" fill="white"/>
+      <ellipse cx="26" cy="35" rx="8" ry="6" fill="#E8C49E"/>
+      <path d="M20 38 Q26 43 32 38" stroke="#8B6014" stroke-width="1.5" fill="none"/>
+      <path d="M6 52 L2 72 L14 72 L14 52Z" fill="#8B6914"/>
+      <path d="M46 52 L50 72 L38 72 L38 52Z" fill="#8B6914"/>
+      <path d="M6 40 L0 28 L14 36Z" fill="#C8A96E"/>
+      <path d="M46 40 L52 28 L38 36Z" fill="#C8A96E"/>
+      <rect x="10" y="52" width="32" height="4" fill="#7A5010"/>
+      <circle cx="26" cy="18" r="4" fill="#C9A227" opacity=".8"/>
+    </svg>`;
     default: return '<svg width="46" height="72" viewBox="0 0 46 72"><circle cx="23" cy="36" r="20" fill="#4B0A8E"/></svg>';
   }
+}
+
+
+// ============================================================
+//  EXPLANATION GENERATOR
+// ============================================================
+function getExplanation(prob, chId) {
+  const nums = (prob.q.match(/[\d.]+/g)||[]).map(Number);
+  const a = prob.a;
+  const isHi = LNG==='hi';
+  switch(chId) {
+    case 0: return isHi ? `${nums[0]} + ${nums[1]} = ${a}: ${nums[0]} से ${nums[1]} ऊपर गिनो` : `${nums[0]} + ${nums[1]} = ${a}: count up ${nums[1]} from ${nums[0]}`;
+    case 1: return isHi ? `${nums[0]} − ${nums[1]} = ${a}: ${nums[0]} से ${nums[1]} वापस गिनो` : `${nums[0]} − ${nums[1]} = ${a}: count back ${nums[1]} from ${nums[0]}`;
+    case 2: return isHi ? `${nums[0]} × ${nums[1]} = ${a}: ${nums[0]} समूहों में ${nums[1]} = ${a} कुल` : `${nums[0]} × ${nums[1]} = ${a}: ${nums[0]} groups of ${nums[1]} makes ${a}`;
+    case 3: return isHi ? `${nums[0]} ÷ ${nums[1]} = ${a}: ${nums[0]} को ${nums[1]} में बाँटो` : `${nums[0]} ÷ ${nums[1]} = ${a}: share ${nums[0]} into ${nums[1]} groups`;
+    case 4: return isHi ? `उत्तर ${a} है। पूरे को बराबर भागों में बाँटो!` : `Answer is ${a}. Divide the whole into equal parts first!`;
+    case 5: return isHi ? `उत्तर ${a} है। दसवें स्थान से जोड़ो/घटाओ।` : `Answer is ${a}. Work with the tenths column first!`;
+    default: return isHi ? `सही उत्तर ${a} है।` : `The correct answer is ${a}.`;
+  }
+}
+
+// ============================================================
+//  DAILY CHALLENGE
+// ============================================================
+function getDailyProb() {
+  const today = new Date().toDateString();
+  const seed = new Date().getDate() + new Date().getMonth()*31 + new Date().getFullYear()*12;
+  const r = (min,max,s) => min + (s % (max-min+1));
+  const types = [
+    () => { const a=r(5,15,seed*3), b=r(3,12,seed*7); return {q:`${a} + ${b} = ?`, a:a+b, h:`💡 Count up ${b} from ${a}`, chId:0}; },
+    () => { const b=r(2,9,seed*5), a=r(b+3,b+12,seed*4); return {q:`${a} - ${b} = ?`, a:a-b, h:`💡 Count back ${b} from ${a}`, chId:1}; },
+    () => { const pairs=[[3,4],[4,5],[3,6],[5,5],[4,6]]; const p=pairs[seed%pairs.length]; return {q:`${p[0]} × ${p[1]} = ?`, a:p[0]*p[1], h:`💡 ${p[0]} groups of ${p[1]}`, chId:2}; },
+    () => { const divs=[[12,3],[15,5],[16,4],[20,4]]; const d=divs[seed%divs.length]; return {q:`${d[0]} ÷ ${d[1]} = ?`, a:d[0]/d[1], h:`💡 Share ${d[0]} into ${d[1]} groups`, chId:3}; },
+  ];
+  const prob = types[seed%types.length]();
+  prob.date = today;
+  return prob;
 }
 
 const G = {
@@ -978,12 +1136,12 @@ const G = {
 
   // ─── Persistence ─────────────────────────────────────────
   save() {
-    try { localStorage.setItem('mq_v1', JSON.stringify({xp:this.xp, done:this.done})); } catch(e){}
+    try { localStorage.setItem('mq_v1', JSON.stringify({xp:this.xp, done:this.done, stars:this.stars, speedHi:this.speedHi})); } catch(e){}
   },
   load() {
     try {
       const d = JSON.parse(localStorage.getItem('mq_v1'));
-      if (d) { this.xp = d.xp||0; this.done = d.done||[]; }
+      if (d) { this.xp=d.xp||0; this.done=d.done||[]; this.stars=d.stars||{}; this.speedHi=d.speedHi||0; }
     } catch(e){}
   },
 
@@ -1116,6 +1274,15 @@ const G = {
           <div class="mk-result">${(L.va+L.vb).toFixed(1)} 🎉</div>
         </div>`;
         setTimeout(()=>{const p=document.getElementById('mk-nl-pip');if(p)p.style.left=Math.round((L.va+L.vb)*100)+'%';},600);
+        break;
+      case 'word':
+        demo=`<div style="display:flex;flex-direction:column;gap:6px;align-items:center;width:100%">
+          <div style="font-size:11px;color:#FCD34D;font-weight:700;text-align:center">Read carefully! 📖</div>
+          <div style="background:rgba(252,211,77,.08);border:1.5px solid #FCD34D;border-radius:10px;padding:8px;font-size:12px;color:#E8E0F8;text-align:center;line-height:1.5">
+            "The goblin had 8 apples<br>and found 5 more. Total?"
+          </div>
+          <div style="font-size:12px;color:#6EE7B7;font-weight:700">→ 8 + 5 = 13 ✓</div>
+        </div>`;
         break;
       case 'mixed':
         demo=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:160px">
@@ -1272,12 +1439,14 @@ const G = {
       const chOp = (LNG==='hi'&&c.hi_op)?c.hi_op:c.op;
       const chBadge = (LNG==='hi'&&c.hi_badge)?c.hi_badge:c.badge;
       const bTitle = (LNG==='hi'&&badge.hi_title)?badge.hi_title:badge.title;
+      const starCount = G.stars[i]||0;
+      const starStr = starCount>0 ? '⭐'.repeat(starCount)+'☆'.repeat(3-starCount) : '';
       const opShort = chOp.replace('Addition','Add').replace('Subtraction','Sub').replace('Multiply','Mul').replace('Division','Div').replace('Fractions','Frac').replace('Decimals','Dec').replace('जोड़ना','जोड़').replace('घटाना','घटा').replace('सभी कौशल','सभी').replace('दशमलव','दश').replace('भिन्न','भिन्न').replace('गुणा','गुणा').replace('भाग','भाग');
       el.innerHTML = `
         <div class="ch-row-icon">${c.emoji}</div>
         <div class="ch-row-info">
           <div class="ch-row-name">${chName}</div>
-          <div class="ch-row-badge">${isDone ? `<span style="color:${badge.color};font-size:10px;font-weight:700">${bTitle}</span>` : chBadge}</div>
+          <div class="ch-row-badge">${isDone ? `<span style="color:${badge.color};font-size:10px;font-weight:700">${bTitle}</span><span style="font-size:9px;margin-left:4px">${starStr}</span>` : chBadge}</div>
         </div>
         <span class="ch-row-op" style="color:${c.opColor};background:${c.opColor}1A">${opShort}</span>
         <span class="ch-row-arr">${c.premium?'🔒':'›'}</span>
@@ -1290,6 +1459,157 @@ const G = {
   // ─── Open Chapter (routes through Learn first) ────────────
   openChapter(i) {
     this.showLesson(i);
+  },
+
+  // ─── Streak ───────────────────────────────────────────────
+  updateStreak() {
+    const el = document.getElementById('streak-badge');
+    if(!el) return;
+    if(this.streak >= 5) {
+      el.textContent = `❄️ ${this.streak} streak! ICE POWER!`;
+      el.style.cssText = 'display:block;background:rgba(0,180,255,.2);border:1.5px solid #00B4FF;color:#00B4FF;animation:streakPop .4s ease';
+    } else if(this.streak >= 3) {
+      el.textContent = `🔥 ${this.streak} streak! FIRE POWER!`;
+      el.style.cssText = 'display:block;background:rgba(255,107,0,.2);border:1.5px solid #FF6B00;color:#FF6B00;animation:streakPop .4s ease';
+    } else if(this.streak >= 2) {
+      el.textContent = `⚡ ${this.streak} in a row!`;
+      el.style.cssText = 'display:block;background:rgba(201,162,39,.15);border:1.5px solid #C9A227;color:#C9A227;animation:streakPop .4s ease';
+    } else {
+      el.style.display = 'none';
+    }
+  },
+
+  // ─── Daily Challenge ──────────────────────────────────────
+  renderDaily() {
+    const prob = getDailyProb();
+    const today = new Date().toDateString();
+    let done = false;
+    try { const d=JSON.parse(localStorage.getItem('mq_daily')||'{}'); done = d.date===today && d.done; } catch(e){}
+    const banner = document.getElementById('daily-banner');
+    if(!banner) return;
+    if(done) {
+      banner.classList.add('daily-done');
+      document.getElementById('daily-title').textContent = LNG==='hi' ? 'दैनिक चुनौती पूरी! ✓' : 'Daily Done! ✓';
+      document.getElementById('daily-sub').textContent = LNG==='hi' ? 'कल वापस आओ!' : 'Come back tomorrow!';
+      document.getElementById('daily-xp-badge').textContent = '✓';
+    } else {
+      banner.classList.remove('daily-done');
+      document.getElementById('daily-title').textContent = LNG==='hi' ? '⚡ दैनिक चुनौती' : '⚡ Daily Challenge';
+      document.getElementById('daily-sub').textContent = prob.q.replace('\n',' ');
+      document.getElementById('daily-xp-badge').textContent = '2× XP';
+    }
+  },
+
+  startDaily() {
+    const today = new Date().toDateString();
+    let done = false;
+    try { const d=JSON.parse(localStorage.getItem('mq_daily')||'{}'); done=d.date===today&&d.done; } catch(e){}
+    if(done) return;
+    const prob = getDailyProb();
+    // Set up as a special single-problem battle
+    this.cur = prob.chId;
+    this.heroHp = 3; this.heroMaxHp = 3;
+    this.eHp = 1; this.eMaxHp = 1;
+    this.pi = 0; this.streak = 0;
+    this.currentProbs = [{...prob, isDaily:true}];
+    const c = CHAPTERS[prob.chId];
+    const sc = document.getElementById('b-scene');
+    sc.className = 'battle-scene '+c.scene+'-bg';
+    document.getElementById('b-enemy').innerHTML = getEnemySVG(prob.chId);
+    document.getElementById('b-enemy').className = 'enemy-char';
+    document.getElementById('enemy-lbl').textContent = LNG==='hi' ? 'दैनिक दुश्मन' : 'Daily Foe';
+    document.getElementById('bnav-title').textContent = LNG==='hi' ? '⚡ दैनिक चुनौती' : '⚡ Daily Challenge';
+    this.updateBars(); this.updateHearts();
+    document.getElementById('b-xp').textContent = '✦ '+this.xp;
+    this.genStars();
+    document.getElementById('b-story').textContent = LNG==='hi' ? 'दैनिक चुनौती हल करो — 2× XP जीतो!' : 'Solve the Daily Challenge — win 2× XP!';
+    this.show('battle');
+    this.loadProb();
+  },
+
+  // ─── Speed Round ──────────────────────────────────────────
+  startSpeedRound() {
+    this.speedScore = 0; this.speedStreak = 0;
+    let timeLeft = 60;
+    this.show('speed');
+    document.getElementById('speed-timer').textContent = '60';
+    document.getElementById('speed-score').textContent = '0';
+    document.getElementById('speed-streak-bar').textContent = '';
+    document.getElementById('speed-result').style.display = 'none';
+    document.getElementById('speed-ans').style.display = '';
+    document.querySelector('#s-speed .prob-panel').style.display = '';
+    this.loadSpeedProb();
+    if(this.speedTimer) clearInterval(this.speedTimer);
+    this.speedTimer = setInterval(() => {
+      timeLeft--;
+      const timerEl = document.getElementById('speed-timer');
+      if(timerEl) {
+        timerEl.textContent = timeLeft;
+        timerEl.className = timeLeft<=10 ? 'speed-timer urgent' : 'speed-timer';
+      }
+      if(timeLeft<=0) {
+        clearInterval(this.speedTimer);
+        this.speedTimer=null;
+        this.endSpeedRound();
+      }
+    }, 1000);
+  },
+
+  loadSpeedProb() {
+    // Pick random topic
+    const chId = Math.floor(Math.random()*6);
+    const probs = generateProbs(chId, 1);
+    if(!probs.length) { this.loadSpeedProb(); return; }
+    const p = probs[0];
+    document.getElementById('speed-q').textContent = p.q;
+    document.getElementById('speed-q').className = p.q.length > 20 ? 'prob-q-word' : 'prob-q';
+    document.getElementById('speed-hint').textContent = p.h;
+    const choices = this.genChoices(p.a, p.aType);
+    const ag = document.getElementById('speed-ans'); ag.innerHTML='';
+    choices.forEach(v=>{
+      const btn = document.createElement('button');
+      btn.className='ans-btn'; btn.textContent=p.aType==='dec'?v.toFixed(1):v;
+      btn.onclick=()=>{
+        const ok = p.aType==='dec'?Math.abs(v-p.a)<.001:v===p.a;
+        if(ok){
+          this.speedScore++;
+          this.speedStreak++;
+          document.getElementById('speed-score').textContent=this.speedScore;
+          document.getElementById('speed-streak-bar').textContent = this.speedStreak>=3?`🔥 ${this.speedStreak} streak!`:'';
+          btn.classList.add('correct');
+          setTimeout(()=>this.loadSpeedProb(),300);
+        } else {
+          this.speedStreak=0;
+          document.getElementById('speed-streak-bar').textContent='';
+          btn.classList.add('wrong');
+          setTimeout(()=>btn.classList.remove('wrong'),400);
+        }
+      };
+      ag.appendChild(btn);
+    });
+  },
+
+  stopSpeed() {
+    if(this.speedTimer){clearInterval(this.speedTimer);this.speedTimer=null;}
+    this.show('title');
+  },
+
+  endSpeedRound() {
+    if(this.speedScore > this.speedHi) {
+      this.speedHi = this.speedScore;
+      this.save();
+    }
+    document.getElementById('speed-ans').style.display='none';
+    document.querySelector('#s-speed .prob-panel').style.display='none';
+    const res=document.getElementById('speed-result');
+    res.style.display='flex';
+    document.getElementById('speed-final-score').textContent=this.speedScore;
+    const hiTxt = this.speedScore>=this.speedHi
+      ? (LNG==='hi'?'🏆 नया रिकॉर्ड!':'🏆 New high score!')
+      : (LNG==='hi'?`सर्वश्रेष्ठ: ${this.speedHi}`:`Best: ${this.speedHi}`);
+    document.getElementById('speed-hi-score').textContent=hiTxt;
+    this.xp += this.speedScore*2;
+    this.save();
   },
 
   // ─── Go Home ──────────────────────────────────────────────
@@ -1382,6 +1702,8 @@ const G = {
 
   onCorrect(btn) {
     btn.classList.add('correct');
+    this.streak++;
+    this.updateStreak();
     document.getElementById('b-story').textContent = T('correct');
     this.xp += 10;
     document.getElementById('b-xp').textContent = '✦ '+this.xp;
@@ -1410,6 +1732,8 @@ const G = {
 
   onWrong(btn, correct, aType) {
     btn.classList.add('wrong');
+    this.streak = 0;
+    this.updateStreak();
     document.querySelectorAll('.ans-btn').forEach(b => {
       const bv = aType==='dec' ? parseFloat(b.textContent) : parseInt(b.textContent);
       if (Math.abs(bv-correct)<0.001) b.classList.add('correct');
@@ -1420,11 +1744,19 @@ const G = {
     setTimeout(()=>hero.classList.remove('hero-hit'), 550);
     this.heroHp--;
     this.updateHearts(); this.updateBars();
+    // Show explanation in explain box
+    const prob = this.currentProbs[this.pi];
+    if(prob) {
+      const exBox = document.getElementById('explain-box');
+      document.getElementById('explain-text').textContent = getExplanation(prob, this.cur);
+      exBox.style.display = 'block';
+    }
     setTimeout(() => {
+      document.getElementById('explain-box').style.display = 'none';
       this.locked = false; btn.classList.remove('wrong');
       document.querySelectorAll('.ans-btn').forEach(b=>b.classList.remove('correct'));
       this.heroHp<=0 ? this.defeat() : this.loadProb();
-    }, 1200);
+    }, 2500);
   },
 
   // ─── Victory ──────────────────────────────────────────────
