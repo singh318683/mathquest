@@ -210,7 +210,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .learn-visual-box{border-radius:14px;padding:8px;height:180px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;flex-shrink:0;background:#0A0320}
 
 /* Professor Monkey */
-@keyframes mkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes mkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @keyframes bananaIn{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
 @keyframes bananaSlideL{from{transform:translateX(-50px);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes bananaSlideR{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
@@ -221,6 +221,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .mk-demo{display:flex;align-items:center;flex-wrap:wrap;gap:4px;justify-content:center;min-height:0;flex:1;padding:3px 4px 0;width:100%}
 .mk-lbl{font-family:'Fredoka One',cursive;font-size:16px;color:#C9A227}
 .mk-grp{display:flex;flex-direction:column;align-items:center;gap:2px}
+.mk-grp-bananas{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;max-width:52px}
 .mk-grp-lbl{font-size:9px;color:#6EE7B7;font-weight:700;margin-top:1px}
 .mk-result{font-family:'Fredoka One',cursive;font-size:12px;color:#C9A227;text-align:center;width:100%;margin-top:2px}
 .vis-caption{font-size:13px;font-weight:700;color:#fff;margin-top:4px}
@@ -1020,18 +1021,17 @@ const G = {
   },
 
   makeVisual(L, lTagline) {
-    // ── Banana helper ──────────────────────────────────────────
+    // ── Banana helper — flex-WRAP so bananas go HORIZONTAL ────
     const mkB = (n, color='#FFD700', anim='bananaIn', delay=0, crossed=false) => {
       const x = crossed ? '<line x1="2" y1="2" x2="13" y2="22" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/>' : '';
-      return Array(n).fill(0).map((_,i)=>
-        `<span style="display:inline-block;width:15px;height:26px;animation:${anim} .4s ${(delay+i*.08).toFixed(2)}s both">
-          <svg width="15" height="26" viewBox="0 0 18 30"><path d="M9 2 Q16 7 13 24 Q9 29 5 24 Q2 7 9 2Z" fill="${color}" stroke="#C8900A" stroke-width=".8"/>${x}</svg>
-        </span>`
+      const spans = Array(n).fill(0).map((_,i)=>
+        `<span style="display:inline-block;width:14px;height:24px;animation:${anim} .4s ${(delay+i*.08).toFixed(2)}s both"><svg width="14" height="24" viewBox="0 0 18 30"><path d="M9 2 Q16 7 13 24 Q9 29 5 24 Q2 7 9 2Z" fill="${color}" stroke="#C8900A" stroke-width=".8"/>${x}</svg></span>`
       ).join('');
+      return `<div class="mk-grp-bananas">${spans}</div>`;
     };
 
-    // ── Monkey SVG ─────────────────────────────────────────────
-    const monkey = `<div class="mk-monkey"><svg width="64" height="78" viewBox="0 0 80 95" fill="none">
+    // ── Monkey SVG (compact, bobs DOWN so head never clips) ───
+    const monkey = `<div class="mk-monkey" style="flex-shrink:0"><svg width="54" height="66" viewBox="0 0 80 95" fill="none">
       <ellipse cx="40" cy="73" rx="24" ry="20" fill="#7A5010"/>
       <circle cx="16" cy="38" r="12" fill="#C8A96E"/><circle cx="16" cy="38" r="7" fill="#E8C49E"/>
       <circle cx="64" cy="38" r="12" fill="#C8A96E"/><circle cx="64" cy="38" r="7" fill="#E8C49E"/>
@@ -1049,17 +1049,93 @@ const G = {
       <path d="M64 70 L76 83 L69 86 L63 75Z" fill="#7A5010"/>
     </svg></div>`;
 
-    // ── Monkey speeches ────────────────────────────────────────
+    // ── Speeches ───────────────────────────────────────────────
     const speeches = {
-      en: {
-        addition:       "Watch me put two banana groups together! 🍌",
-        subtraction:    "I eat some bananas and count what's left! 🍌",
-        multiplication: "Equal groups of bananas — I'll show you! 🍌",
-        division:       "I share these bananas equally with friends! 🍌",
-        fraction:       "I cut my banana into equal parts! 🍌",
-        decimal:        "Each step on my number line is one tenth! 🍌",
-        mixed:          "Ready for the ULTIMATE challenge? Let's go! 🍌"
-      },
+      en:{addition:"I put two groups together!",subtraction:"I take some away and count what's left!",multiplication:"Equal groups — let me show you!",division:"I share equally with my friends!",fraction:"I cut into equal parts!",decimal:"Each step is one tenth!",mixed:"Ready for the ultimate challenge?"},
+      hi:{addition:"मैं दो समूह मिलाता हूँ!",subtraction:"कुछ हटाकर बाकी गिनता हूँ!",multiplication:"बराबर समूह — देखो!",division:"दोस्तों में बराबर बाँटता हूँ!",fraction:"बराबर टुकड़ों में काटता हूँ!",decimal:"हर कदम एक दसवाँ है!",mixed:"अंतिम चुनौती के लिए तैयार?"}
+    };
+    const speech = (speeches[LNG]||speeches.en)[L.visual] || "Watch and learn!";
+
+    // ── Demo content (bananas go horizontal via mk-grp-bananas) ─
+    let demo = '';
+    switch(L.visual) {
+      case 'addition':
+        demo = `
+          <div class="mk-grp">${mkB(L.va,'#6EE7B7','bananaSlideL')}<div class="mk-grp-lbl">${L.va}</div></div>
+          <span class="mk-lbl">+</span>
+          <div class="mk-grp">${mkB(L.vb,'#A78BFA','bananaSlideR')}<div class="mk-grp-lbl">${L.vb}</div></div>
+          <span class="mk-lbl">=</span>
+          <div class="mk-grp">${mkB(L.va+L.vb,'#FFD700','bananaIn',0.4)}<div class="mk-grp-lbl" style="color:#C9A227">${L.va+L.vb}!</div></div>`;
+        break;
+      case 'subtraction':
+        demo = `
+          <div class="mk-grp">${mkB(L.va-L.vb,'#6EE7B7','bananaIn')}${mkB(L.vb,'#444','bananaIn',0.3,true)}<div class="mk-grp-lbl">${L.va}</div></div>
+          <span class="mk-lbl">−</span>
+          <div class="mk-grp">${mkB(L.vb,'#EF4444','bGroupPop')}<div class="mk-grp-lbl" style="color:#EF4444">take</div></div>
+          <span class="mk-lbl">=</span>
+          <div class="mk-grp">${mkB(L.va-L.vb,'#FFD700','bananaIn',0.4)}<div class="mk-grp-lbl" style="color:#C9A227">${L.va-L.vb}!</div></div>`;
+        break;
+      case 'multiplication':
+        demo = Array(L.va).fill(0).map((_,gi)=>
+          `<div class="mk-grp" style="animation:bGroupPop .4s ${gi*.18}s both">${mkB(L.vb,'#FCA5A5','bananaIn',gi*.08)}<div class="mk-grp-lbl">×${gi+1}</div></div>
+          ${gi<L.va-1?'<span class="mk-lbl" style="font-size:13px">+</span>':''}`
+        ).join('')+`<div class="mk-result" style="width:100%">= ${L.va*L.vb} 🎉</div>`;
+        break;
+      case 'division':{
+        const each=L.va/L.vb;
+        demo=Array(L.vb).fill(0).map((_,gi)=>
+          `<div class="mk-grp" style="animation:bGroupPop .4s ${gi*.18}s both"><span style="font-size:14px">🐒</span>${mkB(each,'#FFD700','bananaIn',gi*.1)}<div class="mk-grp-lbl">${each}</div></div>
+          ${gi<L.vb-1?'<span class="mk-lbl" style="font-size:12px">│</span>':''}`
+        ).join('')+`<div class="mk-result" style="width:100%">${L.va}÷${L.vb}=${each} 🎉</div>`;
+        break;}
+      case 'fraction':
+        demo=`<div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          <div style="display:flex;align-items:center;gap:6px">
+            ${mkB(1,'#FFD700','bananaIn')}
+            <span class="mk-lbl" style="font-size:16px">→</span>
+            <div style="display:flex;gap:3px;animation:bGroupPop .5s .3s both">
+              <div class="mk-grp">${mkB(1,'#6EE7B7','bananaIn',0.3)}<span style="font-size:9px;color:#6EE7B7;font-weight:700">${L.va}/${L.vb}</span></div>
+              <div style="width:2px;background:#C9A227;height:24px;border-radius:1px;align-self:center"></div>
+              <div class="mk-grp">${mkB(1,'#A78BFA','bananaIn',0.4)}<span style="font-size:9px;color:#A78BFA;font-weight:700">${L.va}/${L.vb}</span></div>
+            </div>
+          </div>
+          <div class="mk-result">${L.vb} equal parts 🎉</div>
+        </div>`;
+        break;
+      case 'decimal':
+        demo=`<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">
+          <div style="font-size:11px;color:#6EE7B7">${L.va} + ${L.vb} = ?</div>
+          <div style="position:relative;width:130px">
+            <div style="height:4px;background:rgba(255,255,255,.12);border-radius:2px">
+              <div id="mk-nl-pip" style="position:absolute;width:11px;height:11px;border-radius:50%;background:#C9A227;top:-4px;left:${Math.round(L.va*100)}%;transform:translateX(-50%);transition:left .8s ease"></div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;width:130px;font-size:9px;color:#555">
+            <span>0</span><span>${L.va.toFixed(1)}</span><span>${(L.va+L.vb).toFixed(1)}</span><span>1.0</span>
+          </div>
+          <div class="mk-result">${(L.va+L.vb).toFixed(1)} 🎉</div>
+        </div>`;
+        setTimeout(()=>{const p=document.getElementById('mk-nl-pip');if(p)p.style.left=Math.round((L.va+L.vb)*100)+'%';},600);
+        break;
+      case 'mixed':
+        demo=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:160px">
+          ${[{op:'+',c:'#6EE7B7'},{op:'−',c:'#7EDDD9'},{op:'×',c:'#FCA5A5'},{op:'÷',c:'#C4B5FD'},{op:'½',c:'#60A5FA'},{op:'.',c:'#F9A8D4'}]
+            .map(({op,c})=>`<div style="border:1.5px solid ${c};border-radius:8px;height:36px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:17px;color:${c};animation:bGroupPop .4s both">${op}</div>`)
+            .join('')}
+        </div>`;
+        break;
+      default: demo=mkB(5,'#FFD700','bananaIn');
+    }
+
+    // ── Layout: speech bubble TOP, monkey LEFT, demo RIGHT ────
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;height:100%">
+      <div class="mk-speech" style="font-size:11px;padding:5px 10px">${speech}</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex:1;width:100%">
+        ${monkey}
+        <div class="mk-demo" style="flex:1;align-self:center">${demo}</div>
+      </div>
+    </div>`;
+  },
       hi: {
         addition:       "देखो मैं दो केले के समूह कैसे मिलाता हूँ! 🍌",
         subtraction:    "मैं कुछ केले खाता हूँ और बाकी गिनता हूँ! 🍌",
