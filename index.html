@@ -174,7 +174,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
   100%{transform:scaleX(-1) scale(0) rotate(180deg);opacity:0}
 }
 
-.spell-el{position:absolute;font-size:20px;bottom:52px;pointer-events:none;z-index:10}
+.academy-bg{background:linear-gradient(180deg,#06020E 0%,#0A0622 50%,#120838 100%)}
+.academy-bg .scene-ground{background:linear-gradient(90deg,#0D0824,#1A0D3E,#0D0824);border-top:2px solid #C9A227;box-shadow:0 -4px 16px rgba(201,162,39,.25)}
 .sparkle-el{position:absolute;font-size:18px;pointer-events:none;z-index:20;animation:sparkleUp .7s ease forwards}
 @keyframes sparkleUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-50px) scale(.3)}}
 
@@ -531,6 +532,22 @@ function generateProbs(chId, count) {
         {q:"0.8 - 0.5 = ?", a:0.3, aType:"dec", h:"💡 8 tenths - 5 tenths = 3 tenths"},
       ];
       break;
+    case 6: // Mixed review — all 6 topics
+      for(let i=0;i<6;i++){const a=r(4,14),b=r(3,11);if(a+b<=25)pool.push({q:`${a} + ${b} = ?`,a:a+b,h:`💡 Addition: start at ${a}, count up ${b}`});}
+      for(let i=0;i<5;i++){const b=r(2,8),a=r(b+3,b+11);if(a<=20)pool.push({q:`${a} - ${b} = ?`,a:a-b,h:`💡 Subtraction: count back ${b} from ${a}`});}
+      [[2,6],[3,5],[4,4],[2,7],[3,6],[5,4],[4,5],[6,3]].forEach(([a,b])=>pool.push({q:`${a} × ${b} = ?`,a:a*b,h:`💡 Multiplication: ${a} groups of ${b}`}));
+      [[12,3],[15,5],[16,4],[18,6],[20,5],[14,7],[24,4]].forEach(([a,b])=>pool.push({q:`${a} ÷ ${b} = ?`,a:a/b,h:`💡 Division: share ${a} into ${b} equal groups`}));
+      pool.push(
+        {q:"½ of 8 = ?",a:4,h:"💡 Fractions: split 8 into 2 equal parts"},
+        {q:"¼ of 12 = ?",a:3,h:"💡 Fractions: split 12 into 4 equal parts"},
+        {q:"¾ of 8 = ?",a:6,h:"💡 Fractions: find ¼ of 8 (=2), then ×3"},
+        {q:"⅓ of 9 = ?",a:3,h:"💡 Fractions: split 9 into 3 equal parts"},
+        {q:"0.3 + 0.5 = ?",a:0.8,aType:"dec",h:"💡 Decimals: 3 tenths + 5 tenths"},
+        {q:"1.6 - 0.4 = ?",a:1.2,aType:"dec",h:"💡 Decimals: subtract the tenths"},
+        {q:"0.4 + 0.5 = ?",a:0.9,aType:"dec",h:"💡 Decimals: 4 tenths + 5 tenths"},
+        {q:"2.0 - 0.8 = ?",a:1.2,aType:"dec",h:"💡 Decimals: borrow from the ones"},
+      );
+      break;
   }
 
   // Shuffle pool
@@ -657,6 +674,23 @@ const CHAPTERS = [
       "Final strike! Reclaim the crown! 👑"
     ],
     xp:120
+  },
+  {
+    id:6, title:"The Academy's Final Test", badge:"Chapter 7 · All Skills",
+    op:"All Skills ⚡", opColor:"#C9A227", scene:"academy",
+    emoji:"🏛️", eEmoji:"", eName:"The Ancient Sorcerer", eHp:7, premium:false,
+    intro:"The Ancient Sorcerer has risen from the depths of the Academy to challenge the greatest student of all time! He commands ALL forms of mathematical magic — addition, subtraction, multiplication, division, fractions, and decimals. Prove you have mastered them ALL!",
+    probs:[],
+    stories:[
+      "The Ancient Sorcerer rises from shadow! He tests your Addition first!",
+      "His robes crackle with dark energy — now he tests Subtraction!",
+      "A Multiplication curse flies straight at you — deflect it!",
+      "Division hexes spiral from his staff — answer precisely!",
+      "Ancient Fraction spells pour from the forbidden tomes!",
+      "Decimal lightning rains from above — stay focused!",
+      "FINAL INCANTATION! Give everything you have, Math Hero! ✦"
+    ],
+    xp:200
   }
 ];
 
@@ -705,6 +739,16 @@ const LESSONS = [
     steps:["DECIMALS let us write numbers that sit between whole numbers.","0.1 means one tenth — imagine slicing 1 into 10 equal slices! 🍰"],
     visual:"decimal", va:0.3, vb:0.5,
     workedEq:"0.3 + 0.5 = ?", workedAns:"0.8"
+  },
+  { // Ch 6: Final Test — mixed review
+    color:"#C9A227", bg:"#06020E",
+    tagline:"Master of ALL mathematical arts!",
+    steps:[
+      "This final test combines every skill you have learned: addition, subtraction, multiplication, division, fractions, and decimals!",
+      "The Ancient Sorcerer will throw all six types of spells at you. Show him you have mastered them all! ✦"
+    ],
+    visual:"mixed",
+    workedEq:"Ready, Grand Wizard?", workedAns:"Let's go! ✦"
   }
 ];
 
@@ -720,6 +764,7 @@ function generatePracticeProbs(chId) {
     case 3: { const p=[[6,2],[8,2],[9,3],[10,2],[12,3]].sort(()=>Math.random()-.5); return [{q:`${p[0][0]} ÷ ${p[0][1]} = ?`,a:p[0][0]/p[0][1]},{q:`${p[1][0]} ÷ ${p[1][1]} = ?`,a:p[1][0]/p[1][1]}]; }
     case 4: return [{q:"½ of 4 = ?",a:2},{q:"½ of 6 = ?",a:3}];
     case 5: return [{q:"0.1 + 0.2 = ?",a:0.3,aType:"dec"},{q:"0.3 + 0.4 = ?",a:0.7,aType:"dec"}];
+    case 6: return [{q:"4 + 5 = ?",a:9},{q:"0.2 + 0.5 = ?",a:0.7,aType:"dec"}];
     default: return [{q:"2 + 2 = ?",a:4},{q:"3 + 1 = ?",a:4}];
   }
 }
@@ -731,6 +776,7 @@ const CHAPTER_SPELLS = [
   ['DIVIDIUM!','SHAREICUS!','SPLITICUS!','HALVICUS!'],
   ['FRACTIUS!','HALFICUS!','PARTICUM!','QUARTERUM!'],
   ['DECIMALUS!','TENTHICUS!','POINTIUM!','DOTICUS!'],
+  ['OMNICUS!','MAGNUM MATHICUS!','SOLVUS OMNIBUS!','SUPREMICUS!','GRANDMASTER SPELL!'],
 ];
 
 const BADGES = [
@@ -745,7 +791,9 @@ const BADGES = [
   { title:"Fraction Sorcerer ✦", color:"#00CCFF",
     svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#003060" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#005080" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#002050"/><polygon points="44,8 68,30 62,60 26,60 20,30" fill="#005080"/><polygon points="44,15 62,34 57,56 31,56 26,34" fill="#007090"/><polygon points="44,23 55,36 51,52 37,52 33,36" fill="#00CCFF"/><polygon points="44,30 51,40 44,52 37,40" fill="#80EEFF"/><text x="44" y="46" text-anchor="middle" fill="#002050" font-size="14" font-weight="bold" font-family="serif">½</text><circle cx="35" cy="20" r="4" fill="#fff" opacity=".2"/></svg>` },
   { title:"Decimal Champion ✦", color:"#FF69B4",
-    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#7A1040" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#9A2060" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#5A0830"/><rect x="32" y="58" width="24" height="7" fill="#C9A227" rx="3"/><rect x="38" y="63" width="12" height="10" fill="#C9A227"/><rect x="28" y="70" width="28" height="5" fill="#C9A227" rx="2"/><path d="M26 18 L62 18 L57 46 Q55 56 44 56 Q33 56 31 46 Z" fill="#FFD700"/><path d="M20 18 L26 18 L26 36 Q20 36 18 30 Q16 24 20 20 Z" fill="#C9A227"/><path d="M62 18 L68 18 Q72 20 70 30 Q68 36 62 36 L62 18 Z" fill="#C9A227"/><circle cx="38" cy="36" r="4" fill="#FF69B4" opacity=".85"/><circle cx="50" cy="30" r="3" fill="#FF69B4" opacity=".85"/><circle cx="44" cy="44" r="3" fill="#FF69B4" opacity=".85"/><circle cx="34" cy="26" r="5" fill="#fff" opacity=".22"/></svg>` }
+    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#7A1040" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#9A2060" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#5A0830"/><rect x="32" y="58" width="24" height="7" fill="#C9A227" rx="3"/><rect x="38" y="63" width="12" height="10" fill="#C9A227"/><rect x="28" y="70" width="28" height="5" fill="#C9A227" rx="2"/><path d="M26 18 L62 18 L57 46 Q55 56 44 56 Q33 56 31 46 Z" fill="#FFD700"/><path d="M20 18 L26 18 L26 36 Q20 36 18 30 Q16 24 20 20 Z" fill="#C9A227"/><path d="M62 18 L68 18 Q72 20 70 30 Q68 36 62 36 L62 18 Z" fill="#C9A227"/><circle cx="38" cy="36" r="4" fill="#FF69B4" opacity=".85"/><circle cx="50" cy="30" r="3" fill="#FF69B4" opacity=".85"/><circle cx="44" cy="44" r="3" fill="#FF69B4" opacity=".85"/><circle cx="34" cy="26" r="5" fill="#fff" opacity=".22"/></svg>` },
+  { title:"Grand Math Master ✦", color:"#C9A227",
+    svg:`<svg width="96" height="106" viewBox="0 0 96 106" fill="none"><rect x="40" y="74" width="7" height="30" fill="#6B00AA" transform="rotate(-8,43,74)"/><rect x="49" y="74" width="7" height="30" fill="#C9A227" transform="rotate(8,53,74)"/><circle cx="48" cy="46" r="40" fill="#0A0020"/><polygon points="48,8 52,22 66,18 58,30 74,36 58,39 64,54 50,47 48,64 46,47 32,54 38,39 22,36 38,30 30,18 44,22" fill="#C9A227"/><circle cx="48" cy="46" r="22" fill="#08041A"/><circle cx="48" cy="46" r="18" fill="#10082E"/><text x="38" y="40" fill="#C9A227" font-size="10" font-weight="bold">+ ×</text><text x="36" y="54" fill="#A78BFA" font-size="10" font-weight="bold">÷  ½</text><circle cx="48" cy="46" r="3.5" fill="#FFD700"/><circle cx="36" cy="28" r="5" fill="#fff" opacity=".14"/></svg>` }
 ];
 
 const CHAPTER_PRAISE = [
@@ -755,6 +803,7 @@ const CHAPTER_PRAISE = [
   ["A true wizard of numbers!","Your logical mind is extraordinary!","Division bows before your brilliance!","The Academy is absolutely astounded by you!"],
   ["You have an extraordinarily gifted mind!","Fractions have finally met their match!","Your intelligence is simply spectacular!","A true fraction sorcerer is born!"],
   ["You have mastered the ancient math arts!","A champion unlike any the Academy has seen!","Your brilliance knows absolutely no bounds!","The greatest math wizard of this generation!"],
+  ["You are the greatest mathematician the Academy has EVER seen! 👑","The Ancient Sorcerer himself bows before your brilliance!","A true Grand Master of all mathematical arts — that's YOU!","ALL of the wizarding world stands in awe of your genius! ✦"],
 ];
 
 function getEnemySVG(chId) {
@@ -765,6 +814,7 @@ function getEnemySVG(chId) {
     case 3: return `<svg width="46" height="72" viewBox="0 0 46 72" fill="none"><polygon points="23,1 10,22 36,22" fill="#0A0514"/><ellipse cx="23" cy="22" rx="16" ry="4" fill="#1A0A28"/><circle cx="18" cy="15" r="1.5" fill="#7B00C0"/><circle cx="29" cy="10" r="1.2" fill="#7B00C0"/><path d="M9 30 Q5 40 7 50" stroke="#1A0A14" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M37 30 Q41 40 39 50" stroke="#1A0A14" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="23" cy="37" rx="13" ry="14" fill="#D4C5D4"/><path d="M13 31 Q17 29 21 32" stroke="#2A1A2A" stroke-width="2" fill="none"/><path d="M25 32 Q29 29 33 31" stroke="#2A1A2A" stroke-width="2" fill="none"/><ellipse cx="18" cy="35" rx="3.5" ry="3" fill="#4B0082"/><ellipse cx="28" cy="35" rx="3.5" ry="3" fill="#4B0082"/><circle cx="18" cy="35" r="2" fill="#0A0020"/><circle cx="28" cy="35" r="2" fill="#0A0020"/><path d="M23 39 Q26 43 23 45 Q20 43 22 41" stroke="#B0A0B0" stroke-width="1.5" fill="none"/><path d="M16 47 Q23 53 30 47" stroke="#4A2A4A" stroke-width="1.5" fill="none"/><path d="M8 51 L3 72 L43 72 L38 51 Q23 59 8 51Z" fill="#0A0514"/><path d="M8 51 L0 63 L8 67 L14 55Z" fill="#0A0514"/><path d="M38 51 L46 61 L38 66 L32 54Z" fill="#0A0514"/><text x="14" y="68" fill="#4B0082" font-size="9" opacity=".8">∑ ÷ ×</text><rect x="40" y="53" width="3" height="22" fill="#2A1A2A" rx="1.5" transform="rotate(12,40,53)"/><circle cx="44" cy="73" r="4" fill="#8B00C0" opacity=".9"><animate attributeName="r" values="3;5;3" dur="0.7s" repeatCount="indefinite"/></circle></svg>`;
     case 4: return `<svg width="50" height="72" viewBox="0 0 50 72" fill="none"><path d="M20 5 Q36 8 41 22 Q45 38 38 52 Q32 66 25 71 Q18 66 13 52 Q6 38 10 22 Q14 8 20 5Z" fill="#006080"/><path d="M16 22 Q25 17 34 22 Q25 26 16 22" fill="#004060" opacity=".6"/><path d="M11 37 Q25 32 39 37 Q25 42 11 37" fill="#004060" opacity=".6"/><path d="M13 52 Q25 47 37 52 Q25 57 13 52" fill="#004060" opacity=".6"/><ellipse cx="25" cy="15" rx="16" ry="14" fill="#007090"/><path d="M15 7 L12 1 L18 6" fill="#00CCFF" opacity=".7"/><path d="M25 5 L25 0 L28 5" fill="#00CCFF" opacity=".7"/><path d="M35 7 L38 1 L32 6" fill="#00CCFF" opacity=".7"/><ellipse cx="18" cy="14" rx="4.5" ry="4.5" fill="#00CCFF"/><ellipse cx="32" cy="14" rx="4.5" ry="4.5" fill="#00CCFF"/><circle cx="18" cy="14" r="2.8" fill="#001A20"/><circle cx="32" cy="14" r="2.8" fill="#001A20"/><path d="M14 21 Q25 29 36 21" stroke="#004060" stroke-width="2" fill="none"/><polygon points="20,22 18,28 22,26" fill="#E8F8FF"/><polygon points="30,22 28,28 32,26" fill="#E8F8FF"/><path d="M14 69 Q9 73 4 69" stroke="#006080" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M36 69 Q41 73 46 69" stroke="#006080" stroke-width="6" fill="none" stroke-linecap="round"/></svg>`;
     case 5: return `<svg width="48" height="72" viewBox="0 0 48 72" fill="none"><rect x="11" y="2" width="26" height="26" fill="#1A1A2E" rx="8"/><rect x="8" y="10" width="32" height="18" fill="#1A1A2E" rx="4"/><rect x="12" y="14" width="24" height="8" fill="#0A0A1E" rx="3"/><ellipse cx="20" cy="18" rx="4.5" ry="2.8" fill="#FF0000" opacity=".95"><animate attributeName="opacity" values=".7;1;.7" dur="0.6s" repeatCount="indefinite"/></ellipse><ellipse cx="28" cy="18" rx="4.5" ry="2.8" fill="#FF0000" opacity=".95"><animate attributeName="opacity" values=".7;1;.7" dur="0.6s" repeatCount="indefinite"/></ellipse><path d="M24 2 Q19 0 17 5 Q21 3 24 8 Q27 3 31 5 Q29 0 24 2Z" fill="#3A0A4E"/><rect x="6" y="28" width="36" height="28" fill="#1A1A2E" rx="4"/><path d="M6 36 L24 30 L42 36" stroke="#2E2E5E" stroke-width="1.5" fill="none"/><path d="M6 46 L24 41 L42 46" stroke="#2E2E5E" stroke-width="1.5" fill="none"/><ellipse cx="4" cy="33" rx="5" ry="8" fill="#252550"/><ellipse cx="44" cy="33" rx="5" ry="8" fill="#252550"/><rect x="0" y="37" width="8" height="20" fill="#1A1A2E" rx="3"/><rect x="40" y="37" width="8" height="20" fill="#1A1A2E" rx="3"/><rect x="0" y="53" width="8" height="8" fill="#252550" rx="2"/><rect x="40" y="53" width="8" height="8" fill="#252550" rx="2"/><rect x="42" y="50" width="3" height="26" fill="#9999CC" rx="1"/><rect x="37" y="60" width="12" height="2.5" fill="#9999CC" rx="1"/><rect x="8" y="56" width="14" height="16" fill="#1A1A2E" rx="3"/><rect x="26" y="56" width="14" height="16" fill="#1A1A2E" rx="3"/><rect x="7" y="66" width="16" height="6" fill="#252550" rx="2"/><rect x="25" y="66" width="16" height="6" fill="#252550" rx="2"/><path d="M14 30 L24 28 L34 30" stroke="#4A4A8E" stroke-width="1" fill="none" opacity=".7"/></svg>`;
+    case 6: return `<svg width="52" height="80" viewBox="0 0 52 80" fill="none"><polygon points="26,2 20,10 26,7 32,10 40,2 35,9 26,5 17,9" fill="#C9A227"/><ellipse cx="26" cy="22" rx="14" ry="16" fill="#E0E0D8"/><ellipse cx="19" cy="20" rx="4.5" ry="4.5" fill="#FF0000"><animate attributeName="opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite"/></ellipse><ellipse cx="33" cy="20" rx="4.5" ry="4.5" fill="#FF0000"><animate attributeName="opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite"/></ellipse><ellipse cx="19" cy="20" rx="2.5" ry="3.5" fill="#880000"/><ellipse cx="33" cy="20" rx="2.5" ry="3.5" fill="#880000"/><ellipse cx="13" cy="27" rx="3.5" ry="4.5" fill="#D0D0C8"/><ellipse cx="39" cy="27" rx="3.5" ry="4.5" fill="#D0D0C8"/><path d="M15 33 Q26 39 37 33" stroke="#B0B0A8" stroke-width="1.5" fill="none"/><rect x="20" y="32" width="5" height="6" fill="#C9A227" rx=".5"/><rect x="27" y="32" width="5" height="6" fill="#C9A227" rx=".5"/><path d="M8 38 L2 80 L50 80 L44 38 Q26 48 8 38Z" fill="#0A0020"/><path d="M8 38 L0 52 L8 58 L14 44Z" fill="#0A0020"/><path d="M44 38 L52 50 L44 56 L38 43Z" fill="#0A0020"/><circle cx="1" cy="54" r="7" fill="#7C3AED" opacity=".9"><animate attributeName="r" values="5;8;5" dur="0.7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;1;0.8" dur="0.7s" repeatCount="indefinite"/></circle><circle cx="51" cy="52" r="7" fill="#C9A227" opacity=".9"><animate attributeName="r" values="5;8;5" dur="0.9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;1;0.8" dur="0.9s" repeatCount="indefinite"/></circle><text x="16" y="62" fill="#2A0050" font-size="7.5" opacity=".8">+ − ×</text><text x="16" y="73" fill="#2A0050" font-size="7.5" opacity=".8">÷  ½  .</text><circle cx="26" cy="54" r="2.5" fill="#7C3AED" opacity=".6"/><circle cx="22" cy="66" r="1.5" fill="#C9A227" opacity=".5"/><circle cx="32" cy="70" r="1.5" fill="#7C3AED" opacity=".5"/></svg>`;
     default: return '<svg width="46" height="72" viewBox="0 0 46 72"><circle cx="23" cy="36" r="20" fill="#4B0A8E"/></svg>';
   }
 }
@@ -866,6 +916,16 @@ const G = {
           <div class="nl-labels"><span>0</span><span>0.5</span><span>1.0</span></div>
         </div><div style="font-size:11px;color:#aaa;margin-top:4px">${L.va} + ${L.vb} — start at ${L.va}, move right ${L.vb*10} steps</div>`;
       }
+
+      case 'mixed':
+        return `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:230px">
+          <div style="border:2px solid #6EE7B7;border-radius:10px;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:20px;color:#6EE7B7"><span>+</span><span style="font-size:8px;opacity:.7">Addition</span></div>
+          <div style="border:2px solid #7EDDD9;border-radius:10px;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:20px;color:#7EDDD9"><span>−</span><span style="font-size:8px;opacity:.7">Subtraction</span></div>
+          <div style="border:2px solid #FCA5A5;border-radius:10px;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:20px;color:#FCA5A5"><span>×</span><span style="font-size:8px;opacity:.7">Multiply</span></div>
+          <div style="border:2px solid #C4B5FD;border-radius:10px;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:20px;color:#C4B5FD"><span>÷</span><span style="font-size:8px;opacity:.7">Division</span></div>
+          <div style="border:2px solid #60A5FA;border-radius:10px;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:20px;color:#60A5FA"><span>½</span><span style="font-size:8px;opacity:.7">Fractions</span></div>
+          <div style="border:2px solid #F9A8D4;border-radius:10px;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:16px;color:#F9A8D4"><span>0.5</span><span style="font-size:8px;opacity:.7">Decimals</span></div>
+        </div>`;
 
       default: return '';
     }
