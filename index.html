@@ -80,7 +80,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .bnav-title{font-family:'Fredoka One',cursive;color:#4A3580;font-size:12px;flex:1;text-align:center}
 .bnav-home{background:rgba(255,255,255,.08);border:none;color:#aaa;font-size:14px;padding:5px 10px;border-radius:20px;cursor:pointer}
 .bnav-home:hover{background:rgba(255,255,255,.15)}
-.battle-scene{height:175px;position:relative;overflow:hidden;flex-shrink:0}
+.battle-scene{height:160px;position:relative;overflow:hidden;flex-shrink:0}
 
 /* Scene Backgrounds */
 .forest-bg{background:linear-gradient(180deg,#030D06 0%,#061406 60%,#040E04 100%)}
@@ -133,7 +133,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 /* ===========================
    BATTLE BOTTOM PANEL
 =========================== */
-.battle-bottom{flex:1;background:#07041A;overflow-y:auto;display:flex;flex-direction:column;gap:9px;padding:12px}
+.battle-bottom{flex:1;background:#07041A;overflow:hidden;display:flex;flex-direction:column;gap:7px;padding:10px}
 .story-box{background:#0F0A28;border-radius:12px;padding:10px 13px;font-size:15px;line-height:1.5;color:#ccc;border-left:3px solid #C9A227;min-height:46px}
 .prob-panel{background:#0A0620;border-radius:13px;padding:12px;text-align:center;border:2px solid #1A0D3E}
 .prob-label{font-size:11px;color:#3A2860;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
@@ -185,20 +185,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 /* ===========================
    RESULT SCREENS
 =========================== */
-#s-victory{background:#08041A;align-items:center;justify-content:center;text-align:center;padding:24px}
+#s-victory{background:#08041A;align-items:center;justify-content:center;text-align:center;padding:16px;overflow:hidden}
 #s-defeat{background:#180808;align-items:center;justify-content:center;text-align:center;padding:30px}
 #s-premium{background:#0E0820;align-items:center;justify-content:center;text-align:center;padding:26px}
 .result-title{font-family:'Fredoka One',cursive;font-size:26px;margin-bottom:4px}
 .result-sub{color:#556677;font-size:13px;max-width:260px;margin:0 auto 14px;line-height:1.5}
-.xp-badge{display:inline-block;font-family:'Fredoka One',cursive;font-size:15px;color:#C9A227;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.28);border-radius:50px;padding:7px 20px;margin-bottom:18px}
+.xp-badge{display:inline-block;font-family:'Fredoka One',cursive;font-size:14px;color:#C9A227;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.28);border-radius:50px;padding:5px 16px;margin-bottom:12px}
 .prem-list{list-style:none;text-align:left;margin:12px 0 20px;display:flex;flex-direction:column;gap:7px}
 .prem-list li{font-size:13px;color:#aabb;display:flex;align-items:center;gap:8px}
 .prem-list li::before{content:'✦';color:#A78BFA;font-size:10px}
-.badge-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:10px}
+.badge-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:6px}
 .badge-svg-el{animation:badgePop .65s cubic-bezier(.17,.67,.3,1.4) forwards}
 @keyframes badgePop{from{transform:scale(0) rotate(-20deg);opacity:0}70%{transform:scale(1.18) rotate(4deg)}to{transform:scale(1) rotate(0);opacity:1}}
 .badge-earned-title{font-family:'Fredoka One',cursive;font-size:19px;margin-top:8px;margin-bottom:4px}
-.praise-msg{font-size:15px;font-weight:700;color:#E8E0F8;max-width:250px;line-height:1.45;margin-bottom:14px;font-style:italic}
+.praise-msg{font-size:13px;font-weight:700;color:#E8E0F8;max-width:250px;line-height:1.35;margin-bottom:10px;font-style:italic}
 
 /* ===========================
    LEARN SCREEN
@@ -206,8 +206,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 #s-learn{background:#08041A;overflow:hidden}
 .learn-header{padding:12px 14px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .learn-badge{font-family:'Fredoka One',cursive;font-size:13px;flex:1;text-align:center}
-.learn-body{flex:1;overflow-y:auto;padding:0 14px 14px;display:flex;flex-direction:column;gap:10px}
-.learn-visual-box{border-radius:16px;padding:14px 12px;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;flex-shrink:0;background:#0A0320}
+.learn-body{flex:1;overflow:hidden;padding:0 12px 10px;display:flex;flex-direction:column;gap:7px}
+.learn-visual-box{border-radius:14px;padding:10px 10px 8px;max-height:155px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;flex-shrink:0;background:#0A0320}
 
 /* Professor Monkey */
 @keyframes mkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -215,14 +215,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 @keyframes bananaSlideL{from{transform:translateX(-50px);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes bananaSlideR{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes bGroupPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
-.mk-speech{background:#fff;border-radius:14px;padding:7px 13px;font-size:12px;font-weight:700;color:#1A0830;max-width:240px;line-height:1.4;text-align:center;position:relative;margin-bottom:4px}
-.mk-speech::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top-color:#fff;border-bottom:none}
+.mk-speech{background:#fff;border-radius:12px;padding:5px 11px;font-size:11px;font-weight:700;color:#1A0830;max-width:240px;line-height:1.3;text-align:center;position:relative;margin-bottom:2px}
+.mk-speech::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#fff;border-bottom:none}
 .mk-monkey{animation:mkBob 2.2s ease-in-out infinite}
-.mk-demo{display:flex;align-items:center;flex-wrap:wrap;gap:5px;justify-content:center;min-height:44px;padding:4px 4px 0;width:100%}
-.mk-lbl{font-family:'Fredoka One',cursive;font-size:20px;color:#C9A227}
+.mk-demo{display:flex;align-items:center;flex-wrap:wrap;gap:4px;justify-content:center;min-height:36px;padding:2px 4px 0;width:100%}
+.mk-lbl{font-family:'Fredoka One',cursive;font-size:16px;color:#C9A227}
 .mk-grp{display:flex;flex-direction:column;align-items:center;gap:2px}
 .mk-grp-lbl{font-size:9px;color:#6EE7B7;font-weight:700;margin-top:1px}
-.mk-result{font-family:'Fredoka One',cursive;font-size:13px;color:#C9A227;text-align:center;width:100%;margin-top:4px}
+.mk-result{font-family:'Fredoka One',cursive;font-size:12px;color:#C9A227;text-align:center;width:100%;margin-top:2px}
 .vis-caption{font-size:13px;font-weight:700;color:#fff;margin-top:4px}
 .vis-dots{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;align-items:center}
 .vis-dot{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;animation:dotPop .3s ease}
@@ -242,13 +242,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .nl-track{height:6px;background:rgba(255,255,255,.12);border-radius:3px;position:relative;margin:8px 0}
 .nl-pip{position:absolute;width:12px;height:12px;border-radius:50%;top:-3px;transform:translateX(-50%);transition:left .5s}
 .nl-labels{display:flex;justify-content:space-between;font-size:9px;color:#666;font-weight:700}
-.learn-steps{display:flex;flex-direction:column;gap:7px}
+.learn-steps{display:flex;flex-direction:column;gap:5px}
 .learn-step{background:#0F0A28;border-radius:12px;padding:10px 13px;font-size:13px;line-height:1.5;color:#ccc;border-left:3px solid #C9A227;display:flex;gap:8px;align-items:flex-start}
-.learn-step-num{font-family:'Fredoka One',cursive;font-size:16px;color:#A78BFA;flex-shrink:0;line-height:1.3}
-.learn-worked{background:#1A2A1A;border:2px solid #10B981;border-radius:14px;padding:12px;text-align:center}
-.learn-worked-label{font-size:10px;color:#10B981;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-.learn-worked-eq{font-family:'Fredoka One',cursive;font-size:26px;color:#fff}
-.learn-worked-ans{font-family:'Fredoka One',cursive;font-size:32px;color:#6EE7B7;margin-top:2px}
+.learn-step-num{font-family:'Fredoka One',cursive;font-size:14px;color:#A78BFA;flex-shrink:0;line-height:1.3}
+.learn-worked{background:#1A2A1A;border:1.5px solid #10B981;border-radius:12px;padding:8px 10px;text-align:center}
+.learn-worked-label{font-size:9px;color:#10B981;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.learn-worked-eq{font-family:'Fredoka One',cursive;font-size:22px;color:#fff;line-height:1}
+.learn-worked-ans{font-family:'Fredoka One',cursive;font-size:26px;color:#6EE7B7;margin-top:1px;line-height:1}
 
 /* ===========================
    PRACTICE SCREEN
@@ -260,8 +260,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .prac-dot{width:10px;height:10px;border-radius:50%;background:#1A0D3E;transition:all .3s}
 .prac-dot.active{background:#7C3AED;transform:scale(1.3)}
 .prac-dot.done{background:#10B981}
-.prac-body{flex:1;overflow-y:auto;padding:0 14px 14px;display:flex;flex-direction:column;gap:10px}
-.prac-helper{border-radius:14px;padding:12px;text-align:center;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex-shrink:0}
+.prac-body{flex:1;overflow:hidden;padding:0 12px 10px;display:flex;flex-direction:column;gap:8px}
+.prac-helper{border-radius:12px;padding:8px;text-align:center;min-height:70px;max-height:80px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0}
 .prac-helper-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:2px}
 .prac-panel{background:#0A0620;border-radius:13px;padding:14px;text-align:center;border:2px solid #1A0D3E}
 .prac-label{font-size:10px;color:#3A2860;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
@@ -1030,16 +1030,16 @@ const G = {
   makeVisual(L, lTagline) {
     // ── Banana helper ──────────────────────────────────────────
     const mkB = (n, color='#FFD700', anim='bananaIn', delay=0, crossed=false) => {
-      const x = crossed ? '<line x1="3" y1="2" x2="15" y2="26" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/>' : '';
+      const x = crossed ? '<line x1="2" y1="2" x2="13" y2="22" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/>' : '';
       return Array(n).fill(0).map((_,i)=>
-        `<span style="display:inline-block;width:16px;height:28px;animation:${anim} .4s ${(delay+i*.08).toFixed(2)}s both">
-          <svg width="16" height="28" viewBox="0 0 18 30"><path d="M9 2 Q16 7 13 24 Q9 29 5 24 Q2 7 9 2Z" fill="${color}" stroke="#C8900A" stroke-width=".8"/>${x}</svg>
+        `<span style="display:inline-block;width:13px;height:23px;animation:${anim} .4s ${(delay+i*.08).toFixed(2)}s both">
+          <svg width="13" height="23" viewBox="0 0 18 30"><path d="M9 2 Q16 7 13 24 Q9 29 5 24 Q2 7 9 2Z" fill="${color}" stroke="#C8900A" stroke-width=".8"/>${x}</svg>
         </span>`
       ).join('');
     };
 
     // ── Monkey SVG ─────────────────────────────────────────────
-    const monkey = `<div class="mk-monkey"><svg width="72" height="88" viewBox="0 0 80 95" fill="none">
+    const monkey = `<div class="mk-monkey"><svg width="52" height="64" viewBox="0 0 80 95" fill="none">
       <ellipse cx="40" cy="73" rx="24" ry="20" fill="#7A5010"/>
       <circle cx="16" cy="38" r="12" fill="#C8A96E"/><circle cx="16" cy="38" r="7" fill="#E8C49E"/>
       <circle cx="64" cy="38" r="12" fill="#C8A96E"/><circle cx="64" cy="38" r="7" fill="#E8C49E"/>
