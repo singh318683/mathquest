@@ -1884,11 +1884,15 @@ const G = {
     setTimeout(()=>hero.classList.remove('hero-hit'), 550);
     this.heroHp--;
     this.updateHearts(); this.updateBars();
-    // Show explanation in explain box
+    // Show correct answer clearly + explanation
     const prob = this.currentProbs[this.pi];
     if(prob) {
       const exBox = document.getElementById('explain-box');
-      document.getElementById('explain-text').textContent = getExplanation(prob, this.cur);
+      const ansDisplay = prob.aType==='dec' ? Number(prob.a).toFixed(1) : prob.a;
+      const correctMsg = LNG==='hi'
+        ? `✓ सही जवाब था: ${ansDisplay}  —  ${getExplanation(prob, this.cur)}`
+        : `✓ Correct answer: ${ansDisplay}  —  ${getExplanation(prob, this.cur)}`;
+      document.getElementById('explain-text').textContent = correctMsg;
       exBox.style.display = 'block';
     }
     setTimeout(() => {
@@ -1901,7 +1905,13 @@ const G = {
       } else if(this.heroHp<=0) {
         this.defeat();
       } else {
-        this.loadProb();
+        // Move to NEXT question — never repeat wrong questions
+        this.pi++;
+        if(this.pi < this.currentProbs.length) {
+          this.loadProb();
+        } else {
+          this.victory(); // completed all questions
+        }
       }
     }, 2500);
   },
