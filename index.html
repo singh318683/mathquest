@@ -206,8 +206,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 #s-learn{background:#08041A;overflow:hidden}
 .learn-header{padding:12px 14px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .learn-badge{font-family:'Fredoka One',cursive;font-size:13px;flex:1;text-align:center}
-.learn-body{flex:1;overflow:hidden;padding:0 12px 8px;display:flex;flex-direction:column;gap:6px}
-.learn-visual-box{border-radius:14px;padding:10px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;background:#0A0320}
+.learn-body{flex:1;overflow:hidden;padding:0 12px 8px;display:flex;flex-direction:column;gap:6px;justify-content:space-between}
+.learn-visual-box{border-radius:14px;padding:8px;height:180px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;flex-shrink:0;background:#0A0320}
 
 /* Professor Monkey */
 @keyframes mkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -254,19 +254,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
    PRACTICE SCREEN
 =========================== */
 #s-practice{background:#08041A;overflow:hidden}
-.prac-header{padding:12px 14px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.prac-title{font-family:'Fredoka One',cursive;color:#fff;font-size:17px;flex:1;text-align:center}
+.prac-header{padding:8px 12px 6px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.prac-title{font-family:'Fredoka One',cursive;color:#fff;font-size:16px;flex:1;text-align:center}
 .prac-progress{display:flex;gap:6px;align-items:center}
 .prac-dot{width:10px;height:10px;border-radius:50%;background:#1A0D3E;transition:all .3s}
 .prac-dot.active{background:#7C3AED;transform:scale(1.3)}
 .prac-dot.done{background:#10B981}
-.prac-body{flex:1;overflow:hidden;padding:0 12px 10px;display:flex;flex-direction:column;gap:8px}
-.prac-helper{border-radius:12px;padding:8px;text-align:center;min-height:70px;max-height:80px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0}
+.prac-body{flex:1;overflow:hidden;padding:0 12px 8px;display:flex;flex-direction:column;gap:7px}
+.prac-helper{border-radius:12px;padding:8px;text-align:center;height:75px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0}
 .prac-helper-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:2px}
 .prac-panel{background:#0A0620;border-radius:13px;padding:14px;text-align:center;border:2px solid #1A0D3E}
 .prac-label{font-size:10px;color:#3A2860;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
-.prac-q{font-family:'Fredoka One',cursive;font-size:32px;color:#fff}
-.prac-feedback{min-height:36px;text-align:center;font-family:'Fredoka One',cursive;font-size:16px;animation:qPop .3s ease}
+.prac-q{font-family:'Fredoka One',cursive;font-size:28px;color:#fff;line-height:1}
+.prac-feedback{min-height:28px;text-align:center;font-family:'Fredoka One',cursive;font-size:15px;animation:qPop .3s ease;flex-shrink:0}
 .prac-feedback.ok{color:#6EE7B7}
 .prac-feedback.no{color:#FCA5A5}
 
@@ -342,7 +342,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
   <div class="learn-body">
     <div class="learn-visual-box" id="l-visual"></div>
     <div class="learn-steps" id="l-steps"></div>
-    <div class="learn-worked" id="l-worked"></div>
     <button class="gbtn btn-purple" style="font-size:16px;padding:14px" onclick="G.showPractice()">
       ✏️ Try Practice Problems →
     </button>
@@ -1016,13 +1015,6 @@ const G = {
     document.getElementById('l-steps').innerHTML = lSteps.map((s,i)=>
       `<div class="learn-step"><span class="learn-step-num">${i+1}.</span><span>${s}</span></div>`
     ).join('');
-
-    // Worked example
-    document.getElementById('l-worked').innerHTML = `
-      <div class="learn-worked-label">📖 Example</div>
-      <div class="learn-worked-eq">${L.workedEq}</div>
-      <div class="learn-worked-ans" style="color:${L.color}">= ${L.workedAns} ✓</div>
-    `;
 
     this.show('learn');
   },
