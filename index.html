@@ -206,8 +206,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 #s-learn{background:#08041A;overflow:hidden}
 .learn-header{padding:12px 14px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .learn-badge{font-family:'Fredoka One',cursive;font-size:13px;flex:1;text-align:center}
-.learn-body{flex:1;overflow:hidden;padding:0 12px 10px;display:flex;flex-direction:column;gap:7px}
-.learn-visual-box{border-radius:14px;padding:10px 10px 8px;max-height:155px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;flex-shrink:0;background:#0A0320}
+.learn-body{flex:1;overflow:hidden;padding:0 12px 8px;display:flex;flex-direction:column;gap:6px}
+.learn-visual-box{border-radius:14px;padding:10px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;background:#0A0320}
 
 /* Professor Monkey */
 @keyframes mkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -215,10 +215,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 @keyframes bananaSlideL{from{transform:translateX(-50px);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes bananaSlideR{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes bGroupPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
-.mk-speech{background:#fff;border-radius:12px;padding:5px 11px;font-size:11px;font-weight:700;color:#1A0830;max-width:240px;line-height:1.3;text-align:center;position:relative;margin-bottom:2px}
+.mk-speech{background:#fff;border-radius:12px;padding:6px 12px;font-size:12px;font-weight:700;color:#1A0830;max-width:230px;line-height:1.35;text-align:center;position:relative;margin-bottom:3px}
 .mk-speech::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#fff;border-bottom:none}
 .mk-monkey{animation:mkBob 2.2s ease-in-out infinite}
-.mk-demo{display:flex;align-items:center;flex-wrap:wrap;gap:4px;justify-content:center;min-height:36px;padding:2px 4px 0;width:100%}
+.mk-demo{display:flex;align-items:center;flex-wrap:wrap;gap:4px;justify-content:center;min-height:0;flex:1;padding:3px 4px 0;width:100%}
 .mk-lbl{font-family:'Fredoka One',cursive;font-size:16px;color:#C9A227}
 .mk-grp{display:flex;flex-direction:column;align-items:center;gap:2px}
 .mk-grp-lbl{font-size:9px;color:#6EE7B7;font-weight:700;margin-top:1px}
@@ -1032,14 +1032,14 @@ const G = {
     const mkB = (n, color='#FFD700', anim='bananaIn', delay=0, crossed=false) => {
       const x = crossed ? '<line x1="2" y1="2" x2="13" y2="22" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/>' : '';
       return Array(n).fill(0).map((_,i)=>
-        `<span style="display:inline-block;width:13px;height:23px;animation:${anim} .4s ${(delay+i*.08).toFixed(2)}s both">
-          <svg width="13" height="23" viewBox="0 0 18 30"><path d="M9 2 Q16 7 13 24 Q9 29 5 24 Q2 7 9 2Z" fill="${color}" stroke="#C8900A" stroke-width=".8"/>${x}</svg>
+        `<span style="display:inline-block;width:15px;height:26px;animation:${anim} .4s ${(delay+i*.08).toFixed(2)}s both">
+          <svg width="15" height="26" viewBox="0 0 18 30"><path d="M9 2 Q16 7 13 24 Q9 29 5 24 Q2 7 9 2Z" fill="${color}" stroke="#C8900A" stroke-width=".8"/>${x}</svg>
         </span>`
       ).join('');
     };
 
     // ── Monkey SVG ─────────────────────────────────────────────
-    const monkey = `<div class="mk-monkey"><svg width="52" height="64" viewBox="0 0 80 95" fill="none">
+    const monkey = `<div class="mk-monkey"><svg width="64" height="78" viewBox="0 0 80 95" fill="none">
       <ellipse cx="40" cy="73" rx="24" ry="20" fill="#7A5010"/>
       <circle cx="16" cy="38" r="12" fill="#C8A96E"/><circle cx="16" cy="38" r="7" fill="#E8C49E"/>
       <circle cx="64" cy="38" r="12" fill="#C8A96E"/><circle cx="64" cy="38" r="7" fill="#E8C49E"/>
