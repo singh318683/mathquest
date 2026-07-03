@@ -262,7 +262,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .prac-dot.active{background:#7C3AED;transform:scale(1.3)}
 .prac-dot.done{background:#10B981}
 .prac-body{flex:1;overflow:hidden;padding:0 12px 8px;display:flex;flex-direction:column;gap:7px}
-.prac-helper{border-radius:12px;padding:8px;text-align:center;height:75px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0}
+.prac-helper{border-radius:12px;padding:6px;text-align:center;height:70px;max-height:70px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0}
 .prac-helper-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:2px}
 .prac-panel{background:#0A0620;border-radius:13px;padding:14px;text-align:center;border:2px solid #1A0D3E}
 .prac-label{font-size:10px;color:#3A2860;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
@@ -329,7 +329,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 /* ── Star rating on victory ───────────────────────────────── */
 .victory-stars{font-size:22px;letter-spacing:3px;margin:3px 0}
 /* ── Word problem question (multi-line) ───────────────────── */
-.prob-q-word{font-family:'Nunito',sans-serif;font-size:14px;color:#E8E0F8;line-height:1.5;font-weight:700;text-align:center;padding:0 4px}
+.prob-q-word{font-family:'Nunito',sans-serif;font-size:17px;color:#E8E0F8;line-height:1.4;font-weight:700;text-align:center;padding:0 4px}
 
 /* ── Difficulty selector ──────────────────────────────────── */
 .diff-row{display:flex;gap:8px;justify-content:center;margin:8px 0 4px;position:relative;z-index:1}
@@ -1443,12 +1443,12 @@ const G = {
       case 2: {
         const [a,b] = p.q.match(/\d+/g).map(Number);
         return `<div style="font-size:11px;color:#aaa;margin-bottom:4px">${a} groups of ${b}:</div>`+
-          Array(a).fill(0).map((_,i)=>`<div style="display:flex;gap:3px;margin:2px 0"><span style="font-size:9px;color:#777;width:40px;text-align:right">Group ${i+1}:</span>${Array(b).fill('<span style="width:14px;height:14px;border-radius:50%;background:#FCA5A5;display:inline-block"></span>').join('')}</div>`).join('');
+          Array(a).fill(0).map((_,i)=>`<div style="display:flex;gap:2px;margin:1px 0;align-items:center;overflow:hidden"><span style="font-size:9px;color:#777;width:36px;text-align:right;flex-shrink:0">×${i+1}:</span><div style="display:flex;flex-wrap:wrap;gap:2px;overflow:hidden">${Array(b).fill('<span style="width:10px;height:10px;border-radius:50%;background:#FCA5A5;display:inline-block"></span>').join('')}</div></div>`).join('');
       }
       case 3: {
         const [a,b] = p.q.match(/\d+/g).map(Number);
         return `<div style="font-size:11px;color:#aaa;margin-bottom:4px">Share ${a} into ${b} groups:</div>
-          <div style="display:flex;gap:6px">${Array(b).fill(0).map((_,i)=>`<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:4px 6px;text-align:center"><div style="font-size:9px;color:#888">Plate ${i+1}</div><div>${Array(a/b).fill('<span style="width:12px;height:12px;border-radius:50%;background:#C4B5FD;display:inline-block;margin:1px"></span>').join('')}</div></div>`).join('')}</div>`;
+          <div style="display:flex;gap:6px">${Array(b).fill(0).map((_,i)=>`<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:4px 6px;text-align:center"><div style="font-size:9px;color:#888">Plate ${i+1}</div><div>${Array(a/b).fill('<span style="width:9px;height:9px;border-radius:50%;background:#C4B5FD;display:inline-block;margin:1px"></span>').join('')}</div></div>`).join('')}</div>`;
       }
       case 4:
         return `<div style="display:flex;gap:3px;width:100%;max-width:200px">
@@ -1784,7 +1784,9 @@ const G = {
     const c = CHAPTERS[this.cur], p = this.currentProbs[this.pi];
     const storyArr = (LNG==='hi'&&c.hi_stories)?c.hi_stories:c.stories;
     document.getElementById('b-story').textContent = storyArr[this.pi]||T('storyReady');
-    document.getElementById('b-q').textContent = p.q;
+    const bqEl = document.getElementById('b-q');
+    bqEl.textContent = p.q.replace('\n',' ');
+    bqEl.className = (this.cur === 7) ? 'prob-q-word' : 'prob-q';
     const showH = (DIFFICULTY_CONFIG[this.difficulty]||DIFFICULTY_CONFIG.medium).showHint;
     document.getElementById('b-hint').textContent = showH ? p.h : '';
     const choices = this.genChoices(p.a, p.aType);
