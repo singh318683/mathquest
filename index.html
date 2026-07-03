@@ -174,7 +174,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
   100%{transform:scaleX(-1) scale(0) rotate(180deg);opacity:0}
 }
 
-.academy-bg{background:linear-gradient(180deg,#06020E 0%,#0A0622 50%,#120838 100%)}
+.lang-pill{display:flex;align-items:center;gap:2px;background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.25);border-radius:20px;padding:3px 6px;flex-shrink:0}
+.lt-btn{background:none;border:none;cursor:pointer;font-size:12px;color:#4A3580;padding:2px 6px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;transition:all .2s}
+.lt-btn.lt-active{color:#C9A227;background:rgba(201,162,39,.15)}
+.lt-sep{color:#2A1850;font-size:10px}
 .academy-bg .scene-ground{background:linear-gradient(90deg,#0D0824,#1A0D3E,#0D0824);border-top:2px solid #C9A227;box-shadow:0 -4px 16px rgba(201,162,39,.25)}
 .sparkle-el{position:absolute;font-size:18px;pointer-events:none;z-index:20;animation:sparkleUp .7s ease forwards}
 @keyframes sparkleUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-50px) scale(.3)}}
@@ -282,12 +285,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 =========================== -->
 <div class="screen active" id="s-title">
   <div class="star-field" id="title-stars"></div>
+  <div style="position:absolute;top:12px;right:14px;z-index:10" class="lang-pill">
+    <button class="lt-btn lt-en lt-active" onclick="setLang('en')">EN</button>
+    <span class="lt-sep">|</span>
+    <button class="lt-hi lt-btn" onclick="setLang('hi')">हि</button>
+  </div>
   <div class="title-hero">🧙</div>
   <div class="title-main"><span class="t-math">Math</span><span class="t-quest">Quest</span></div>
   <div class="title-sub">✦ Adventure ✦</div>
-  <div class="title-tag">Solve math · Defeat monsters · Save the world</div>
-  <button class="gbtn btn-purple" onclick="G.show('chapters')">▶ Play!</button>
-  <div class="title-hint">⭐ Earn XP &nbsp;·&nbsp; ⚔️ Battle Monsters &nbsp;·&nbsp; 🏆 Collect Chapters</div>
+  <div class="title-tag" data-t="tagline">Solve math · Defeat monsters · Save the world</div>
+  <button class="gbtn btn-purple" data-t="play" onclick="G.show('chapters')">▶ Play!</button>
+  <div class="title-hint" data-t="hint_bar">⭐ Earn XP · ⚔️ Battle Monsters · 🏆 Collect Chapters</div>
 </div>
 
 <!-- ===========================
@@ -296,8 +304,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 <div class="screen" id="s-chapters">
   <div class="ch-header">
     <button class="back-btn" onclick="G.show('title')">←</button>
-    <span class="ch-h-title">Choose Chapter</span>
-    <span class="ch-xp-badge" id="ch-xp-display">⭐ 0 XP</span>
+    <span class="ch-h-title" data-t="chooseChapter">Choose Chapter</span>
+    <span class="ch-xp-badge" id="ch-xp-display">✦ 0 XP</span>
+    <div class="lang-pill">
+      <button class="lt-btn lt-en lt-active" onclick="setLang('en')">EN</button>
+      <span class="lt-sep">|</span>
+      <button class="lt-hi lt-btn" onclick="setLang('hi')">हि</button>
+    </div>
   </div>
   <div class="ch-list" id="ch-grid"></div>
 </div>
@@ -366,7 +379,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
     <div class="hero-char" id="hero-char"><svg width="46" height="72" viewBox="0 0 46 72" fill="none"><polygon points="23,1 10,26 36,26" fill="#3B0A6E"/><ellipse cx="23" cy="26" rx="14" ry="4" fill="#5B1A9E"/><circle cx="17" cy="14" r="1.8" fill="#FFD700" opacity=".9"/><circle cx="28" cy="9" r="1.2" fill="#C9A227"/><circle cx="27" cy="20" r="1" fill="#FFD700" opacity=".7"/><circle cx="23" cy="39" r="11" fill="#F5CBA7"/><circle cx="19" cy="38" r="2.2" fill="#1A0A30"/><circle cx="27" cy="38" r="2.2" fill="#1A0A30"/><circle cx="20" cy="37" r=".8" fill="white"/><circle cx="28" cy="37" r=".8" fill="white"/><path d="M18 44 Q23 48 28 44" stroke="#C8906A" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M10 50 L5 72 L41 72 L36 50 Q23 58 10 50Z" fill="#4B0A8E"/><path d="M10 50 L2 61 L9 65 L15 54Z" fill="#4B0A8E"/><path d="M36 50 L44 59 L37 63 L31 53Z" fill="#4B0A8E"/><circle cx="20" cy="62" r="1.5" fill="#9333EA" opacity=".7"/><circle cx="28" cy="66" r="1" fill="#C9A227" opacity=".8"/><rect x="41" y="55" width="3" height="18" fill="#5C3317" rx="1.5" transform="rotate(15,41,55)"/><circle cx="46" cy="71" r="5" fill="#FFD700" opacity=".9"><animate attributeName="r" values="4;6;4" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;1;0.8" dur="1.2s" repeatCount="indefinite"/></circle></svg></div>
     <div class="enemy-char" id="b-enemy"></div>
     <div class="hp-wrap hp-hero-pos">
-      <div class="hp-label">Wizard</div>
+      <div class="hp-label" id="hz-lbl">Wizard</div>
       <div class="hp-bar"><div class="hp-fill-h" id="hp-hero" style="width:100%"></div></div>
     </div>
     <div class="hp-wrap hp-enemy-pos">
@@ -399,7 +412,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
   <div class="xp-badge" id="v-xp">✦ +30 XP</div>
   <div class="btn-row">
     <button class="gbtn btn-green" id="v-next">Next Chapter →</button>
-    <button class="btn-sm" onclick="G.show('chapters')">Academy Map</button>
+    <button class="btn-sm" onclick="G.show('chapters')" data-t="map">Academy Map</button>
   </div>
 </div>
 
@@ -409,10 +422,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 <div class="screen" id="s-defeat">
   <div class="result-icon">💀</div>
   <div class="result-title" style="color:#FCA5A5">Defeated!</div>
-  <p class="result-sub">The enemy was too strong! Practice and come back stronger!</p>
+  <p class="result-sub" id="defeat-sub-txt" data-t="defeat_sub">The enemy was too strong! Practice and come back stronger!</p>
   <div class="btn-row">
     <button class="gbtn btn-purple" id="d-retry">Try Again 🔄</button>
-    <button class="btn-sm" onclick="G.show('chapters')">Academy Map</button>
+    <button class="btn-sm" onclick="G.show('chapters')" data-t="map">Academy Map</button>
   </div>
 </div>
 
@@ -449,6 +462,79 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 
 <script>
 // ============================================================
+//  LANGUAGE SYSTEM
+// ============================================================
+let LNG = 'en';
+try { LNG = localStorage.getItem('mq_lang') || 'en'; } catch(e){}
+
+const UI = {
+  en: {
+    tagline:"Solve math · Defeat monsters · Save the world",
+    play:"▶ Play!", hint_bar:"⭐ Earn XP · ⚔️ Battle Monsters · 🏆 Collect Chapters",
+    chooseChapter:"Choose Chapter", backAcademy:"← Academy", map:"Academy Map",
+    castSpell:"✦ Cast Your Spell!", wizard:"Wizard",
+    correct:"✦ Your spell strikes true! The enemy recoils!",
+    wrong:"✗ Wrong incantation! The enemy retaliates!",
+    complete:"✦ Chapter Complete! ✦", nextChapter:"Next Chapter →",
+    beatGame:"👑 You beat the game!", unlock:"🔒 Unlock Next",
+    defeated:"Defeated!", defeat_sub:"The enemy was too strong! Practice and come back stronger!",
+    tryAgain:"Try Again 🔄", tryPractice:"✏️ Try Practice Problems →",
+    practiceTime:"✏️ Practice Time!", noPenalty:"No penalty — just try your best! 😊",
+    next:"Next →", startBattle:"⚔️ Start Battle!", beginBattle:"⚔️ Begin Battle!",
+    visualHelper:"Visual Helper", example:"📖 Example", lockTxt:"Premium",
+    storyReady:"Get ready!", backMap:"Back to Map",
+    correct_fb:["⭐ Brilliant!","🎉 You got it!","✨ Perfect!","🌟 Amazing!"],
+    wrong_fb:["Not quite — try again! 💪","Almost there! 🤔","Keep trying, you can do it! 😊"],
+    premium_title:"Premium Chapters!", premium_btn:"🌟 Unlock for $1.99/month",
+    premium_sub:"Unlock 3 more chapters with MathQuest Premium",
+  },
+  hi: {
+    tagline:"गणित सुलझाओ · राक्षसों को हराओ · दुनिया बचाओ",
+    play:"▶ खेलो!", hint_bar:"⭐ XP कमाओ · ⚔️ राक्षसों से लड़ो · 🏆 अध्याय जीतो",
+    chooseChapter:"अध्याय चुनें", backAcademy:"← अकादमी", map:"अकादमी का नक्शा",
+    castSpell:"✦ अपना मंत्र जपो!", wizard:"जादूगर",
+    correct:"✦ तुम्हारा मंत्र काम किया! दुश्मन पीछे हटा!",
+    wrong:"✗ गलत मंत्र! दुश्मन ने पलटवार किया!",
+    complete:"✦ अध्याय पूरा! ✦", nextChapter:"अगला अध्याय →",
+    beatGame:"👑 तुमने खेल जीत लिया!", unlock:"🔒 अगला खोलो",
+    defeated:"हार गए!", defeat_sub:"दुश्मन बहुत ताकतवर था! अभ्यास करके वापस आओ!",
+    tryAgain:"फिर कोशिश करो 🔄", tryPractice:"✏️ अभ्यास करें →",
+    practiceTime:"✏️ अभ्यास का समय!", noPenalty:"कोई सज़ा नहीं — बस कोशिश करो! 😊",
+    next:"आगे →", startBattle:"⚔️ युद्ध शुरू करो!", beginBattle:"⚔️ युद्ध शुरू करो!",
+    visualHelper:"दृश्य सहायक", example:"📖 उदाहरण", lockTxt:"प्रीमियम",
+    storyReady:"तैयार हो जाओ!", backMap:"नक्शे पर वापस",
+    correct_fb:["⭐ शानदार!","🎉 बहुत अच्छे!","✨ परफेक्ट!","🌟 अद्भुत!"],
+    wrong_fb:["फिर कोशिश करो! 💪","लगभग सही! 🤔","तुम कर सकते हो! 😊"],
+    premium_title:"प्रीमियम अध्याय!", premium_btn:"🌟 ₹167/महीने में खोलो",
+    premium_sub:"MathQuest Premium से 3 और अध्याय खोलो",
+  }
+};
+
+function T(key) { return (UI[LNG]&&UI[LNG][key]) || UI.en[key] || key; }
+
+function setLang(l) {
+  LNG = l;
+  try { localStorage.setItem('mq_lang', l); } catch(e){}
+  // Update all toggle pills
+  document.querySelectorAll('.lt-en').forEach(b=>b.classList.toggle('lt-active', l==='en'));
+  document.querySelectorAll('.lt-hi').forEach(b=>b.classList.toggle('lt-active', l==='hi'));
+  // Update data-t elements
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const k=el.dataset.t; el.textContent=T(k);
+  });
+  // Re-render active screens
+  if(document.getElementById('s-chapters').classList.contains('active')) G.renderChapters();
+  if(document.getElementById('s-battle').classList.contains('active')) {
+    document.getElementById('b-story').textContent = T('storyReady');
+    document.getElementById('bnav-back').textContent = T('backAcademy');
+    if(G.currentProbs.length) G.loadProb();
+  }
+  if(document.getElementById('s-defeat').classList.contains('active')) {
+    document.getElementById('defeat-sub-txt').textContent = T('defeat_sub');
+  }
+}
+
+// ============================================================
 //  RANDOM PROBLEM GENERATOR
 // ============================================================
 function generateProbs(chId, count) {
@@ -459,27 +545,27 @@ function generateProbs(chId, count) {
     case 0: // Addition — age 6-7, answers up to 25
       for(let i=0; i<30; i++){
         const a=r(1,14), b=r(1,12);
-        if(a+b<=25) pool.push({q:`${a} + ${b} = ?`, a:a+b, h:`💡 Start at ${a} and count up ${b}`});
+        if(a+b<=25) pool.push({q:`${a} + ${b} = ?`, a:a+b, h:LNG==='hi'?`💡 ${a} से शुरू करो, ${b} ऊपर गिनो`:`💡 Start at ${a}, count up ${b}`});
       }
       break;
 
     case 1: // Subtraction — age 6-7, always positive
       for(let i=0; i<30; i++){
         const b=r(1,9), a=r(b+2, b+11);
-        if(a<=20) pool.push({q:`${a} - ${b} = ?`, a:a-b, h:`💡 Count back ${b} steps from ${a}`});
+        if(a<=20) pool.push({q:`${a} - ${b} = ?`, a:a-b, h:LNG==='hi'?`💡 ${a} से ${b} वापस गिनो`:`💡 Count back ${b} steps from ${a}`});
       }
       break;
 
     case 2: // Multiplication — times tables 2-7
       [[2,3],[2,4],[2,5],[2,6],[2,7],[2,8],[3,3],[3,4],[3,5],[3,6],[3,7],[4,3],[4,4],[4,5],[4,6],[4,7],[5,3],[5,4],[5,5],[5,6],[6,3],[6,4],[6,5],[7,3],[7,4]].forEach(([a,b])=>{
-        pool.push({q:`${a} × ${b} = ?`, a:a*b, h:`💡 ${a} groups of ${b}: add ${b} a total of ${a} times`});
-        if(a!==b) pool.push({q:`${b} × ${a} = ?`, a:a*b, h:`💡 ${b} groups of ${a}`});
+        pool.push({q:`${a} × ${b} = ?`, a:a*b, h:LNG==='hi'?`💡 ${a} समूह × ${b} वस्तुएँ`:`💡 ${a} groups of ${b}`});
+        if(a!==b) pool.push({q:`${b} × ${a} = ?`, a:a*b, h:LNG==='hi'?`💡 ${b} समूह × ${a} वस्तुएँ`:`💡 ${b} groups of ${a}`});
       });
       break;
 
     case 3: // Division — clean whole number answers
       [[6,2],[8,2],[10,2],[12,2],[14,2],[9,3],[12,3],[15,3],[18,3],[21,3],[8,4],[12,4],[16,4],[20,4],[10,5],[15,5],[20,5],[25,5],[12,6],[18,6],[14,7],[21,7],[16,8],[24,8]].forEach(([a,b])=>{
-        pool.push({q:`${a} ÷ ${b} = ?`, a:a/b, h:`💡 Share ${a} items equally into ${b} groups`});
+        pool.push({q:`${a} ÷ ${b} = ?`, a:a/b, h:LNG==='hi'?`💡 ${a} को ${b} बराबर भागों में बाँटो`:`💡 Share ${a} into ${b} equal groups`});
       });
       break;
 
@@ -533,10 +619,10 @@ function generateProbs(chId, count) {
       ];
       break;
     case 6: // Mixed review — all 6 topics
-      for(let i=0;i<6;i++){const a=r(4,14),b=r(3,11);if(a+b<=25)pool.push({q:`${a} + ${b} = ?`,a:a+b,h:`💡 Addition: start at ${a}, count up ${b}`});}
-      for(let i=0;i<5;i++){const b=r(2,8),a=r(b+3,b+11);if(a<=20)pool.push({q:`${a} - ${b} = ?`,a:a-b,h:`💡 Subtraction: count back ${b} from ${a}`});}
-      [[2,6],[3,5],[4,4],[2,7],[3,6],[5,4],[4,5],[6,3]].forEach(([a,b])=>pool.push({q:`${a} × ${b} = ?`,a:a*b,h:`💡 Multiplication: ${a} groups of ${b}`}));
-      [[12,3],[15,5],[16,4],[18,6],[20,5],[14,7],[24,4]].forEach(([a,b])=>pool.push({q:`${a} ÷ ${b} = ?`,a:a/b,h:`💡 Division: share ${a} into ${b} equal groups`}));
+      for(let i=0;i<6;i++){const a=r(4,14),b=r(3,11);if(a+b<=25)pool.push({q:`${a} + ${b} = ?`,a:a+b,h:LNG==='hi'?`💡 जोड़: ${a} से ${b} ऊपर`:`💡 Addition: start at ${a}, count up ${b}`});}
+      for(let i=0;i<5;i++){const b=r(2,8),a=r(b+3,b+11);if(a<=20)pool.push({q:`${a} - ${b} = ?`,a:a-b,h:LNG==='hi'?`💡 घटाना: ${a} से ${b} वापस`:`💡 Subtraction: count back ${b} from ${a}`});}
+      [[2,6],[3,5],[4,4],[2,7],[3,6],[5,4],[4,5],[6,3]].forEach(([a,b])=>pool.push({q:`${a} × ${b} = ?`,a:a*b,h:LNG==='hi'?`💡 गुणा: ${a} × ${b}`:`💡 Multiplication: ${a} groups of ${b}`}));
+      [[12,3],[15,5],[16,4],[18,6],[20,5],[14,7],[24,4]].forEach(([a,b])=>pool.push({q:`${a} ÷ ${b} = ?`,a:a/b,h:LNG==='hi'?`💡 ${a} को ${b} बराबर समूहों में बाँटो`:`💡 Division: share ${a} into ${b} groups`}));
       pool.push(
         {q:"½ of 8 = ?",a:4,h:"💡 Fractions: split 8 into 2 equal parts"},
         {q:"¼ of 12 = ?",a:3,h:"💡 Fractions: split 12 into 4 equal parts"},
@@ -580,7 +666,10 @@ const CHAPTERS = [
       "The goblin staggers! One more hit and he's done!",
       "Finish it! The Golden Star is almost yours! 💫"
     ],
-    xp:30
+    xp:30,
+    hi_name:"गॉब्लिन का जंगल", hi_badge:"अध्याय 1 · जोड़ना", hi_op:"जोड़ना ➕", hi_ename:"जंगल गॉब्लिन",
+    hi_intro:"जादुई जंगल में एक चालाक गॉब्लिन ने गाँव का सुनहरा सितारा चुरा लिया! ✨ उसे वापस पाने के लिए जोड़ का जादू इस्तेमाल करो!",
+    hi_stories:["गॉब्लिन गुर्राता है और रास्ता रोकता है! हमला करने के लिए हल करो!","गॉब्लिन लड़खड़ाया! एक और वार!","खत्म करो! सुनहरा सितारा लगभग तुम्हारा है! 💫"]
   },
   {
     id:1, title:"The Troll's Bridge", badge:"Chapter 2 · Subtraction",
@@ -597,7 +686,10 @@ const CHAPTERS = [
       "The troll wobbles! Your subtraction is working!",
       "Last riddle! Solve it and the bridge is yours! 🌈"
     ],
-    xp:40
+    xp:40,
+    hi_name:"ट्रोल का पुल", hi_badge:"अध्याय 2 · घटाना", hi_op:"घटाना ➖", hi_ename:"पुल का ट्रोल",
+    hi_intro:"एक गुस्सैल ट्रोल ने जादुई पुल को बंद कर दिया! 🌊 उसकी घटाने की पहेलियाँ हल करके पुल पार करो!",
+    hi_stories:["'मेरे पुल से कोई नहीं गुज़रेगा!' हल करो या कुचले जाओ!","ट्रोल डगमगाया! तुम्हारी शक्ति काम कर रही है!","आखिरी पहेली! पुल पार करो! 🌈"]
   },
   {
     id:2, title:"The Dragon's Cave", badge:"Chapter 3 · Multiplication",
@@ -616,7 +708,10 @@ const CHAPTERS = [
       "The dragon weakens! Almost there, hero!",
       "Last hit! Give it everything! 🔥"
     ],
-    xp:60
+    xp:60,
+    hi_name:"ड्रैगन की गुफा", hi_badge:"अध्याय 3 · गुणा", hi_op:"गुणा ✖️", hi_ename:"अग्नि ड्रैगन",
+    hi_intro:"माउंट एम्बर में एक खतरनाक ड्रैगन क्रिस्टल मणि की रखवाली कर रहा है! 💎 गुणा के जादू से उसे हराओ!",
+    hi_stories:["ड्रैगन दहाड़ता है और आग उगलता है! जल्दी गुणा करो!","तुमने उसका पंख जलाया! और दो वार!","ड्रैगन कमज़ोर पड़ रहा है! बस थोड़ा और!","आखिरी वार! पूरी ताकत से! 🔥"]
   },
   {
     id:3, title:"The Witch's Tower", badge:"Chapter 4 · Division",
@@ -635,7 +730,10 @@ const CHAPTERS = [
       "Her tower shakes! Division is her weakness!",
       "One final spell — break her power for good! ✨"
     ],
-    xp:80
+    xp:80,
+    hi_name:"डायन का मीनार", hi_badge:"अध्याय 4 · भाग", hi_op:"भाग ÷", hi_ename:"काली डायन",
+    hi_intro:"एक काली डायन ने जंगल के जानवरों को अपने मीनार में कैद कर लिया! 🏰 भाग के जादू से उसके मंत्र तोड़ो!",
+    hi_stories:["डायन हँसती है और मंत्र फेंकती है! काटने के लिए हल करो!","मंत्र वापस उछला! तुम उसकी ढाल तोड़ रहे हो!","उसका मीनार हिल रहा है!","आखिरी मंत्र — उसकी शक्ति तोड़ो! ✨"]
   },
   {
     id:4, title:"The Serpent's Sea", badge:"Chapter 5 · Fractions",
@@ -654,7 +752,10 @@ const CHAPTERS = [
       "The serpent howls! Almost through!",
       "One last fraction spell! Claim the Lost Island! 🏝️"
     ],
-    xp:100
+    xp:100,
+    hi_name:"सर्प का सागर", hi_badge:"अध्याय 5 · भिन्न", hi_op:"भिन्न 🔢", hi_ename:"समुद्री सर्प",
+    hi_intro:"एक विशाल समुद्री सर्प खोए हुए द्वीप का रास्ता बंद किए है! 🌊 भिन्न के जादू से उसे हराओ!",
+    hi_stories:["सर्प गहराई से उठता है! भिन्न से वार करो!","पपड़ियाँ उड़ रही हैं! शक्ति काम कर रही है!","सर्प दर्द से चिल्लाया! बस थोड़ा और!","आखिरी भिन्न मंत्र! खोया द्वीप जीतो! 🏝️"]
   },
   {
     id:5, title:"The Dark Knight's Castle", badge:"Chapter 6 · Decimals",
@@ -673,7 +774,10 @@ const CHAPTERS = [
       "The knight stumbles! Keep striking!",
       "Final strike! Reclaim the crown! 👑"
     ],
-    xp:120
+    xp:120,
+    hi_name:"डार्क नाइट का महल", hi_badge:"अध्याय 6 · दशमलव", hi_op:"दशमलव 🔟", hi_ename:"डार्क नाइट",
+    hi_intro:"डार्क नाइट ने राज्य का ताज चुरा लिया! 👑 दशमलव के जादू से उसके कवच को तोड़ो!",
+    hi_stories:["डार्क नाइट दौड़ता है! दशमलव से रोको!","कवच में दरार! दशमलव काम कर रहा है!","नाइट लड़खड़ाया! रुको नहीं!","आखिरी वार! ताज वापस लो! 👑"]
   },
   {
     id:6, title:"The Academy's Final Test", badge:"Chapter 7 · All Skills",
@@ -690,7 +794,10 @@ const CHAPTERS = [
       "Decimal lightning rains from above — stay focused!",
       "FINAL INCANTATION! Give everything you have, Math Hero! ✦"
     ],
-    xp:200
+    xp:200,
+    hi_name:"अकादमी की अंतिम परीक्षा", hi_badge:"अध्याय 7 · सभी कौशल", hi_op:"सभी कौशल ⚡", hi_ename:"प्राचीन जादूगर",
+    hi_intro:"प्राचीन जादूगर उठ खड़ा हुआ है! वह जोड़, घटाना, गुणा, भाग, भिन्न और दशमलव — सभी की परीक्षा लेगा। साबित करो कि तुम सच्चे गणित के गुरु हो!",
+    hi_stories:["प्राचीन जादूगर छाया से उठता है! पहले जोड़ की परीक्षा!","उसके वस्त्र काली ऊर्जा से चमकते हैं — अब घटाने की परीक्षा!","गुणा का अभिशाप सीधे तुम पर! रोको उसे!","भाग के मंत्र घूम रहे हैं — सटीक जवाब दो!","पुरानी किताबों से भिन्न के मंत्र!","ऊपर से दशमलव की बिजली — ध्यान रखो!","आखिरी मंत्र! सब कुछ लगा दो! ✦"]
   }
 ];
 
@@ -703,6 +810,7 @@ const LESSONS = [
     tagline:"Putting numbers together!",
     steps:["When we ADD two numbers, we combine them into one bigger number.","Think of collecting treasure — the more you add, the bigger your pile! 💰"],
     visual:"addition", va:5, vb:3,
+    hi_tagline:"संख्याओं को जोड़ना!", hi_steps:["जब हम दो संख्याओं को जोड़ते हैं, तो हम उन्हें मिलाकर एक बड़ी संख्या बनाते हैं।","खज़ाना इकट्ठा करने की तरह सोचो — जितना जोड़ो, उतना बड़ा ढेर! 💰"],
     workedEq:"5 + 3 = ?", workedAns:"8"
   },
   { // Ch 1: Subtraction
@@ -710,6 +818,7 @@ const LESSONS = [
     tagline:"Taking numbers away!",
     steps:["When we SUBTRACT, we take away from a number to get a smaller one.","Think of spending coins from your wallet — you have less after! 🪙"],
     visual:"subtraction", va:9, vb:4,
+    hi_tagline:"संख्याएँ घटाना!", hi_steps:["जब हम घटाते हैं, तो एक संख्या में से दूसरी निकालकर छोटी संख्या बनाते हैं।","अपने बटुए से सिक्के खर्च करने की तरह — खर्च के बाद कम बचता है! 🪙"],
     workedEq:"9 - 4 = ?", workedAns:"5"
   },
   { // Ch 2: Multiplication
@@ -717,6 +826,7 @@ const LESSONS = [
     tagline:"A faster way to add!",
     steps:["MULTIPLYING is a shortcut for adding the same number many times.","3 × 4 means 3 groups of 4 — much faster than 4 + 4 + 4! 🚀"],
     visual:"multiplication", va:3, vb:4,
+    hi_tagline:"जोड़ने का तेज़ तरीका!", hi_steps:["गुणा करना एक ही संख्या को बार-बार जोड़ने का शॉर्टकट है।","3 × 4 का मतलब है 3 समूहों में 4 — 4+4+4 से भी तेज़! 🚀"],
     workedEq:"3 × 4 = ?", workedAns:"12"
   },
   { // Ch 3: Division
@@ -724,6 +834,7 @@ const LESSONS = [
     tagline:"Sharing equally!",
     steps:["DIVIDING means splitting a number into equal groups.","If you have 12 stars and 3 friends, each friend gets the same amount! ⭐"],
     visual:"division", va:12, vb:3,
+    hi_tagline:"बराबर बाँटना!", hi_steps:["भाग करना मतलब एक संख्या को बराबर समूहों में बाँटना।","अगर 12 तारे हैं और 3 दोस्त हैं, तो हर किसी को बराबर मिले! ⭐"],
     workedEq:"12 ÷ 3 = ?", workedAns:"4"
   },
   { // Ch 4: Fractions
@@ -731,6 +842,7 @@ const LESSONS = [
     tagline:"Parts of a whole!",
     steps:["A FRACTION shows part of something whole.","½ means 1 out of 2 equal pieces — like cutting a pizza right down the middle! 🍕"],
     visual:"fraction", va:1, vb:2, vc:8,
+    hi_tagline:"पूरे का हिस्सा!", hi_steps:["भिन्न किसी पूरी चीज़ का एक भाग दर्शाती है।","½ का मतलब है 2 बराबर टुकड़ों में से 1 — जैसे पिज़्ज़ा को बीच में काटना! 🍕"],
     workedEq:"½ of 8 = ?", workedAns:"4"
   },
   { // Ch 5: Decimals
@@ -738,6 +850,7 @@ const LESSONS = [
     tagline:"Numbers between whole numbers!",
     steps:["DECIMALS let us write numbers that sit between whole numbers.","0.1 means one tenth — imagine slicing 1 into 10 equal slices! 🍰"],
     visual:"decimal", va:0.3, vb:0.5,
+    hi_tagline:"पूर्ण संख्याओं के बीच की संख्याएँ!", hi_steps:["दशमलव हमें ऐसी संख्याएँ लिखने देते हैं जो पूर्ण संख्याओं के बीच होती हैं।","0.1 का मतलब है एक दसवाँ — 1 को 10 बराबर टुकड़ों में! 🍰"],
     workedEq:"0.3 + 0.5 = ?", workedAns:"0.8"
   },
   { // Ch 6: Final Test — mixed review
@@ -748,6 +861,7 @@ const LESSONS = [
       "The Ancient Sorcerer will throw all six types of spells at you. Show him you have mastered them all! ✦"
     ],
     visual:"mixed",
+    hi_tagline:"सभी गणित कलाओं का गुरु!", hi_steps:["यह अंतिम परीक्षा हर वह कौशल मिलाती है जो तुमने सीखा है: जोड़, घटाना, गुणा, भाग, भिन्न, और दशमलव!","प्राचीन जादूगर सभी छह प्रकार के मंत्र फेंकेगा। उसे दिखाओ कि तुमने सब कुछ सीखा है! ✦"],
     workedEq:"Ready, Grand Wizard?", workedAns:"Let's go! ✦"
   }
 ];
@@ -769,6 +883,16 @@ function generatePracticeProbs(chId) {
   }
 }
 
+const CHAPTER_SPELLS_HI = [
+  ['जोड़ो!','मिलाओ!','साथ लाओ!','जुड़ जाओ!'],
+  ['घटाओ!','हटाओ!','कम करो!','दूर करो!'],
+  ['गुणा करो!','समूह बनाओ!','गुणित हो!','शक्ति बढ़ो!'],
+  ['भागो!','बाँटो!','विभाजित हो!','समान करो!'],
+  ['भिन्न!','आधा करो!','भाग करो!','चौथाई!'],
+  ['दशमलव!','दसवाँ!','बिंदु!','सटीक!'],
+  ['सर्व-शक्ति!','महा गणित!','सम्पूर्ण!','सर्वोच्च!','महागुरु मंत्र!'],
+];
+
 const CHAPTER_SPELLS = [
   ['ADDICUS!','SUMULARIUS!','PLUSIUM!','COMBINATO!'],
   ['REMOVIUS!','SUBTRACTUM!','MINUSIO!','DIMINUTUS!'],
@@ -780,20 +904,30 @@ const CHAPTER_SPELLS = [
 ];
 
 const BADGES = [
-  { title:"Addition Apprentice ✦", color:"#E8952A",
+  { title:"Addition Apprentice ✦", hi_title:"जोड़ के शिष्य ✦", color:"#E8952A",
     svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#7A3010" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#9A4A20" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#7A3010"/><circle cx="44" cy="42" r="32" fill="#C87533"/><circle cx="44" cy="42" r="28" fill="#E8952A"/><polygon points="44,20 49,34 65,34 52,43 57,57 44,49 31,57 36,43 23,34 39,34" fill="#FFD700"/><circle cx="36" cy="28" r="5" fill="#fff" opacity=".18"/></svg>` },
-  { title:"Subtraction Scholar ✦", color:"#C0C0C0",
+  { title:"Subtraction Scholar ✦", hi_title:"घटाने के विद्वान ✦", color:"#C0C0C0",
     svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#606060" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#808080" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#555"/><path d="M44 10 L72 27 L72 54 Q72 74 44 82 Q16 74 16 54 L16 27 Z" fill="#A8A8A8"/><path d="M44 17 L65 31 L65 54 Q65 69 44 76 Q23 69 23 54 L23 31 Z" fill="#E0E0E0"/><rect x="28" y="38" width="32" height="9" fill="#909090" rx="4.5"/><circle cx="34" cy="26" r="5" fill="#fff" opacity=".2"/></svg>` },
-  { title:"Multiplication Mage ✦", color:"#FFD700",
+  { title:"Multiplication Mage ✦", hi_title:"गुणा के जादूगर ✦", color:"#FFD700",
     svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#806010" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#A08020" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#806010"/><circle cx="44" cy="42" r="32" fill="#C9A227"/><circle cx="44" cy="42" r="28" fill="#FFD700"/><path d="M24 56 L24 32 L34 46 L44 22 L54 46 L64 32 L64 56 Z" fill="#C9A227"/><circle cx="44" cy="22" r="6" fill="#FF6B00"/><circle cx="24" cy="32" r="4" fill="#FF6B00"/><circle cx="64" cy="32" r="4" fill="#FF6B00"/><rect x="21" y="54" width="46" height="7" fill="#C9A227" rx="3"/><circle cx="35" cy="30" r="5" fill="#fff" opacity=".18"/></svg>` },
-  { title:"Division Wizard ✦", color:"#A78BFA",
+  { title:"Division Wizard ✦", hi_title:"भाग के जादूगर ✦", color:"#A78BFA",
     svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#3B0082" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#5B00A2" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#2A0060"/><polygon points="44,8 66,42 44,76 22,42" fill="#7C3AED"/><polygon points="44,16 60,42 44,68 28,42" fill="#9333EA"/><polygon points="44,24 54,42 44,60 34,42" fill="#C4B5FD"/><circle cx="44" cy="32" r="5" fill="#FFD700"/><rect x="33" y="39" width="22" height="5" fill="#FFD700" rx="2.5"/><circle cx="44" cy="52" r="5" fill="#FFD700"/><circle cx="35" cy="20" r="4" fill="#fff" opacity=".18"/></svg>` },
-  { title:"Fraction Sorcerer ✦", color:"#00CCFF",
+  { title:"Fraction Sorcerer ✦", hi_title:"भिन्न के साधक ✦", color:"#00CCFF",
     svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#003060" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#005080" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#002050"/><polygon points="44,8 68,30 62,60 26,60 20,30" fill="#005080"/><polygon points="44,15 62,34 57,56 31,56 26,34" fill="#007090"/><polygon points="44,23 55,36 51,52 37,52 33,36" fill="#00CCFF"/><polygon points="44,30 51,40 44,52 37,40" fill="#80EEFF"/><text x="44" y="46" text-anchor="middle" fill="#002050" font-size="14" font-weight="bold" font-family="serif">½</text><circle cx="35" cy="20" r="4" fill="#fff" opacity=".2"/></svg>` },
-  { title:"Decimal Champion ✦", color:"#FF69B4",
+  { title:"Decimal Champion ✦", hi_title:"दशमलव चैंपियन ✦", color:"#FF69B4",
     svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#7A1040" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#9A2060" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#5A0830"/><rect x="32" y="58" width="24" height="7" fill="#C9A227" rx="3"/><rect x="38" y="63" width="12" height="10" fill="#C9A227"/><rect x="28" y="70" width="28" height="5" fill="#C9A227" rx="2"/><path d="M26 18 L62 18 L57 46 Q55 56 44 56 Q33 56 31 46 Z" fill="#FFD700"/><path d="M20 18 L26 18 L26 36 Q20 36 18 30 Q16 24 20 20 Z" fill="#C9A227"/><path d="M62 18 L68 18 Q72 20 70 30 Q68 36 62 36 L62 18 Z" fill="#C9A227"/><circle cx="38" cy="36" r="4" fill="#FF69B4" opacity=".85"/><circle cx="50" cy="30" r="3" fill="#FF69B4" opacity=".85"/><circle cx="44" cy="44" r="3" fill="#FF69B4" opacity=".85"/><circle cx="34" cy="26" r="5" fill="#fff" opacity=".22"/></svg>` },
-  { title:"Grand Math Master ✦", color:"#C9A227",
+  { title:"Grand Math Master ✦", hi_title:"महान गणित गुरु ✦", color:"#C9A227",
     svg:`<svg width="96" height="106" viewBox="0 0 96 106" fill="none"><rect x="40" y="74" width="7" height="30" fill="#6B00AA" transform="rotate(-8,43,74)"/><rect x="49" y="74" width="7" height="30" fill="#C9A227" transform="rotate(8,53,74)"/><circle cx="48" cy="46" r="40" fill="#0A0020"/><polygon points="48,8 52,22 66,18 58,30 74,36 58,39 64,54 50,47 48,64 46,47 32,54 38,39 22,36 38,30 30,18 44,22" fill="#C9A227"/><circle cx="48" cy="46" r="22" fill="#08041A"/><circle cx="48" cy="46" r="18" fill="#10082E"/><text x="38" y="40" fill="#C9A227" font-size="10" font-weight="bold">+ ×</text><text x="36" y="54" fill="#A78BFA" font-size="10" font-weight="bold">÷  ½</text><circle cx="48" cy="46" r="3.5" fill="#FFD700"/><circle cx="36" cy="28" r="5" fill="#fff" opacity=".14"/></svg>` }
+];
+
+const CHAPTER_PRAISE_HI = [
+  ["तुम्हारा दिमाग जादू की तरह काम करता है! ✨","तुम एक प्राकृतिक गणितज्ञ हो!","जोड़ तुम्हारे सामने नहीं टिक सकता!","बहुत शानदार, छोटे जादूगर!"],
+  ["तुम कितने साफ़ सोचते हो — कमाल है!","संख्याओं के एक सच्चे विद्वान!","तुम्हारा दिमाग बहुत तेज़ है!","घटाना तुम्हारी प्रतिभा को नहीं घटा सकता!"],
+  ["तुम गुणा के जीनियस हो! 🔥","प्राचीन गुरु भी प्रभावित होते!","तुम्हारी जादुई शक्ति बढ़ती है!","शुद्ध गणितीय जादू!"],
+  ["सच्चे संख्याओं के जादूगर!","तुम्हारा तार्किक दिमाग असाधारण है!","भाग तुम्हारी प्रतिभा के आगे झुकता है!","अकादमी तुम्हें देखकर हैरान है!"],
+  ["तुम्हारा दिमाग असाधारण रूप से प्रतिभाशाली है!","भिन्न ने अपना मैच पा लिया!","तुम्हारी बुद्धि बेमिसाल है!","एक सच्चा भिन्न साधक जन्मा है!"],
+  ["तुमने प्राचीन गणित कलाएँ सीख लीं!","इस अकादमी में अनूठा चैंपियन!","तुम्हारी प्रतिभा की कोई सीमा नहीं!","इस पीढ़ी के सबसे महान जादूगर!"],
+  ["तुम इस अकादमी के सबसे महान गणितज्ञ हो! 👑","प्राचीन जादूगर खुद तुम्हारी प्रतिभा के आगे झुकता है!","सभी गणित कलाओं के सच्चे महागुरु — वो तुम हो!","जादुई दुनिया तुम्हारी प्रतिभा को देखकर अवाक है! ✦"],
 ];
 
 const CHAPTER_PRAISE = [
@@ -852,16 +986,19 @@ const G = {
   showLesson(i) {
     const c = CHAPTERS[i], L = LESSONS[i];
     this.cur = i;
-    document.getElementById('l-badge').textContent = c.badge;
+    const lbadge = (LNG==='hi'&&c.hi_badge)?c.hi_badge:c.badge;
+    document.getElementById('l-badge').textContent = lbadge;
     document.getElementById('l-badge').style.color = L.color;
 
     // Visual
     const vBox = document.getElementById('l-visual');
     vBox.style.background = L.bg;
-    vBox.innerHTML = this.makeVisual(L) + `<div class="vis-caption" style="color:${L.color}">${L.tagline}</div>`;
+    vBox.innerHTML = this.makeVisual(L) + `<div class="vis-caption" style="color:${L.color}">${lTagline}</div>`;
 
     // Steps
-    document.getElementById('l-steps').innerHTML = L.steps.map((s,i)=>
+    const lTagline = (LNG==='hi'&&L.hi_tagline)?L.hi_tagline:L.tagline;
+    const lSteps = (LNG==='hi'&&L.hi_steps)?L.hi_steps:L.steps;
+    document.getElementById('l-steps').innerHTML = lSteps.map((s,i)=>
       `<div class="learn-step"><span class="learn-step-num">${i+1}.</span><span>${s}</span></div>`
     ).join('');
 
@@ -1019,13 +1156,13 @@ const G = {
     const fb = document.getElementById('prac-feedback');
     if(ok) {
       btn.classList.add('correct');
-      fb.textContent = ['⭐ Brilliant!','🎉 You got it!','✨ Perfect!','🌟 Amazing!'][Math.floor(Math.random()*4)];
+      const cfb=T('correct_fb'); fb.textContent=cfb[Math.floor(Math.random()*cfb.length)];
       fb.className = 'prac-feedback ok';
       document.getElementById('prac-next-btn').style.display = 'block';
       document.getElementById('prac-next-btn').textContent = this.pracIdx===0 ? 'Next Problem →' : '⚔️ Start Battle!';
     } else {
       btn.classList.add('wrong');
-      fb.textContent = ['Not quite — try again! 💪','Almost there! Give it another go! 🤔','Keep trying, you can do it! 😊'][Math.floor(Math.random()*3)];
+      const wfb=T('wrong_fb'); fb.textContent=wfb[Math.floor(Math.random()*wfb.length)];
       fb.className = 'prac-feedback no';
       setTimeout(()=>{
         btn.classList.remove('wrong');
@@ -1045,8 +1182,8 @@ const G = {
       document.getElementById('io-badge').textContent = c.badge;
       document.getElementById('io-emoji').textContent = c.emoji;
       document.getElementById('io-title').textContent = c.title;
-      document.getElementById('io-text').textContent = c.intro;
-      document.getElementById('bnav-title').textContent = c.title;
+      document.getElementById('io-text').textContent = (LNG==='hi'&&c.hi_intro)?c.hi_intro:c.intro;
+      document.getElementById('bnav-title').textContent = (LNG==='hi'&&c.hi_name)?c.hi_name:c.title;
       this.show('battle');
       this.setupScene(c);
       document.getElementById('intro-ov').classList.add('active');
@@ -1062,12 +1199,16 @@ const G = {
       const isDone = this.done.includes(i);
       const badge = BADGES[i];
       el.className = 'ch-row'+(c.premium?' locked':'')+(isDone?' done':'');
-      const opShort = c.op.replace('Addition','Add').replace('Subtraction','Sub').replace('Multiply','Mul').replace('Division','Div').replace('Fractions','Frac').replace('Decimals','Dec');
+      const chName = (LNG==='hi'&&c.hi_name)?c.hi_name:c.title;
+      const chOp = (LNG==='hi'&&c.hi_op)?c.hi_op:c.op;
+      const chBadge = (LNG==='hi'&&c.hi_badge)?c.hi_badge:c.badge;
+      const bTitle = (LNG==='hi'&&badge.hi_title)?badge.hi_title:badge.title;
+      const opShort = chOp.replace('Addition','Add').replace('Subtraction','Sub').replace('Multiply','Mul').replace('Division','Div').replace('Fractions','Frac').replace('Decimals','Dec').replace('जोड़ना','जोड़').replace('घटाना','घटा').replace('सभी कौशल','सभी').replace('दशमलव','दश').replace('भिन्न','भिन्न').replace('गुणा','गुणा').replace('भाग','भाग');
       el.innerHTML = `
         <div class="ch-row-icon">${c.emoji}</div>
         <div class="ch-row-info">
-          <div class="ch-row-name">${c.title}</div>
-          <div class="ch-row-badge">${isDone ? `<span style="color:${badge.color};font-size:10px;font-weight:700">${badge.title}</span>` : c.badge}</div>
+          <div class="ch-row-name">${chName}</div>
+          <div class="ch-row-badge">${isDone ? `<span style="color:${badge.color};font-size:10px;font-weight:700">${bTitle}</span>` : chBadge}</div>
         </div>
         <span class="ch-row-op" style="color:${c.opColor};background:${c.opColor}1A">${opShort}</span>
         <span class="ch-row-arr">${c.premium?'🔒':'›'}</span>
@@ -1095,7 +1236,7 @@ const G = {
     const en = document.getElementById('b-enemy');
     en.innerHTML = getEnemySVG(c.id);
     en.className = 'enemy-char';
-    document.getElementById('enemy-lbl').textContent = c.eName;
+    document.getElementById('enemy-lbl').textContent = (LNG==='hi'&&c.hi_ename)?c.hi_ename:c.eName;
     this.heroHp = this.heroMaxHp;
     this.eHp = c.eHp; this.eMaxHp = c.eHp; this.pi = 0;
     this.currentProbs = generateProbs(c.id, c.eHp);
@@ -1123,7 +1264,8 @@ const G = {
   // ─── Load Problem ─────────────────────────────────────────
   loadProb() {
     const c = CHAPTERS[this.cur], p = this.currentProbs[this.pi];
-    document.getElementById('b-story').textContent = c.stories[this.pi]||'Solve this to continue!';
+    const storyArr = (LNG==='hi'&&c.hi_stories)?c.hi_stories:c.stories;
+    document.getElementById('b-story').textContent = storyArr[this.pi]||T('storyReady');
     document.getElementById('b-q').textContent = p.q;
     document.getElementById('b-hint').textContent = p.h;
     const choices = this.genChoices(p.a, p.aType);
@@ -1171,7 +1313,7 @@ const G = {
 
   onCorrect(btn) {
     btn.classList.add('correct');
-    document.getElementById('b-story').textContent = '✦ Your spell strikes true! The enemy recoils!';
+    document.getElementById('b-story').textContent = T('correct');
     this.xp += 10;
     document.getElementById('b-xp').textContent = '✦ '+this.xp;
     this.save();
@@ -1203,7 +1345,7 @@ const G = {
       const bv = aType==='dec' ? parseFloat(b.textContent) : parseInt(b.textContent);
       if (Math.abs(bv-correct)<0.001) b.classList.add('correct');
     });
-    document.getElementById('b-story').textContent = '✗ Wrong incantation! The enemy retaliates!';
+    document.getElementById('b-story').textContent = T('wrong');
     const hero = document.querySelector('.hero-char');
     hero.classList.add('hero-hit');
     setTimeout(()=>hero.classList.remove('hero-hit'), 550);
@@ -1220,7 +1362,8 @@ const G = {
   victory() {
     const c = CHAPTERS[this.cur];
     const b = BADGES[this.cur] || BADGES[0];
-    const praises = CHAPTER_PRAISE[this.cur] || CHAPTER_PRAISE[0];
+    const praiseArr = LNG==='hi' ? (CHAPTER_PRAISE_HI[this.cur]||CHAPTER_PRAISE_HI[0]) : (CHAPTER_PRAISE[this.cur]||CHAPTER_PRAISE[0]);
+    const praises = praiseArr;
     this.xp += c.xp;
     if (!this.done.includes(this.cur)) this.done.push(this.cur);
     this.save();
@@ -1232,19 +1375,20 @@ const G = {
     void badgeEl.offsetWidth;
     badgeEl.style.animation = 'badgePop .65s cubic-bezier(.17,.67,.3,1.4) forwards';
 
-    document.getElementById('v-badge-title').textContent = b.title;
+    document.getElementById('v-badge-title').textContent = (LNG==='hi'&&b.hi_title)?b.hi_title:b.title;
     document.getElementById('v-badge-title').style.color = b.color;
     document.getElementById('v-praise').textContent = praises[Math.floor(Math.random()*praises.length)];
-    document.getElementById('v-sub').textContent = `You defeated the ${c.eName}!`;
+    const ename = (LNG==='hi'&&c.hi_ename)?c.hi_ename:c.eName;
+    document.getElementById('v-sub').textContent = LNG==='hi' ? `तुमने ${ename} को हराया!` : `You defeated the ${ename}!`;
     document.getElementById('v-xp').textContent = `✦ +${c.xp} XP Earned!`;
 
     const ni = this.cur+1, nBtn = document.getElementById('v-next');
     if (ni<CHAPTERS.length) {
       const nc = CHAPTERS[ni];
-      if (nc.premium) { nBtn.textContent='🔒 Unlock Next'; nBtn.onclick=()=>this.show('premium'); }
-      else { nBtn.textContent=`Next Chapter →`; nBtn.onclick=()=>this.openChapter(ni); }
+      if (nc.premium) { nBtn.textContent=T('unlock'); nBtn.onclick=()=>this.show('premium'); }
+      else { nBtn.textContent=T('nextChapter'); nBtn.onclick=()=>this.openChapter(ni); }
     } else {
-      nBtn.textContent='👑 You beat the game!'; nBtn.onclick=()=>this.show('chapters');
+      nBtn.textContent=T('beatGame'); nBtn.onclick=()=>this.show('chapters');
     }
     this.show('victory');
   },
@@ -1285,7 +1429,7 @@ const G = {
 
   // ─── Spell Name Flash ─────────────────────────────────────
   spawnSpellName() {
-    const spells = CHAPTER_SPELLS[this.cur] || ['SOLVIUS!'];
+    const spells = (LNG==='hi'?CHAPTER_SPELLS_HI:CHAPTER_SPELLS)[this.cur] || ['SOLVIUS!'];
     const name = spells[Math.floor(Math.random()*spells.length)];
     const el = document.getElementById('spell-name');
     el.textContent = name;
@@ -1332,6 +1476,8 @@ const G = {
     alert('Replace this with your Stripe Checkout URL to enable payments.');
   };
 
+  // Apply saved language
+  setLang(LNG);
   // Load saved XP and completed chapters
   G.load();
 })();
