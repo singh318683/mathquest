@@ -353,6 +353,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
 .wrong-streak-bar{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:10}
 .ws-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .3s}
 .ws-dot.lit{background:#EF4444;box-shadow:0 0 6px #EF4444}
+
+/* ── Certificate Screen ───────────────────────────────────── */
+#s-certificate{background:linear-gradient(160deg,#06020E 0%,#0A0420 50%,#06020E 100%);align-items:center;justify-content:center;padding:10px;gap:10px}
+.cert-wrap{width:100%;max-width:340px;flex-shrink:1}
+.cert-actions{display:flex;gap:10px;justify-content:center;flex-shrink:0}
+@keyframes certGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(201,162,39,.4))}50%{filter:drop-shadow(0 0 18px rgba(201,162,39,.8))}}
+.cert-wrap svg{animation:certGlow 3s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -521,6 +528,109 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
         <button class="btn-sm" onclick="G.show('title')">Home</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ===========================
+     CERTIFICATE SCREEN
+=========================== -->
+<div class="screen" id="s-certificate">
+  <div class="cert-wrap">
+    <svg id="cert-svg" width="100%" viewBox="0 0 340 500" xmlns="http://www.w3.org/2000/svg" font-family="Fredoka One, cursive">
+
+      <!-- Background -->
+      <rect width="340" height="500" fill="#08041A" rx="16"/>
+
+      <!-- Subtle star field -->
+      <circle cx="30" cy="60" r="1" fill="#C9A227" opacity=".25"/><circle cx="80" cy="30" r="1.2" fill="#C9A227" opacity=".2"/>
+      <circle cx="150" cy="20" r="1" fill="#C9A227" opacity=".3"/><circle cx="220" cy="45" r="1.2" fill="#C9A227" opacity=".2"/>
+      <circle cx="300" cy="25" r="1" fill="#C9A227" opacity=".25"/><circle cx="320" cy="80" r="1" fill="#C9A227" opacity=".2"/>
+      <circle cx="15" cy="180" r="1" fill="#C9A227" opacity=".15"/><circle cx="325" cy="200" r="1.2" fill="#C9A227" opacity=".2"/>
+      <circle cx="18" cy="380" r="1" fill="#C9A227" opacity=".2"/><circle cx="322" cy="360" r="1" fill="#C9A227" opacity=".25"/>
+      <circle cx="60" cy="470" r="1.2" fill="#C9A227" opacity=".2"/><circle cx="280" cy="475" r="1" fill="#C9A227" opacity=".25"/>
+
+      <!-- Outer border -->
+      <rect x="7" y="7" width="326" height="486" fill="none" stroke="#C9A227" stroke-width="2" rx="12"/>
+      <rect x="11" y="11" width="318" height="478" fill="none" stroke="#C9A227" stroke-width="0.6" rx="10" opacity=".5"/>
+
+      <!-- Corner ornaments -->
+      <!-- Top-left -->
+      <g transform="translate(17,17)"><line x1="0" y1="12" x2="24" y2="12" stroke="#C9A227" stroke-width="1" opacity=".8"/><line x1="12" y1="0" x2="12" y2="24" stroke="#C9A227" stroke-width="1" opacity=".8"/><circle cx="12" cy="12" r="5" fill="#C9A227" opacity=".9"/><circle cx="12" cy="12" r="3" fill="#08041A"/><circle cx="12" cy="12" r="1.5" fill="#C9A227"/></g>
+      <!-- Top-right -->
+      <g transform="translate(299,17)"><line x1="0" y1="12" x2="24" y2="12" stroke="#C9A227" stroke-width="1" opacity=".8"/><line x1="12" y1="0" x2="12" y2="24" stroke="#C9A227" stroke-width="1" opacity=".8"/><circle cx="12" cy="12" r="5" fill="#C9A227" opacity=".9"/><circle cx="12" cy="12" r="3" fill="#08041A"/><circle cx="12" cy="12" r="1.5" fill="#C9A227"/></g>
+      <!-- Bottom-left -->
+      <g transform="translate(17,461)"><line x1="0" y1="12" x2="24" y2="12" stroke="#C9A227" stroke-width="1" opacity=".8"/><line x1="12" y1="0" x2="12" y2="24" stroke="#C9A227" stroke-width="1" opacity=".8"/><circle cx="12" cy="12" r="5" fill="#C9A227" opacity=".9"/><circle cx="12" cy="12" r="3" fill="#08041A"/><circle cx="12" cy="12" r="1.5" fill="#C9A227"/></g>
+      <!-- Bottom-right -->
+      <g transform="translate(299,461)"><line x1="0" y1="12" x2="24" y2="12" stroke="#C9A227" stroke-width="1" opacity=".8"/><line x1="12" y1="0" x2="12" y2="24" stroke="#C9A227" stroke-width="1" opacity=".8"/><circle cx="12" cy="12" r="5" fill="#C9A227" opacity=".9"/><circle cx="12" cy="12" r="3" fill="#08041A"/><circle cx="12" cy="12" r="1.5" fill="#C9A227"/></g>
+
+      <!-- Header -->
+      <line x1="28" y1="52" x2="312" y2="52" stroke="#C9A227" stroke-width="0.8" opacity=".6"/>
+      <text x="170" y="42" text-anchor="middle" font-size="11" fill="#C9A227" letter-spacing="3">✦ MATHQUEST ACADEMY ✦</text>
+      <text x="170" y="68" text-anchor="middle" font-size="10" fill="#5A4A80" letter-spacing="2" font-family="Nunito, sans-serif" font-weight="700">CERTIFICATE OF ACHIEVEMENT</text>
+      <line x1="28" y1="76" x2="312" y2="76" stroke="#C9A227" stroke-width="0.8" opacity=".6"/>
+
+      <!-- Wizard medallion -->
+      <!-- Rays -->
+      <g opacity=".4" stroke="#C9A227" stroke-width="1">
+        <line x1="170" y1="82" x2="170" y2="74"/><line x1="190" y1="87" x2="196" y2="80"/>
+        <line x1="203" y1="100" x2="211" y2="96"/><line x1="137" y1="87" x2="131" y2="80"/>
+        <line x1="124" y1="100" x2="116" y2="96"/>
+      </g>
+      <circle cx="170" cy="118" r="34" fill="none" stroke="#C9A227" stroke-width="1.5"/>
+      <circle cx="170" cy="118" r="30" fill="#0C0828" stroke="#C9A227" stroke-width="0.5" opacity=".6"/>
+      <!-- Wizard inside medallion -->
+      <polygon points="170,90 159,108 181,108" fill="#3B0A6E"/>
+      <ellipse cx="170" cy="108" rx="11" ry="3" fill="#5B1A9E"/>
+      <circle cx="170" cy="117" r="9" fill="#C8A96E"/>
+      <ellipse cx="170" cy="122" rx="6" ry="4" fill="#E8C49E"/>
+      <circle cx="167" cy="116" r="2.5" fill="#1A0A30"/><circle cx="173" cy="116" r="2.5" fill="#1A0A30"/>
+      <path d="M166 121 Q170 124 174 121" stroke="#8B6014" stroke-width="1" fill="none"/>
+      <ellipse cx="170" cy="133" rx="9" ry="8" fill="#4B0A8E"/>
+      <line x1="165" y1="102" x2="163" y2="98" stroke="#C9A227" stroke-width="1"/>
+      <circle cx="163" cy="97" r="2" fill="#C9A227"/>
+
+      <!-- This certifies -->
+      <text x="170" y="170" text-anchor="middle" font-size="12" fill="#7766AA" font-family="Nunito, sans-serif">This certifies that</text>
+
+      <!-- Hero name -->
+      <text x="170" y="194" text-anchor="middle" font-size="20" fill="#E8E0FF">Math Hero</text>
+      <line x1="80" y1="200" x2="260" y2="200" stroke="#4B0A8E" stroke-width="0.8" opacity=".6"/>
+
+      <text x="170" y="218" text-anchor="middle" font-size="11" fill="#6655AA" font-family="Nunito, sans-serif">has been awarded the honoured title of</text>
+
+      <!-- Main title -->
+      <text x="170" y="256" text-anchor="middle" font-size="34" fill="#C9A227">Junior</text>
+      <text x="170" y="296" text-anchor="middle" font-size="34" fill="#C9A227">Math Wizard</text>
+
+      <!-- Stars flanking title -->
+      <text x="24" y="272" font-size="16" fill="#C9A227">⭐</text>
+      <text x="296" y="272" font-size="16" fill="#C9A227">⭐</text>
+      <text x="24" y="298" font-size="10" fill="#C9A227" opacity=".6">✦</text>
+      <text x="304" y="298" font-size="10" fill="#C9A227" opacity=".6">✦</text>
+
+      <!-- Achievement line -->
+      <text x="170" y="320" text-anchor="middle" font-size="11" fill="#5A4A80" font-family="Nunito, sans-serif">For mastering all 8 chapters of</text>
+      <text x="170" y="336" text-anchor="middle" font-size="11" fill="#5A4A80" font-family="Nunito, sans-serif">Mathematical Magic at MathQuest Academy</text>
+
+      <!-- Divider -->
+      <line x1="50" y1="348" x2="140" y2="348" stroke="#C9A227" stroke-width="0.6" opacity=".5"/>
+      <text x="170" y="352" text-anchor="middle" font-size="10" fill="#C9A227" opacity=".8">✦</text>
+      <line x1="200" y1="348" x2="290" y2="348" stroke="#C9A227" stroke-width="0.6" opacity=".5"/>
+
+      <!-- Date and XP -->
+      <text id="cert-date-txt" x="170" y="370" text-anchor="middle" font-size="10" fill="#4A3A70" font-family="Nunito, sans-serif">Awarded: —</text>
+      <text id="cert-xp-txt" x="170" y="386" text-anchor="middle" font-size="10" fill="#4A3A70" font-family="Nunito, sans-serif">Total XP Earned: — ✦</text>
+
+      <!-- Bottom seal -->
+      <circle cx="170" cy="440" r="32" fill="#0A0620" stroke="#C9A227" stroke-width="1.5"/>
+      <circle cx="170" cy="440" r="28" fill="none" stroke="#C9A227" stroke-width="0.5" stroke-dasharray="4 3" opacity=".6"/>
+      <polygon points="170,418 173,428 184,428 175,434 178,445 170,439 162,445 165,434 156,428 167,428" fill="#C9A227" opacity=".9"/>
+      <text x="170" y="460" text-anchor="middle" font-size="7" fill="#C9A227" letter-spacing="2" font-family="Nunito, sans-serif" font-weight="700">CERTIFIED</text>
+
+    </svg>
+  </div>
+  <div class="cert-actions">
+    <button class="gbtn btn-purple" onclick="G.show('chapters')" style="font-size:14px;padding:10px 24px">🎓 Back to Academy</button>
   </div>
 </div>
 
@@ -1737,6 +1847,16 @@ const G = {
     this.save();
   },
 
+  // ─── Certificate ─────────────────────────────────────────
+  showCertificate() {
+    const date = new Date().toLocaleDateString(LNG==='hi'?'hi-IN':'en-US',{year:'numeric',month:'long',day:'numeric'});
+    const dateEl = document.getElementById('cert-date-txt');
+    const xpEl   = document.getElementById('cert-xp-txt');
+    if(dateEl) dateEl.textContent = (LNG==='hi'?'तारीख: ':'Awarded: ') + date;
+    if(xpEl)   xpEl.textContent  = (LNG==='hi'?'कुल XP: ':'Total XP Earned: ') + this.xp + ' ✦';
+    this.show('certificate');
+  },
+
   // ─── Go Home ──────────────────────────────────────────────
   goHome() {
     document.getElementById('intro-ov').classList.remove('active');
@@ -1956,7 +2076,7 @@ const G = {
       if (nc.premium) { nBtn.textContent=T('unlock'); nBtn.onclick=()=>this.show('premium'); }
       else { nBtn.textContent=T('nextChapter'); nBtn.onclick=()=>this.openChapter(ni); }
     } else {
-      nBtn.textContent=T('beatGame'); nBtn.onclick=()=>this.show('chapters');
+      nBtn.textContent='🎓 Get Your Certificate!'; nBtn.onclick=()=>this.showCertificate();
     }
     this.show('victory');
   },
