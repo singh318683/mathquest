@@ -1000,6 +1000,21 @@ const LESSONS = [
     visual:"mixed",
     hi_tagline:"सभी गणित कलाओं का गुरु!", hi_steps:["यह अंतिम परीक्षा हर वह कौशल मिलाती है जो तुमने सीखा है: जोड़, घटाना, गुणा, भाग, भिन्न, और दशमलव!","प्राचीन जादूगर सभी छह प्रकार के मंत्र फेंकेगा। उसे दिखाओ कि तुमने सब कुछ सीखा है! ✦"],
     workedEq:"Ready, Grand Wizard?", workedAns:"Let's go! ✦"
+  },
+  { // Ch 7: Word Problems
+    color:"#FCD34D", bg:"#1A1200",
+    tagline:"Math hidden inside stories!",
+    steps:[
+      "Word problems hide math inside real-life stories. Read carefully to find what kind of math is needed!",
+      "Clue words: 'total/altogether' = add, 'left/remaining' = subtract, 'each/groups' = multiply or divide!"
+    ],
+    visual:"word",
+    workedEq:"Goblin had 8, found 5 more:", workedAns:"8+5=13 ✓",
+    hi_tagline:"कहानियों में छिपा गणित!",
+    hi_steps:[
+      "शब्द समस्याएँ गणित को असली जीवन की कहानियों में छिपाती हैं। ध्यान से पढ़ो!",
+      "संकेत शब्द: 'कुल/साथ' = जोड़, 'बचा' = घटाना, 'प्रत्येक/समूह' = गुणा/भाग!"
+    ]
   }
 ];
 
@@ -1055,7 +1070,9 @@ const BADGES = [
   { title:"Decimal Champion ✦", hi_title:"दशमलव चैंपियन ✦", color:"#FF69B4",
     svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#7A1040" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#9A2060" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#5A0830"/><rect x="32" y="58" width="24" height="7" fill="#C9A227" rx="3"/><rect x="38" y="63" width="12" height="10" fill="#C9A227"/><rect x="28" y="70" width="28" height="5" fill="#C9A227" rx="2"/><path d="M26 18 L62 18 L57 46 Q55 56 44 56 Q33 56 31 46 Z" fill="#FFD700"/><path d="M20 18 L26 18 L26 36 Q20 36 18 30 Q16 24 20 20 Z" fill="#C9A227"/><path d="M62 18 L68 18 Q72 20 70 30 Q68 36 62 36 L62 18 Z" fill="#C9A227"/><circle cx="38" cy="36" r="4" fill="#FF69B4" opacity=".85"/><circle cx="50" cy="30" r="3" fill="#FF69B4" opacity=".85"/><circle cx="44" cy="44" r="3" fill="#FF69B4" opacity=".85"/><circle cx="34" cy="26" r="5" fill="#fff" opacity=".22"/></svg>` },
   { title:"Grand Math Master ✦", hi_title:"महान गणित गुरु ✦", color:"#C9A227",
-    svg:`<svg width="96" height="106" viewBox="0 0 96 106" fill="none"><rect x="40" y="74" width="7" height="30" fill="#6B00AA" transform="rotate(-8,43,74)"/><rect x="49" y="74" width="7" height="30" fill="#C9A227" transform="rotate(8,53,74)"/><circle cx="48" cy="46" r="40" fill="#0A0020"/><polygon points="48,8 52,22 66,18 58,30 74,36 58,39 64,54 50,47 48,64 46,47 32,54 38,39 22,36 38,30 30,18 44,22" fill="#C9A227"/><circle cx="48" cy="46" r="22" fill="#08041A"/><circle cx="48" cy="46" r="18" fill="#10082E"/><text x="38" y="40" fill="#C9A227" font-size="10" font-weight="bold">+ ×</text><text x="36" y="54" fill="#A78BFA" font-size="10" font-weight="bold">÷  ½</text><circle cx="48" cy="46" r="3.5" fill="#FFD700"/><circle cx="36" cy="28" r="5" fill="#fff" opacity=".14"/></svg>` }
+    svg:`<svg width="96" height="106" viewBox="0 0 96 106" fill="none"><rect x="40" y="74" width="7" height="30" fill="#6B00AA" transform="rotate(-8,43,74)"/><rect x="49" y="74" width="7" height="30" fill="#C9A227" transform="rotate(8,53,74)"/><circle cx="48" cy="46" r="40" fill="#0A0020"/><polygon points="48,8 52,22 66,18 58,30 74,36 58,39 64,54 50,47 48,64 46,47 32,54 38,39 22,36 38,30 30,18 44,22" fill="#C9A227"/><circle cx="48" cy="46" r="22" fill="#08041A"/><circle cx="48" cy="46" r="18" fill="#10082E"/><text x="38" y="40" fill="#C9A227" font-size="10" font-weight="bold">+ ×</text><text x="36" y="54" fill="#A78BFA" font-size="10" font-weight="bold">÷  ½</text><circle cx="48" cy="46" r="3.5" fill="#FFD700"/><circle cx="36" cy="28" r="5" fill="#fff" opacity=".14"/></svg>` },
+  { title:"Story Solver ✦", hi_title:"कहानी समाधानकर्ता ✦", color:"#FCD34D",
+    svg:`<svg width="88" height="96" viewBox="0 0 88 96" fill="none"><rect x="36" y="66" width="7" height="28" fill="#8B6914" transform="rotate(-8,39,66)"/><rect x="45" y="66" width="7" height="28" fill="#C9A227" transform="rotate(8,49,66)"/><circle cx="44" cy="42" r="36" fill="#5A3A00"/><circle cx="44" cy="42" r="30" fill="#8B6914"/><circle cx="44" cy="42" r="26" fill="#FCD34D"/><rect x="28" y="28" width="32" height="26" fill="#8B6914" rx="3"/><rect x="30" y="30" width="28" height="22" fill="#FFF8E7" rx="2"/><rect x="33" y="34" width="22" height="2" fill="#8B6914" rx="1"/><rect x="33" y="38" width="18" height="2" fill="#8B6914" rx="1"/><rect x="33" y="42" width="20" height="2" fill="#8B6914" rx="1"/><rect x="33" y="46" width="14" height="2" fill="#8B6914" rx="1"/><circle cx="36" cy="28" r="5" fill="#fff" opacity=".18"/></svg>` }
 ];
 
 const CHAPTER_PRAISE_HI = [
@@ -1452,7 +1469,7 @@ const G = {
     CHAPTERS.forEach((c,i) => {
       const el = document.createElement('div');
       const isDone = this.done.includes(i);
-      const badge = BADGES[i];
+      const badge = BADGES[i] || BADGES[0];
       el.className = 'ch-row'+(c.premium?' locked':'')+(isDone?' done':'');
       const chName = (LNG==='hi'&&c.hi_name)?c.hi_name:c.title;
       const chOp = (LNG==='hi'&&c.hi_op)?c.hi_op:c.op;
