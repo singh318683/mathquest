@@ -1695,9 +1695,9 @@ const G = {
     const cfg = DIFFICULTY_CONFIG[this.difficulty]||DIFFICULTY_CONFIG.medium;
     this.heroMaxHp = cfg.hearts;
     this.heroHp = this.heroMaxHp;
-    const rawEHp = Math.max(2, c.eHp + cfg.eHpMod);
+    const rawEHp = 5; // Always 5 questions per chapter
     this.eHp = rawEHp; this.eMaxHp = rawEHp; this.pi = 0;
-    this.currentProbs = generateProbs(c.id, rawEHp);
+    this.currentProbs = generateProbs(c.id, 5);
     this.updateBars(); this.updateHearts();
     document.getElementById('b-xp').textContent = '✦ '+this.xp;
     this.genStars();
