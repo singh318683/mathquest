@@ -482,7 +482,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
     <div class="hero-char" id="hero-char"><svg width="46" height="72" viewBox="0 0 46 72" fill="none"><polygon points="23,1 10,26 36,26" fill="#3B0A6E"/><ellipse cx="23" cy="26" rx="14" ry="4" fill="#5B1A9E"/><circle cx="17" cy="14" r="1.8" fill="#FFD700" opacity=".9"/><circle cx="28" cy="9" r="1.2" fill="#C9A227"/><circle cx="27" cy="20" r="1" fill="#FFD700" opacity=".7"/><circle cx="23" cy="39" r="11" fill="#F5CBA7"/><circle cx="19" cy="38" r="2.2" fill="#1A0A30"/><circle cx="27" cy="38" r="2.2" fill="#1A0A30"/><circle cx="20" cy="37" r=".8" fill="white"/><circle cx="28" cy="37" r=".8" fill="white"/><path d="M18 44 Q23 48 28 44" stroke="#C8906A" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M10 50 L5 72 L41 72 L36 50 Q23 58 10 50Z" fill="#4B0A8E"/><path d="M10 50 L2 61 L9 65 L15 54Z" fill="#4B0A8E"/><path d="M36 50 L44 59 L37 63 L31 53Z" fill="#4B0A8E"/><circle cx="20" cy="62" r="1.5" fill="#9333EA" opacity=".7"/><circle cx="28" cy="66" r="1" fill="#C9A227" opacity=".8"/><rect x="41" y="55" width="3" height="18" fill="#5C3317" rx="1.5" transform="rotate(15,41,55)"/><circle cx="46" cy="71" r="5" fill="#FFD700" opacity=".9"><animate attributeName="r" values="4;6;4" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;1;0.8" dur="1.2s" repeatCount="indefinite"/></circle></svg></div>
     <div class="enemy-char" id="b-enemy"></div>
     <div class="hp-wrap hp-hero-pos">
-      <div class="hp-label" id="hz-lbl">Wizard</div>
+  <div class="hp-label" id="hz-lbl">Wizard</div>
       <div class="hp-bar"><div class="hp-fill-h" id="hp-hero" style="width:100%"></div></div>
     </div>
     <div class="hp-wrap hp-enemy-pos">
@@ -494,7 +494,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#08041A;font-family:
     <div class="story-box" id="b-story">Get ready!</div>
     <div class="explain-box" id="explain-box"><div class="explain-why">💡 Here's why:</div><div id="explain-text"></div></div>
     <div class="prob-panel">
-      <div class="prob-label" style="color:#C9A227;letter-spacing:.12em">✦ Cast Your Spell!</div>
+      <div class="prob-label" id="cast-label" style="color:#C9A227;letter-spacing:.12em">✦ Cast Your Spell!</div>
       <div class="prob-q" id="b-q">? + ? = ?</div>
       <div class="prob-hint" id="b-hint"></div>
     </div>
@@ -794,6 +794,7 @@ function setLang(l) {
   if(document.getElementById('s-battle').classList.contains('active')) {
     document.getElementById('b-story').textContent = T('storyReady');
     document.getElementById('bnav-back').textContent = T('backAcademy');
+    const hzl=document.getElementById('hz-lbl'); if(hzl) hzl.textContent=T('wizard');
     if(G.currentProbs.length) G.loadProb();
   }
   if(document.getElementById('s-defeat').classList.contains('active')) {
@@ -895,24 +896,59 @@ function generateProbs(chId, count) {
       pool.push({q:"½ of 8 = ?",a:4,h:"💡 Fractions: split 8 into 2 equal parts"},{q:"¼ of 12 = ?",a:3,h:"💡 Fractions: split 12 into 4 equal parts"},{q:"¾ of 8 = ?",a:6,h:"💡 Fractions: find ¼ of 8 (=2), then ×3"},{q:"0.3 + 0.5 = ?",a:0.8,aType:"dec",h:"💡 Decimals: 3 tenths + 5 tenths"},{q:"1.6 - 0.4 = ?",a:1.2,aType:"dec",h:"💡 Decimals: subtract the tenths"});
       break;
     }
-    case 7: { // Word problems
-      pool = [
-        {q:"The goblin had 14 apples and ate 5.\nHow many are left?", a:9, h:"💡 Subtraction: 14 − 5 = ?"},
-        {q:"A wizard collected 8 stars, then found 7 more.\nHow many stars total?", a:15, h:"💡 Addition: 8 + 7 = ?"},
-        {q:"A dragon has 4 bags with 3 coins each.\nHow many coins total?", a:12, h:"💡 Multiplication: 4 × 3 = ?"},
-        {q:"The troll shared 15 gems equally among 3 friends.\nHow many gems each?", a:5, h:"💡 Division: 15 ÷ 3 = ?"},
-        {q:"A witch had 20 potions and used 8.\nHow many potions remain?", a:12, h:"💡 Subtraction: 20 − 8 = ?"},
-        {q:"The goblin's forest has 6 trees. Each tree has 4 apples.\nHow many apples total?", a:24, h:"💡 Multiplication: 6 × 4 = ?"},
-        {q:"24 students split into 4 equal groups.\nHow many in each group?", a:6, h:"💡 Division: 24 ÷ 4 = ?"},
-        {q:"A knight climbed 13 steps, then 9 more.\nHow many steps climbed?", a:22, h:"💡 Addition: 13 + 9 = ?"},
-        {q:"There were 30 candles. 12 were blown out.\nHow many are still lit?", a:18, h:"💡 Subtraction: 30 − 12 = ?"},
-        {q:"A spell lasts 5 minutes. 3 spells cast in a row.\nHow many minutes total?", a:15, h:"💡 Multiplication: 5 × 3 = ?"},
-        {q:"18 cookies shared equally between 3 friends.\nHow many each?", a:6, h:"💡 Division: 18 ÷ 3 = ?"},
-        {q:"A dragon collected 17 gold coins on Monday and 8 on Tuesday.\nHow many coins total?", a:25, h:"💡 Addition: 17 + 8 = ?"},
-        {q:"The academy had 32 students. 14 went home.\nHow many remain?", a:18, h:"💡 Subtraction: 32 − 14 = ?"},
-        {q:"A wizard shoots 7 spells per minute for 4 minutes.\nHow many spells total?", a:28, h:"💡 Multiplication: 7 × 4 = ?"},
-        {q:"35 magical berries divided equally into 7 bags.\nHow many berries per bag?", a:5, h:"💡 Division: 35 ÷ 7 = ?"},
+    case 7: { // Word problems - language specific
+      const wpEN = [
+        {q:"The goblin had 14 apples and ate 5. How many left?", a:9, h:"💡 Subtraction: 14 − 5 = ?"},
+        {q:"A wizard collected 8 stars, then found 7 more. How many total?", a:15, h:"💡 Addition: 8 + 7 = ?"},
+        {q:"A dragon has 4 bags with 3 coins each. How many coins total?", a:12, h:"💡 Multiplication: 4 × 3 = ?"},
+        {q:"The troll shared 15 gems equally among 3 friends. How many each?", a:5, h:"💡 Division: 15 ÷ 3 = ?"},
+        {q:"A witch had 20 potions and used 8. How many potions remain?", a:12, h:"💡 Subtraction: 20 − 8 = ?"},
+        {q:"The forest has 6 trees. Each tree has 4 apples. How many apples total?", a:24, h:"💡 Multiplication: 6 × 4 = ?"},
+        {q:"24 students split into 4 equal groups. How many in each group?", a:6, h:"💡 Division: 24 ÷ 4 = ?"},
+        {q:"A knight climbed 13 steps, then 9 more. How many steps total?", a:22, h:"💡 Addition: 13 + 9 = ?"},
+        {q:"30 candles were lit. 12 were blown out. How many still lit?", a:18, h:"💡 Subtraction: 30 − 12 = ?"},
+        {q:"A spell lasts 5 minutes. 3 spells cast in a row. How many minutes total?", a:15, h:"💡 Multiplication: 5 × 3 = ?"},
+        {q:"18 cookies shared equally between 3 friends. How many each?", a:6, h:"💡 Division: 18 ÷ 3 = ?"},
+        {q:"A dragon got 17 coins on Monday and 8 on Tuesday. How many total?", a:25, h:"💡 Addition: 17 + 8 = ?"},
+        {q:"The academy had 32 students. 14 went home. How many remain?", a:18, h:"💡 Subtraction: 32 − 14 = ?"},
+        {q:"A wizard shoots 7 spells per minute for 4 minutes. How many spells?", a:28, h:"💡 Multiplication: 7 × 4 = ?"},
+        {q:"35 magical berries divided equally into 7 bags. How many per bag?", a:5, h:"💡 Division: 35 ÷ 7 = ?"},
       ];
+      const wpES = [
+        {q:"El goblin tenía 14 manzanas y comió 5. ¿Cuántas le quedan?", a:9, h:"💡 Resta: 14 − 5 = ?"},
+        {q:"Un mago coleccionó 8 estrellas y encontró 7 más. ¿Cuántas en total?", a:15, h:"💡 Suma: 8 + 7 = ?"},
+        {q:"Un dragón tiene 4 bolsas con 3 monedas cada una. ¿Cuántas monedas en total?", a:12, h:"💡 Multiplicación: 4 × 3 = ?"},
+        {q:"El troll repartió 15 gemas entre 3 amigos. ¿Cuántas gemas recibe cada uno?", a:5, h:"💡 División: 15 ÷ 3 = ?"},
+        {q:"Una bruja tenía 20 pociones y usó 8. ¿Cuántas pociones quedan?", a:12, h:"💡 Resta: 20 − 8 = ?"},
+        {q:"El bosque tiene 6 árboles. Cada árbol tiene 4 manzanas. ¿Cuántas manzanas en total?", a:24, h:"💡 Multiplicación: 6 × 4 = ?"},
+        {q:"24 estudiantes se dividieron en 4 grupos iguales. ¿Cuántos en cada grupo?", a:6, h:"💡 División: 24 ÷ 4 = ?"},
+        {q:"Un caballero subió 13 escalones, luego 9 más. ¿Cuántos escalones en total?", a:22, h:"💡 Suma: 13 + 9 = ?"},
+        {q:"Había 30 velas encendidas. 12 se apagaron. ¿Cuántas siguen encendidas?", a:18, h:"💡 Resta: 30 − 12 = ?"},
+        {q:"Un hechizo dura 5 minutos. Se lanzaron 3 hechizos seguidos. ¿Cuántos minutos en total?", a:15, h:"💡 Multiplicación: 5 × 3 = ?"},
+        {q:"18 galletas repartidas entre 3 amigos por igual. ¿Cuántas le tocan a cada uno?", a:6, h:"💡 División: 18 ÷ 3 = ?"},
+        {q:"Un dragón coleccionó 17 monedas el lunes y 8 el martes. ¿Cuántas monedas en total?", a:25, h:"💡 Suma: 17 + 8 = ?"},
+        {q:"La academia tenía 32 estudiantes. 14 se fueron. ¿Cuántos quedan?", a:18, h:"💡 Resta: 32 − 14 = ?"},
+        {q:"Un mago lanza 7 hechizos por minuto durante 4 minutos. ¿Cuántos hechizos en total?", a:28, h:"💡 Multiplicación: 7 × 4 = ?"},
+        {q:"35 bayas mágicas divididas en 7 bolsas iguales. ¿Cuántas bayas por bolsa?", a:5, h:"💡 División: 35 ÷ 7 = ?"},
+      ];
+      const wpHI = [
+        {q:"गॉब्लिन के पास 14 सेब थे और उसने 5 खाए। कितने बचे?", a:9, h:"💡 घटाना: 14 − 5 = ?"},
+        {q:"एक जादूगर ने 8 सितारे इकट्ठे किए, फिर 7 और मिले। कुल सितारे?", a:15, h:"💡 जोड़: 8 + 7 = ?"},
+        {q:"एक ड्रैगन के पास 4 थैले हैं, हर थैले में 3 सिक्के। कुल सिक्के?", a:12, h:"💡 गुणा: 4 × 3 = ?"},
+        {q:"ट्रोल ने 15 रत्नों को 3 दोस्तों में बराबर बाँटा। प्रत्येक को कितने?", a:5, h:"💡 भाग: 15 ÷ 3 = ?"},
+        {q:"एक डायन के पास 20 औषधियाँ थीं और 8 इस्तेमाल कीं। कितनी बचीं?", a:12, h:"💡 घटाना: 20 − 8 = ?"},
+        {q:"जंगल में 6 पेड़ हैं। हर पेड़ पर 4 सेब हैं। कुल सेब?", a:24, h:"💡 गुणा: 6 × 4 = ?"},
+        {q:"24 छात्रों को 4 बराबर समूहों में बाँटा। प्रत्येक समूह में कितने?", a:6, h:"💡 भाग: 24 ÷ 4 = ?"},
+        {q:"एक शूरवीर 13 सीढ़ियाँ चढ़ा, फिर 9 और। कुल सीढ़ियाँ?", a:22, h:"💡 जोड़: 13 + 9 = ?"},
+        {q:"30 मोमबत्तियाँ थीं। 12 बुझ गईं। कितनी अभी भी जल रही हैं?", a:18, h:"💡 घटाना: 30 − 12 = ?"},
+        {q:"एक मंत्र 5 मिनट चलता है। 3 मंत्र एक के बाद एक। कुल मिनट?", a:15, h:"💡 गुणा: 5 × 3 = ?"},
+        {q:"18 कुकीज़ 3 दोस्तों में बराबर बाँटी। प्रत्येक को कितनी?", a:6, h:"💡 भाग: 18 ÷ 3 = ?"},
+        {q:"एक ड्रैगन ने सोमवार को 17 और मंगलवार को 8 सिक्के इकट्ठे किए। कुल?", a:25, h:"💡 जोड़: 17 + 8 = ?"},
+        {q:"अकादमी में 32 छात्र थे। 14 घर चले गए। कितने बचे?", a:18, h:"💡 घटाना: 32 − 14 = ?"},
+        {q:"एक जादूगर 4 मिनट में हर मिनट 7 मंत्र चलाता है। कुल मंत्र?", a:28, h:"💡 गुणा: 7 × 4 = ?"},
+        {q:"35 जादुई जामुन 7 थैलों में बराबर बाँटे। प्रत्येक थैले में कितने?", a:5, h:"💡 भाग: 35 ÷ 7 = ?"},
+      ];
+      pool = LNG==='es' ? wpES : LNG==='hi' ? wpHI : wpEN;
       break;
     }
   }
@@ -1949,6 +1985,8 @@ const G = {
     const c = CHAPTERS[this.cur], p = this.currentProbs[this.pi];
     const storyArr = LNG==='es'&&c.es_stories?c.es_stories:LNG==='hi'&&c.hi_stories?c.hi_stories:c.stories;
     document.getElementById('b-story').textContent = storyArr[this.pi]||T('storyReady');
+    const castLbl=document.getElementById('cast-label');
+    if(castLbl) castLbl.textContent=T('castSpell');
     const bqEl = document.getElementById('b-q');
     bqEl.textContent = p.q.replace('\n',' ');
     bqEl.className = (this.cur === 7) ? 'prob-q-word' : 'prob-q';
