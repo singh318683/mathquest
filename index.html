@@ -1702,30 +1702,38 @@ const G = {
   // ─── Chapter List ─────────────────────────────────────────
   renderChapters() {
     const g = document.getElementById('ch-grid');
+    if(!g) return;
     g.innerHTML = '';
     CHAPTERS.forEach((c,i) => {
-      const el = document.createElement('div');
-      const isDone = this.done.includes(i);
-      const badge = BADGES[i] || BADGES[0];
-      el.className = 'ch-row'+(c.premium?' locked':'')+(isDone?' done':'');
-      const chName = LNG==='es'&&c.es_name?c.es_name:LNG==='hi'&&c.hi_name?c.hi_name:c.title;
-      const chOp = LNG==='es'&&c.es_op?c.es_op:LNG==='hi'&&c.hi_op?c.hi_op:c.op;
-      const chBadge = LNG==='es'&&c.es_badge?c.es_badge:LNG==='hi'&&c.hi_badge?c.hi_badge:c.badge;
-      const bTitle = LNG==='es'&&badge.es_title?badge.es_title:LNG==='hi'&&badge.hi_title?badge.hi_title:badge.title;
-      const starCount = G.stars[i]||0;
-      const starStr = starCount>0 ? '⭐'.repeat(starCount)+'☆'.repeat(3-starCount) : '';
-      const opShort = chOp.replace('Addition','Add').replace('Subtraction','Sub').replace('Multiply','Mul').replace('Division','Div').replace('Fractions','Frac').replace('Decimals','Dec').replace('जोड़ना','जोड़').replace('घटाना','घटा').replace('सभी कौशल','सभी').replace('दशमलव','दश').replace('भिन्न','भिन्न').replace('गुणा','गुणा').replace('भाग','भाग');
-      el.innerHTML = `
-        <div class="ch-row-icon">${c.emoji}</div>
-        <div class="ch-row-info">
-          <div class="ch-row-name">${chName}</div>
-          <div class="ch-row-badge">${isDone ? `<span style="color:${badge.color};font-size:10px;font-weight:700">${bTitle}</span><span style="font-size:9px;margin-left:4px">${starStr}</span>` : chBadge}</div>
-        </div>
-        <span class="ch-row-op" style="color:${c.opColor};background:${c.opColor}1A">${opShort}</span>
-        <span class="ch-row-arr">${c.premium?'🔒':'›'}</span>
-      `;
-      el.onclick = () => c.premium ? this.show('premium') : this.openChapter(i);
-      g.appendChild(el);
+      try {
+        const el = document.createElement('div');
+        const isDone = this.done.includes(i);
+        const badge = BADGES[i] || BADGES[0];
+        el.className = 'ch-row'+(c.premium?' locked':'')+(isDone?' done':'');
+        const chName = LNG==='es'&&c.es_name?c.es_name:LNG==='hi'&&c.hi_name?c.hi_name:c.title;
+        const chOp = LNG==='es'&&c.es_op?c.es_op:LNG==='hi'&&c.hi_op?c.hi_op:c.op;
+        const chBadge = LNG==='es'&&c.es_badge?c.es_badge:LNG==='hi'&&c.hi_badge?c.hi_badge:c.badge;
+        const bTitle = LNG==='es'&&badge.es_title?badge.es_title:LNG==='hi'&&badge.hi_title?badge.hi_title:badge.title;
+        const starCount = this.stars&&this.stars[i]?this.stars[i]:0;
+        const opShort = chOp.split(' ')[0];
+        // Build badge HTML without nested template literals
+        let badgeHtml = chBadge;
+        if(isDone) {
+          badgeHtml = '<span style="color:'+badge.color+';font-size:10px;font-weight:700">'+bTitle+'</span>';
+        }
+        // Build row HTML without nested template literals
+        const arrIcon = c.premium ? 'lock' : '&rsaquo;';
+        el.innerHTML =
+          '<div class="ch-row-icon">'+c.emoji+'</div>'+
+          '<div class="ch-row-info">'+
+            '<div class="ch-row-name">'+chName+'</div>'+
+            '<div class="ch-row-badge">'+badgeHtml+'</div>'+
+          '</div>'+
+          '<span class="ch-row-op" style="color:'+c.opColor+';background:'+c.opColor+'22">'+opShort+'</span>'+
+          '<span class="ch-row-arr">'+(c.premium?'&#128274;':'&#8250;')+'</span>';
+        el.onclick = (function(idx){ return function(){ c.premium ? G.show('premium') : G.openChapter(idx); }; })(i);
+        g.appendChild(el);
+      } catch(e){ console.error('Chapter '+i,e); }
     });
   },
 
