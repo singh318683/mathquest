@@ -686,7 +686,7 @@ html{height:-webkit-fill-available}body{width:100%;height:100%;min-height:-webki
     <li>Parent progress dashboard</li>
     <li>Ad-free forever</li>
   </ul>
-  <button class="gbtn btn-gold" id="stripe-btn" style="margin-bottom:12px">🌟 Unlock for $1.99/month</button>
+  <button class="gbtn btn-gold" id="iap-btn" style="margin-bottom:12px" onclick="G.triggerPurchase()">🌟 Unlock All Chapters — $1.99</button>
   <button class="btn-sm" onclick="G.show('chapters')">Back to Map</button>
 </div>
 
@@ -726,6 +726,38 @@ const DIFFICULTY_CONFIG = {
   medium: { label:'⭐⭐ Medium', color:'#C9A227', hearts:3, eHpMod:0,  xpMult:1,   showHint:true  },
   hard:   { label:'⭐⭐⭐ Hard', color:'#EF4444', hearts:2, eHpMod:2,  xpMult:1.5, showHint:false },
 };
+
+
+// ============================================================
+//  IN-APP PURCHASE STATE
+// ============================================================
+window.PREMIUM_UNLOCKED = false;
+
+// Called by Android after successful purchase
+function unlockPremium() {
+  window.PREMIUM_UNLOCKED = true;
+  if(typeof G !== 'undefined') {
+    G.show('chapters');
+  }
+}
+
+// Check if chapter requires IAP
+function chapterNeedsIAP(chIdx) {
+  // Only lock on Android when AndroidBridge is present
+  if(typeof AndroidBridge === 'undefined') return false;
+  // Chapters 3-8 (index 2+) need purchase
+  if(chIdx < 2) return false;
+  return !window.PREMIUM_UNLOCKED;
+}
+
+// Check purchase status from Android on load
+function checkAndroidPurchase() {
+  if(typeof AndroidBridge !== 'undefined') {
+    if(AndroidBridge.isPurchased()) {
+      window.PREMIUM_UNLOCKED = true;
+    }
+  }
+}
 
 // ============================================================
 //  LANGUAGE SYSTEM
@@ -1104,7 +1136,7 @@ const CHAPTERS = [
   {
     id:6, title:"The Academy's Final Test", badge:"Chapter 7 · All Skills",
     op:"All Skills ⚡", opColor:"#C9A227", scene:"academy",
-    emoji:"🏛️", eEmoji:"", eName:"The Ancient Sorcerer", eHp:7, premium:false,
+    emoji:"🏛️", eEmoji:"", eName:"The Ancient Sorcerer", eHp:7, premium:true,
     intro:"The Ancient Sorcerer has risen from the depths of the Academy to challenge the greatest student of all time! He commands ALL forms of mathematical magic — addition, subtraction, multiplication, division, fractions, and decimals. Prove you have mastered them ALL!",
     probs:[],
     stories:[
@@ -1125,7 +1157,7 @@ const CHAPTERS = [
   {
     id:7, title:"The Story Quest", badge:"Chapter 8 · Word Problems",
     op:"Word Problems 📖", opColor:"#FCD34D", scene:"cave",
-    emoji:"📖", eEmoji:"🦁", eName:"Riddle Sphinx", eHp:5, premium:false,
+    emoji:"📖", eEmoji:"🦁", eName:"Riddle Sphinx", eHp:5, premium:true,
     intro:"The Riddle Sphinx blocks the final gate! She only speaks in stories and riddles. Read each word problem carefully and use math to solve it — you've got this, Math Hero!",
     probs:[],
     stories:[
@@ -1731,7 +1763,19 @@ const G = {
           '</div>'+
           '<span class="ch-row-op" style="color:'+c.opColor+';background:'+c.opColor+'22">'+opShort+'</span>'+
           '<span class="ch-row-arr">'+(c.premium?'&#128274;':'&#8250;')+'</span>';
-        el.onclick = (function(idx){ return function(){ c.premium ? G.show('premium') : G.openChapter(idx); }; })(i);
+        const needsIAP = chapterNeedsIAP(i);
+        el.onclick = (function(idx, locked, iap){ return function(){
+          if(iap) {
+            // Android IAP purchase
+            if(typeof AndroidBridge !== 'undefined') AndroidBridge.purchase();
+            else G.show('premium');
+          } else if(locked) {
+            G.show('premium');
+          } else {
+            G.openChapter(idx);
+          }
+        }; })(i, c.premium, needsIAP);
+        if(needsIAP) el.className = 'ch-row locked';
         g.appendChild(el);
       } catch(e){ console.error('Chapter '+i,e); }
     });
@@ -1944,6 +1988,16 @@ const G = {
     if(dateEl) dateEl.textContent = (LNG==='hi'?'तारीख: ':LNG==='es'?'Otorgado: ':'Awarded: ') + date;
     if(xpEl)   xpEl.textContent  = (LNG==='hi'?'कुल XP: ':LNG==='es'?'XP Total Ganado: ':'Total XP Earned: ') + this.xp + ' ✦';
     this.show('certificate');
+  },
+
+  // ─── IAP Purchase ─────────────────────────────────────────
+  triggerPurchase() {
+    if(typeof AndroidBridge !== 'undefined') {
+      AndroidBridge.purchase();
+    } else {
+      // Web fallback - could link to Play Store
+      alert('Purchase available on the Android app!');
+    }
   },
 
   // ─── Go Home ──────────────────────────────────────────────
@@ -2262,6 +2316,9 @@ const G = {
   fixHeight();
   window.addEventListener('resize', fixHeight);
   window.addEventListener('orientationchange', function(){ setTimeout(fixHeight, 200); });
+
+  // Check Android IAP purchase status
+  checkAndroidPurchase();
 
   // Apply saved difficulty
   try { const sd=localStorage.getItem('mq_diff'); if(sd) G.setDiff(sd); else G.setDiff('easy'); } catch(e){ G.setDiff('easy'); }
