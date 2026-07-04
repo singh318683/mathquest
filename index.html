@@ -2247,6 +2247,14 @@ const G = {
     alert('Replace this with your Stripe Checkout URL to enable payments.');
   };
 
+  // Fix viewport height for mobile browsers
+  function fixHeight() {
+    document.getElementById('game').style.height = window.innerHeight + 'px';
+  }
+  fixHeight();
+  window.addEventListener('resize', fixHeight);
+  window.addEventListener('orientationchange', function(){ setTimeout(fixHeight, 200); });
+
   // Apply saved difficulty
   try { const sd=localStorage.getItem('mq_diff'); if(sd) G.setDiff(sd); else G.setDiff('easy'); } catch(e){ G.setDiff('easy'); }
   // Load language (supports en, es, hi)
