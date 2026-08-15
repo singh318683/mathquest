@@ -1780,7 +1780,8 @@ const G = {
         const el = document.createElement('div');
         const isDone = this.done.includes(i);
         const badge = BADGES[i] || BADGES[0];
-        el.className = 'ch-row'+(c.premium?' locked':'')+(isDone?' done':'');
+        const needsIAP = chapterNeedsIAP(i);
+        el.className = 'ch-row'+(needsIAP?' locked':'')+(isDone?' done':'');
         const chName = LNG==='es'&&c.es_name?c.es_name:LNG==='hi'&&c.hi_name?c.hi_name:c.title;
         const chOp = LNG==='es'&&c.es_op?c.es_op:LNG==='hi'&&c.hi_op?c.hi_op:c.op;
         const chBadge = LNG==='es'&&c.es_badge?c.es_badge:LNG==='hi'&&c.hi_badge?c.hi_badge:c.badge;
@@ -1793,7 +1794,7 @@ const G = {
           badgeHtml = '<span style="color:'+badge.color+';font-size:10px;font-weight:700">'+bTitle+'</span>';
         }
         // Build row HTML without nested template literals
-        const arrIcon = c.premium ? 'lock' : '&rsaquo;';
+        const arrIcon = needsIAP ? 'lock' : '&rsaquo;';
         el.innerHTML =
           '<div class="ch-row-icon">'+c.emoji+'</div>'+
           '<div class="ch-row-info">'+
@@ -1801,8 +1802,7 @@ const G = {
             '<div class="ch-row-badge">'+badgeHtml+'</div>'+
           '</div>'+
           '<span class="ch-row-op" style="color:'+c.opColor+';background:'+c.opColor+'22">'+opShort+'</span>'+
-          '<span class="ch-row-arr">'+(c.premium?'&#128274;':'&#8250;')+'</span>';
-        const needsIAP = chapterNeedsIAP(i);
+          '<span class="ch-row-arr">'+(needsIAP?'&#128274;':'&#8250;')+'</span>';
         el.onclick = (function(idx, locked, iap){ return function(){
           if(iap) {
             // Show purchase dialog
@@ -1812,7 +1812,7 @@ const G = {
           } else {
             G.openChapter(idx);
           }
-        }; })(i, c.premium, needsIAP);
+        }; })(i, needsIAP, needsIAP);
         if(needsIAP) el.className = 'ch-row locked';
         g.appendChild(el);
       } catch(e){ console.error('Chapter '+i,e); }
