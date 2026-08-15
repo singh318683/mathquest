@@ -2265,7 +2265,7 @@ const G = {
       nBtn.onclick = () => { this.sentBackFrom = null; this.openChapter(retryIdx); };
     } else if (ni<CHAPTERS.length) {
       const nc = CHAPTERS[ni];
-      if (nc.premium) { nBtn.textContent=T('unlock'); nBtn.onclick=()=>this.show('premium'); }
+     if (chapterNeedsIAP(ni)) { nBtn.textContent=T('unlock'); nBtn.onclick=()=>this.show('premium'); }
       else { nBtn.textContent=T('nextChapter'); nBtn.onclick=()=>this.openChapter(ni); }
     } else {
       nBtn.textContent='🎓 Get Your Certificate!'; nBtn.onclick=()=>this.showCertificate();
