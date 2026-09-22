@@ -1385,7 +1385,7 @@ const CHAPTER_PRAISE_ES = [
   ["¡Piensas con tanta claridad — es increíble!","¡Un verdadero erudito del arte numérico!","¡Tu mente es afilada como una espada!","¡Nada puede restar de tu brillantez!"],
   ["¡Eres un GENIO de la multiplicación! 🔥","¡Los maestros estarían impresionados!","¡Tu poder mágico crece con cada hechizo!","¡Pura hechicería matemática!"],
   ["¡Un verdadero mago de los números!","¡Tu mente lógica es extraordinaria!","¡La división se inclina ante tu brillantez!","¡La Academia está asombrada por ti!"],
-  ["¡Tienes una mente extraordinariamente dotada!","¡Las fracciones han encontrado su rival!","¡Tu inteligencia es espectacular!","¡Nació un verdadero hechicero de fracciones!"],
+  ["¡Tienes una mente extraordinariamente dotada!","¡Las fracciones han encontrado su rival!","¡Tu inteligencia es simplemente espectacular!","¡Nació un verdadero hechicero de fracciones!"],
   ["¡Has dominado las artes matemáticas antiguas!","¡Un campeón único en la Academia!","¡Tu brillantez no tiene límites!","¡El mayor mago matemático de esta generación!"],
   ["¡Eres el matemático más grande que esta Academia ha VISTO! 👑","¡El Hechicero Antiguo se inclina ante tu brillantez!","¡El verdadero Gran Maestro — eso eres TÚ!","¡El mundo mágico está asombrado por tu genio! ✦"],
   ["¡Tus habilidades para resolver historias son increíbles!","¡Lees Y calculas — doble talento!","¡La Esfinge nunca conoció a nadie como tú!","¡Un verdadero Solucionador de Historias!"],
@@ -2242,6 +2242,11 @@ const G = {
     if (!this.done.includes(this.cur)) this.done.push(this.cur);
     this.save();
 
+    // Show an interstitial ad on chapter completion (Android app only)
+    if (typeof AndroidBridge !== 'undefined' && typeof AndroidBridge.levelComplete === 'function') {
+      AndroidBridge.levelComplete();
+    }
+
     // Badge — re-trigger animation by replacing element
     const badgeEl = document.getElementById('v-badge');
     badgeEl.innerHTML = b.svg;
@@ -2348,13 +2353,6 @@ const G = {
     s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;animation:twinkle ${1.5+Math.random()*2}s ${Math.random()*3}s infinite;opacity:${.08+Math.random()*.22};`;
     sf.appendChild(s);
   }
-
-  // Stripe / premium button
-  // TODO: Replace the alert with your Stripe Checkout URL:
-  // window.location.href = 'https://buy.stripe.com/YOUR_LINK_HERE';
-  document.getElementById('stripe-btn').onclick = () => {
-    alert('Replace this with your Stripe Checkout URL to enable payments.');
-  };
 
   // Fix viewport height for mobile browsers
   function fixHeight() {
